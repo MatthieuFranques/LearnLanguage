@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:learn_language/class/word.dart';
+import 'package:learn_language/models/word.dart';
 
 class VocabularyQuiz extends StatefulWidget {
   const VocabularyQuiz({super.key});

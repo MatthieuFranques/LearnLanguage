@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import '../class/word.dart';
+import '../../models/word.dart';
 
 class WordStorage {
   static Future<File> _getLocalFile() async {

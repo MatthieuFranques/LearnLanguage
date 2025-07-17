@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:learn_language/api/apiTranslate.dart';
-import 'package:learn_language/class/word.dart';
-import 'package:learn_language/class/wordStorage.dart';
+import 'package:learn_language/services/api/apiTranslate.dart';
+import 'package:learn_language/models/word.dart';
+import 'package:learn_language/services/pickImage.dart';
+import 'package:learn_language/services/wordSelectionDialog.dart';
+import 'package:learn_language/services/words/wordStorage.dart';
 import 'package:learn_language/vocabulary/vocabularyQuiz.dart';
 
 class HomePage extends StatefulWidget {
@@ -177,6 +179,32 @@ class _HomePageState extends State<HomePage> {
               onPressed: _addWord,
               child: const Text('Ajouter au quiz'),
             ),
+            const SizedBox(height: 244),
+            ElevatedButton.icon(
+              onPressed: () async {
+                final ocrResult = await pickImageAndExtractText();
+
+                if (ocrResult != null) {
+                  // Ouvre une page ou un dialog de sélection
+                  showDialog(
+                    context: context,
+                    builder: (_) => WordSelectionDialog(
+                      ocrResult: ocrResult,
+                      onWordSelected: (word) {
+                        _englishController.text = word;
+                        _translateWord();
+                      },
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Aucun texte détecté')),
+                  );
+                }
+              },
+              icon: const Icon(Icons.camera_alt),
+              label: const Text('Scanner un mot'),
+            )
           ],
         ),
       ),
