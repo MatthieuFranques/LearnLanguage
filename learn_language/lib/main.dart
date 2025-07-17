@@ -20,10 +20,10 @@ class _MyAppState extends State<MyApp> {
   bool openAddWord = false;
 
   @override
+  @override
   void initState() {
     super.initState();
 
-    // Vérifie si l'appli est lancée par une notif
     NotificationService.notificationsPlugin
         .getNotificationAppLaunchDetails()
         .then((details) {
@@ -37,7 +37,6 @@ class _MyAppState extends State<MyApp> {
       }
     });
 
-    // Écoute les notifications quand l'app est déjà ouverte
     NotificationService.notificationsPlugin.initialize(
       const InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
@@ -51,7 +50,10 @@ class _MyAppState extends State<MyApp> {
       },
     );
 
-    // 🔔
+    // 🔔 Notification immédiate
+    NotificationService.showAddWordNotification();
+
+    // 🔁 Notification répétée chaque heure
     NotificationService.notificationsPlugin.periodicallyShow(
       0,
       'Nouveau mot ?',
@@ -66,7 +68,6 @@ class _MyAppState extends State<MyApp> {
           priority: Priority.high,
         ),
       ),
-      // androidAllowWhileIdle: true,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: 'add_word',
     );
@@ -75,6 +76,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Dictionnaire Quiz',
       home: HomePage(openAddWord: openAddWord),
     );
