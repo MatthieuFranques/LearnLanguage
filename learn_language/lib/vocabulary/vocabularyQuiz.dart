@@ -20,6 +20,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   bool isLoading = true;
   int attemptCount = 0;
   late TextEditingController _controller;
+  bool isEnglishToFrench = true; // sens de traduction
 
   @override
   void initState() {
@@ -32,55 +33,51 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     final String response = await rootBundle.loadString('assets/words.json');
     final List data = json.decode(response);
 
-    // Crée une liste de Word
     List<Word> loadedWords =
         data.map((e) => Word(e['english'], e['french'])).toList();
 
-    // Mélange aléatoire et prend 10 mots max
     loadedWords.shuffle(Random());
     loadedWords = loadedWords.take(10).toList();
 
     setState(() {
       words = loadedWords;
       isLoading = false;
+      // Choisis le sens pour le premier mot
+      isEnglishToFrench = Random().nextBool();
     });
   }
 
+  void nextWord() {
+    if (currentIndex < words.length - 1) {
+      setState(() {
+        currentIndex++;
+        userAnswer = '';
+        attemptCount = 0;
+        isEnglishToFrench = Random().nextBool(); // nouveau sens aléatoire
+        _controller.clear();
+      });
+    } else {
+      setState(() {
+        unlocked = true;
+      });
+    }
+  }
+
   void checkAnswer() {
-    final correctAnswer = words[currentIndex].french.toLowerCase().trim();
+    final word = words[currentIndex];
+    final correctAnswer = isEnglishToFrench
+        ? word.french.toLowerCase().trim()
+        : word.english.toLowerCase().trim();
+
     if (userAnswer.toLowerCase().trim() == correctAnswer) {
-      if (currentIndex < words.length - 1) {
-        setState(() {
-          currentIndex++;
-          userAnswer = '';
-          attemptCount = 0;
-          _controller.clear();
-        });
-      } else {
-        setState(() {
-          unlocked = true;
-        });
-      }
+      nextWord();
     } else {
       attemptCount++;
       if (attemptCount >= 3) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Réponse : $correctAnswer')),
         );
-        if (userAnswer.toLowerCase().trim() == correctAnswer) {
-          if (currentIndex < words.length - 1) {
-            setState(() {
-              currentIndex++;
-              userAnswer = '';
-              attemptCount = 0;
-              _controller.clear();
-            });
-          } else {
-            setState(() {
-              unlocked = true;
-            });
-          }
-        }
+        nextWord();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Mauvaise réponse, réessayez !')),
@@ -118,6 +115,8 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     }
 
     final word = words[currentIndex];
+    final questionWord = isEnglishToFrench ? word.english : word.french;
+    final direction = isEnglishToFrench ? 'français' : 'anglais';
 
     return Scaffold(
       appBar: AppBar(title: const Text('Quiz Quotidien')),
@@ -126,7 +125,8 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
         child: Column(
           children: [
             Text(
-              'Mot ${currentIndex + 1} sur ${words.length}\nTraduire : ${word.english}',
+              'Mot ${currentIndex + 1} sur ${words.length}\n'
+              'Traduire en $direction : $questionWord',
               style: const TextStyle(fontSize: 24),
               textAlign: TextAlign.center,
             ),
