@@ -18,10 +18,13 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   String userAnswer = '';
   bool unlocked = false;
   bool isLoading = true;
+  int attemptCount = 0;
+  late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = TextEditingController();
     loadWords();
   }
 
@@ -50,6 +53,8 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
         setState(() {
           currentIndex++;
           userAnswer = '';
+          attemptCount = 0;
+          _controller.clear();
         });
       } else {
         setState(() {
@@ -57,10 +62,39 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
         });
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mauvaise réponse, réessayez !')),
-      );
+      attemptCount++;
+      if (attemptCount >= 3) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Réponse : $correctAnswer')),
+        );
+        if (userAnswer.toLowerCase().trim() == correctAnswer) {
+          if (currentIndex < words.length - 1) {
+            setState(() {
+              currentIndex++;
+              userAnswer = '';
+              attemptCount = 0;
+              _controller.clear();
+            });
+          } else {
+            setState(() {
+              unlocked = true;
+            });
+          }
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Mauvaise réponse, réessayez !')),
+        );
+        _controller.clear();
+        userAnswer = '';
+      }
     }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,6 +131,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
               textAlign: TextAlign.center,
             ),
             TextField(
+              controller: _controller,
               onChanged: (value) => userAnswer = value,
               decoration: const InputDecoration(labelText: 'Réponse'),
             ),
