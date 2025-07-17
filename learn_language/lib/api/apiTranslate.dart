@@ -15,3 +15,18 @@ Future<String> translateToFrench(String englishWord) async {
     throw Exception('Failed to translate with MyMemory');
   }
 }
+
+Future<String> translateToEnglish(String frenchWord) async {
+  final url = Uri.parse(
+    'https://api.mymemory.translated.net/get?q=$frenchWord&langpair=fr|en',
+  );
+
+  final response = await http.get(url);
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    return data['responseData']['translatedText'];
+  } else {
+    throw Exception('Failed to translate with MyMemory');
+  }
+}

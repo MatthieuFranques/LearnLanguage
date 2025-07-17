@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:learn_language/api/apiTranslate.dart';
 import 'package:learn_language/class/word.dart';
 import 'package:learn_language/class/wordStorage.dart';
 import 'package:learn_language/vocabulary/vocabularyQuiz.dart';
 
 class HomePage extends StatefulWidget {
-  final bool openAddWord; // 👈 Nouveau : pour ouvrir le popup au démarrage
+  final bool openAddWord;
 
   const HomePage({Key? key, this.openAddWord = false}) : super(key: key);
 
@@ -17,25 +19,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _englishController = TextEditingController();
   final TextEditingController _frenchController = TextEditingController();
-
   Timer? _debounce;
+
+  bool isEnglishToFrench = true; // 🔁 sens de traduction
 
   @override
   void initState() {
     super.initState();
     _englishController.addListener(_onEnglishChanged);
-
-    // 👇 Si lancé depuis une notif
-    if (widget.openAddWord) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _showAddWordDialog();
-      });
-    }
+    _frenchController.addListener(_onFrenchChanged);
   }
 
   @override
   void dispose() {
     _englishController.removeListener(_onEnglishChanged);
+    _frenchController.removeListener(_onFrenchChanged);
     _englishController.dispose();
     _frenchController.dispose();
     _debounce?.cancel();
@@ -43,6 +41,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onEnglishChanged() {
+    if (!isEnglishToFrench) return; // ignorer si on est en FR ➜ EN
+
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       final english = _englishController.text.trim();
@@ -56,15 +56,37 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _translateWord() async {
-    final english = _englishController.text.trim();
-    if (english.isEmpty) return;
+  void _onFrenchChanged() {
+    if (isEnglishToFrench) return; // ignorer si on est en EN ➜ FR
 
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      final french = _frenchController.text.trim();
+      if (french.isNotEmpty) {
+        _translateWord();
+      } else {
+        setState(() {
+          _englishController.text = '';
+        });
+      }
+    });
+  }
+
+  Future<void> _translateWord() async {
     try {
-      final translation = await translateToFrench(english);
-      setState(() {
-        _frenchController.text = translation;
-      });
+      if (isEnglishToFrench) {
+        final translation =
+            await translateToFrench(_englishController.text.trim());
+        setState(() {
+          _frenchController.text = translation;
+        });
+      } else {
+        final translation =
+            await translateToEnglish(_frenchController.text.trim());
+        setState(() {
+          _englishController.text = translation;
+        });
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Erreur de traduction')),
@@ -86,57 +108,25 @@ class _HomePageState extends State<HomePage> {
 
       _englishController.clear();
       _frenchController.clear();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Veuillez remplir les deux champs')),
+      );
     }
   }
 
-  // 👇 Nouveau : Ouvre le Dialog pour ajouter un mot, même hors page
-  void _showAddWordDialog() {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text('Ajouter un mot'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _englishController,
-                decoration: const InputDecoration(
-                  labelText: 'Mot en anglais',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _frenchController,
-                readOnly: true,
-                decoration: const InputDecoration(
-                  labelText: 'Traduction',
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Annuler'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _addWord();
-                Navigator.of(context).pop();
-              },
-              child: const Text('Ajouter'),
-            ),
-          ],
-        );
-      },
-    );
+  void _toggleDirection() {
+    setState(() {
+      isEnglishToFrench = !isEnglishToFrench;
+      _englishController.clear();
+      _frenchController.clear();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Learn Language Home')),
+      appBar: AppBar(title: const Text('Home page')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -151,21 +141,36 @@ class _HomePageState extends State<HomePage> {
               child: const Text('Commencer le Quiz'),
             ),
             const SizedBox(height: 32),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(isEnglishToFrench ? 'EN' : 'FR'),
+                IconButton(
+                  icon: const Icon(Icons.swap_horiz),
+                  onPressed: _toggleDirection,
+                ),
+                Text(isEnglishToFrench ? 'FR' : 'EN'),
+              ],
+            ),
             TextField(
               controller: _englishController,
-              decoration: const InputDecoration(
-                labelText: 'Mot en anglais',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText:
+                    isEnglishToFrench ? 'Mot en anglais' : 'Mot en anglais',
+                border: const OutlineInputBorder(),
               ),
+              readOnly: !isEnglishToFrench,
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _frenchController,
-              readOnly: true,
-              decoration: const InputDecoration(
-                labelText: 'Traduction en français',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: isEnglishToFrench
+                    ? 'Traduction en français'
+                    : 'Mot en français',
+                border: const OutlineInputBorder(),
               ),
+              readOnly: isEnglishToFrench,
             ),
             const SizedBox(height: 16),
             ElevatedButton(
