@@ -1,26 +1,47 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:learn_language/class/word.dart';
 
 class VocabularyQuiz extends StatefulWidget {
   const VocabularyQuiz({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _VocabularyQuizState createState() => _VocabularyQuizState();
 }
 
 class _VocabularyQuizState extends State<VocabularyQuiz> {
-  final List<Word> words = [
-    Word('apple', 'pomme'),
-    Word('dog', 'chien'),
-    Word('cat', 'chat'),
-    Word('house', 'maison'),
-    Word('book', 'livre'),
-  ];
-
+  List<Word> words = [];
   int currentIndex = 0;
   String userAnswer = '';
   bool unlocked = false;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadWords();
+  }
+
+  Future<void> loadWords() async {
+    final String response = await rootBundle.loadString('assets/words.json');
+    final List data = json.decode(response);
+
+    // Crée une liste de Word
+    List<Word> loadedWords =
+        data.map((e) => Word(e['english'], e['french'])).toList();
+
+    // Mélange aléatoire et prend 10 mots max
+    loadedWords.shuffle(Random());
+    loadedWords = loadedWords.take(10).toList();
+
+    setState(() {
+      words = loadedWords;
+      isLoading = false;
+    });
+  }
 
   void checkAnswer() {
     final correctAnswer = words[currentIndex].french.toLowerCase().trim();
@@ -44,6 +65,12 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     if (unlocked) {
       return Scaffold(
         appBar: AppBar(title: const Text('Dictionnaire')),
@@ -65,8 +92,9 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
         child: Column(
           children: [
             Text(
-              'Traduire en français : ${word.english}',
+              'Mot ${currentIndex + 1} sur ${words.length}\nTraduire : ${word.english}',
               style: const TextStyle(fontSize: 24),
+              textAlign: TextAlign.center,
             ),
             TextField(
               onChanged: (value) => userAnswer = value,
