@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       }
     });
 
-    // Écoute les notif quand app est déjà ouverte
+    // Écoute les notifications quand l'app est déjà ouverte
     NotificationService.notificationsPlugin.initialize(
       const InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
@@ -49,6 +49,26 @@ class _MyAppState extends State<MyApp> {
           });
         }
       },
+    );
+
+    // 🔔
+    NotificationService.notificationsPlugin.periodicallyShow(
+      0,
+      'Nouveau mot ?',
+      'Clique ici pour ajouter un mot au quiz !',
+      RepeatInterval.hourly,
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'add_word_channel',
+          'Add Word Notifications',
+          channelDescription: 'Notifications pour ajouter un mot au quiz',
+          importance: Importance.high,
+          priority: Priority.high,
+        ),
+      ),
+      // androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      payload: 'add_word',
     );
   }
 

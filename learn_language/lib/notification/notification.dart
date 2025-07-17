@@ -14,23 +14,24 @@ class NotificationService {
     await notificationsPlugin.initialize(initializationSettings);
   }
 
-  static Future<void> showNotification() async {
-    const AndroidNotificationDetails androidDetails =
+  static Future<void> showAddWordNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      'channel_id',
-      'channel_name',
-      importance: Importance.max,
+      'add_word_channel',
+      'Add Word Notifications',
+      channelDescription: 'Notifications pour ajouter un mot',
+      importance: Importance.high,
       priority: Priority.high,
     );
 
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidDetails);
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await notificationsPlugin.show(
       0,
-      'Ajouter un mot',
-      'Clique pour ajouter un mot',
-      notificationDetails,
+      'Nouveau mot à ajouter',
+      'Clique pour ajouter un mot au quiz !',
+      platformChannelSpecifics,
       payload: 'add_word',
     );
   }
