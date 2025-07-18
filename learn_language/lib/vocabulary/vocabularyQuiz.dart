@@ -20,7 +20,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   bool isLoading = true;
   int attemptCount = 0;
   late TextEditingController _controller;
-  bool isEnglishToFrench = true; // sens de traduction
+  bool isEnglishToFrench = true;
 
   @override
   void initState() {
@@ -42,7 +42,6 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     setState(() {
       words = loadedWords;
       isLoading = false;
-      // Choisis le sens pour le premier mot
       isEnglishToFrench = Random().nextBool();
     });
   }
@@ -53,7 +52,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
         currentIndex++;
         userAnswer = '';
         attemptCount = 0;
-        isEnglishToFrench = Random().nextBool(); // nouveau sens aléatoire
+        isEnglishToFrench = Random().nextBool();
         _controller.clear();
       });
     } else {
@@ -95,20 +94,34 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     if (isLoading) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        backgroundColor: Colors.white,
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
 
     if (unlocked) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Dictionnaire')),
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text('Quiz Quotidien'),
+          backgroundColor: theme.primaryColor,
+          foregroundColor: Colors.white,
+        ),
         body: const Center(
           child: Text(
-            'Accès débloqué ! 🎉',
-            style: TextStyle(fontSize: 24),
+            '🎉 Accès débloqué !',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       );
@@ -119,27 +132,88 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     final direction = isEnglishToFrench ? 'français' : 'anglais';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Quiz Quotidien')),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('Quiz Quotidien'),
+        backgroundColor: theme.primaryColor,
+        foregroundColor: Colors.white,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Mot ${currentIndex + 1} sur ${words.length}\n'
-              'Traduire en $direction : $questionWord',
-              style: const TextStyle(fontSize: 24),
-              textAlign: TextAlign.center,
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Mot ${currentIndex + 1} sur ${words.length}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Traduire en $direction',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      questionWord,
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
+            const SizedBox(height: 32),
             TextField(
               controller: _controller,
               onChanged: (value) => userAnswer = value,
-              decoration: const InputDecoration(labelText: 'Réponse'),
+              decoration: InputDecoration(
+                labelText: 'Votre réponse',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                prefixIcon: const Icon(Icons.edit),
+              ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: checkAnswer,
-              child: const Text('Vérifier'),
-            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: checkAnswer,
+                child: const Text(
+                  'Vérifier',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

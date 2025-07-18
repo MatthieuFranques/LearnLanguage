@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:learn_language/services/api/apiTranslate.dart';
 import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/pickImage.dart';
@@ -23,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _frenchController = TextEditingController();
   Timer? _debounce;
 
-  bool isEnglishToFrench = true; // 🔁 sens de traduction
+  bool isEnglishToFrench = true;
 
   @override
   void initState() {
@@ -43,8 +41,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onEnglishChanged() {
-    if (!isEnglishToFrench) return; // ignorer si on est en FR ➜ EN
-
+    if (!isEnglishToFrench) return;
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       final english = _englishController.text.trim();
@@ -59,8 +56,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onFrenchChanged() {
-    if (isEnglishToFrench) return; // ignorer si on est en EN ➜ FR
-
+    if (isEnglishToFrench) return;
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       final french = _frenchController.text.trim();
@@ -127,84 +123,180 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Home page')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('Home'),
+        backgroundColor: theme.primaryColor,
+        foregroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const VocabularyQuiz()),
-                );
-              },
-              child: const Text('Commencer le Quiz'),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const VocabularyQuiz()),
+                  );
+                },
+                child: const Text(
+                  'Commencer le Quiz',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(isEnglishToFrench ? 'EN' : 'FR'),
-                IconButton(
-                  icon: const Icon(Icons.swap_horiz),
-                  onPressed: _toggleDirection,
-                ),
-                Text(isEnglishToFrench ? 'FR' : 'EN'),
-              ],
-            ),
-            TextField(
-              controller: _englishController,
-              decoration: InputDecoration(
-                labelText:
-                    isEnglishToFrench ? 'Mot en anglais' : 'Mot en anglais',
-                border: const OutlineInputBorder(),
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              readOnly: !isEnglishToFrench,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _frenchController,
-              decoration: InputDecoration(
-                labelText: isEnglishToFrench
-                    ? 'Traduction en français'
-                    : 'Mot en français',
-                border: const OutlineInputBorder(),
-              ),
-              readOnly: isEnglishToFrench,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _addWord,
-              child: const Text('Ajouter au quiz'),
-            ),
-            const SizedBox(height: 244),
-            ElevatedButton.icon(
-              onPressed: () async {
-                final ocrResult = await pickImageAndExtractText();
-
-                if (ocrResult != null) {
-                  // Ouvre une page ou un dialog de sélection
-                  showDialog(
-                    context: context,
-                    builder: (_) => WordSelectionDialog(
-                      ocrResult: ocrResult,
-                      onWordSelected: (word) {
-                        _englishController.text = word;
-                        _translateWord();
-                      },
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          isEnglishToFrench ? 'EN' : 'FR',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.swap_horiz),
+                          color: theme.primaryColor,
+                          onPressed: _toggleDirection,
+                        ),
+                        Text(
+                          isEnglishToFrench ? 'FR' : 'EN',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Aucun texte détecté')),
-                  );
-                }
-              },
-              icon: const Icon(Icons.camera_alt),
-              label: const Text('Scanner un mot'),
-            )
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _englishController,
+                      decoration: InputDecoration(
+                        labelText: isEnglishToFrench
+                            ? 'Mot en anglais'
+                            : 'Mot en anglais',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: theme.primaryColor),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        prefixIcon: const Icon(Icons.language),
+                      ),
+                      readOnly: !isEnglishToFrench,
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _frenchController,
+                      decoration: InputDecoration(
+                        labelText: isEnglishToFrench
+                            ? 'Traduction en français'
+                            : 'Mot en français',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: theme.primaryColor),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        prefixIcon: const Icon(Icons.translate),
+                      ),
+                      readOnly: isEnglishToFrench,
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: theme.colorScheme.secondary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: _addWord,
+                        child: const Text(
+                          'Ajouter au quiz',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () async {
+                  final ocrResult = await pickImageAndExtractText();
+                  if (ocrResult != null) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => WordSelectionDialog(
+                        ocrResult: ocrResult,
+                        onWordSelected: (word) {
+                          _englishController.text = word;
+                          _translateWord();
+                        },
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Aucun texte détecté')),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.camera_alt, color: Colors.white),
+                label: const Text(
+                  'Scanner un mot',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
