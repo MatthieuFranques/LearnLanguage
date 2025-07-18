@@ -114,11 +114,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _toggleDirection() {
+    _englishController.removeListener(_onEnglishChanged);
+    _frenchController.removeListener(_onFrenchChanged);
+
     setState(() {
       isEnglishToFrench = !isEnglishToFrench;
-      _englishController.clear();
-      _frenchController.clear();
+
+      final temp = _englishController.text;
+      _englishController.text = _frenchController.text;
+      _frenchController.text = temp;
     });
+
+    _englishController.addListener(_onEnglishChanged);
+    _frenchController.addListener(_onFrenchChanged);
   }
 
   @override
@@ -198,11 +206,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 16),
                     TextField(
-                      controller: _englishController,
+                      controller: isEnglishToFrench
+                          ? _englishController
+                          : _frenchController,
                       decoration: InputDecoration(
                         labelText: isEnglishToFrench
                             ? 'Mot en anglais'
-                            : 'Mot en anglais',
+                            : 'Mot en français',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -212,15 +222,18 @@ class _HomePageState extends State<HomePage> {
                         ),
                         prefixIcon: const Icon(Icons.language),
                       ),
-                      readOnly: !isEnglishToFrench,
+                      readOnly: false,
                     ),
                     const SizedBox(height: 16),
+                    // Champ résultat en bas
                     TextField(
-                      controller: _frenchController,
+                      controller: isEnglishToFrench
+                          ? _frenchController
+                          : _englishController,
                       decoration: InputDecoration(
                         labelText: isEnglishToFrench
                             ? 'Traduction en français'
-                            : 'Mot en français',
+                            : 'Traduction en anglais',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -230,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         prefixIcon: const Icon(Icons.translate),
                       ),
-                      readOnly: isEnglishToFrench,
+                      readOnly: true,
                     ),
                     const SizedBox(height: 24),
                     SizedBox(
