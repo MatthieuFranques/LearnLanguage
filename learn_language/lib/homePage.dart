@@ -136,9 +136,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Home'),
         backgroundColor: theme.primaryColor,
         foregroundColor: Colors.white,
+        leading: IconButton(
+          icon: Image.asset(
+            'assets/icon/app_icon.png',
+            width: 54,
+            height: 54,
+          ),
+          onPressed: () {
+            // Ton action
+          },
+        ),
+        title: const Text('Accueil'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
