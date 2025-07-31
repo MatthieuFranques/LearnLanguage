@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/homePage.dart';
 import 'package:learn_language/models/word.dart';
 
@@ -95,36 +96,28 @@ class _FastPairQuizState extends State<FastPairQuiz> {
   });
 }
 
+void showEndDialog() {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => CustomEndDialog(
+      title: '⏰ Temps écoulé',
+      message: 'Tu as terminé cette session.',
+      score: score,
+      onReplay: () {
+        generatePairs();
+        startTimer();
+      },
+      onQuit: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomePage()),
+        );
+      },
+    ),
+  );
+}
 
-  void showEndDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text('⏰ Temps écoulé'),
-        content: Text('Tu as trouvé $score paire(s) correcte(s).'),
-        actions: [
-          TextButton(
-            onPressed: () {
-               Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const HomePage()),
-                  );
-            },
-            child: const Text('Quitter'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              generatePairs();
-              startTimer();
-            },
-            child: const Text('Rejouer'),
-          ),
-        ],
-      ),
-    );
-  }
 
   void onWordTap(String word) {
     if (matched.contains(word)) return;

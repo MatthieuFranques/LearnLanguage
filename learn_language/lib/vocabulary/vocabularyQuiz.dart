@@ -3,6 +3,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/customEndDialog.dart';
+import 'package:learn_language/components/primaryButton.dart';
+import 'package:learn_language/homePage.dart';
 import 'package:learn_language/models/word.dart';
 
 class VocabularyQuiz extends StatefulWidget {
@@ -108,23 +111,22 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     }
 
     if (unlocked) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('Quiz Quotidien'),
-          backgroundColor: theme.primaryColor,
-          foregroundColor: Colors.white,
-        ),
-        body: const Center(
-          child: Text(
-            '🎉 Accès débloqué !',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      );
+      return CustomEndDialog(
+      title: '⏰ Temps écoulé',
+      message: 'Tu as terminé cette session.',
+      onReplay: () {
+        words = [];
+        currentIndex = 0;
+        unlocked = false;
+        isLoading = true;
+      },
+      onQuit: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) =>  HomePage()),
+        );
+      },
+    );
     }
 
     final word = words[currentIndex];
@@ -194,26 +196,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
               ),
             ),
             const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: checkAnswer,
-                child: const Text(
-                  'Vérifier',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            )
+            PrimaryButton(text: 'Vérifier', onPressed: checkAnswer)
           ],
         ),
       ),
