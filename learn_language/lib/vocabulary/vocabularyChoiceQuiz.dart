@@ -190,26 +190,35 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 24),      
+            LayoutBuilder(
+            builder: (context, constraints) {
+              final availableWidth = constraints.maxWidth;
+              final buttonWidth = (availableWidth - 16) / 2; // 16 = spacing
 
-            // 2 boutons de choix
-            ...options.map((option) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[200],
-                    foregroundColor: Colors.black87,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              return Wrap(
+                spacing: 16, // espace horizontal entre boutons
+                runSpacing: 16, // espace vertical entre lignes
+                children: options.map((option) {
+                  return SizedBox(
+                    width: buttonWidth,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[200],
+                        foregroundColor: Colors.black87,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onPressed: () => checkAnswer(option),
+                      child: Text(option, style: const TextStyle(fontSize: 18)),
                     ),
-                  ),
-                  onPressed: () => checkAnswer(option),
-                  child: Text(option, style: const TextStyle(fontSize: 18)),
-                ),
+                  );
+                }).toList(),
               );
-            }).toList(),
+            },
+          )
           ],
         ),
       ),
