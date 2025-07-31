@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:learn_language/components/mainNavigation.dart';
 import 'package:learn_language/homePage.dart';
 import 'package:learn_language/services/notification/notification.dart';
+import 'package:learn_language/theme/themeData.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,9 +42,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainNavigation(),
+      theme: appTheme,
+      home: const MainNavigation(),
     );
   }
 }

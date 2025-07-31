@@ -5,6 +5,12 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('📜 Historique des parties'));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Historique'),
+        centerTitle: true,
+      ),
+      backgroundColor: Colors.white,
+      body: const Center(child: Text('📜 Historique des parties')));
   }
 }

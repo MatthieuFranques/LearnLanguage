@@ -5,6 +5,12 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('⚙️ Paramètres'));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Paramètres'),
+        centerTitle: true,
+      ),
+      backgroundColor: Colors.white,
+      body:const Center(child: Text('⚙️ Paramètres')));
   }
 }

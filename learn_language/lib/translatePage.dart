@@ -84,7 +84,13 @@ class _HomePageState extends State<TranslatePage> {
   Widget build(BuildContext context) {
         final theme = Theme.of(context);
 
-    return Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Traduction & autre'),
+        centerTitle: true,
+      ),
+      backgroundColor: Colors.white,
+      body: Column(
           children: [
             TranslationCard(
               isEnglishToFrench: _controller.isEnglishToFrench,
@@ -126,6 +132,6 @@ class _HomePageState extends State<TranslatePage> {
             child: AlphabetTrainer(),  
           ),
           ]
-    );
+    ));
   }
 }
