@@ -5,6 +5,8 @@ import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/pickImage.dart';
 import 'package:learn_language/services/wordSelectionDialog.dart';
 import 'package:learn_language/services/words/wordStorage.dart';
+import 'package:learn_language/vocabulary/FastPairQuiz.dart';
+import 'package:learn_language/vocabulary/sentenceRestructureQuiz.dart';
 import 'package:learn_language/vocabulary/vocabularyChoiceQuiz.dart';
 import 'package:learn_language/vocabulary/vocabularyQuiz.dart';
 
@@ -200,6 +202,60 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: const Text(
                   'Commencer le Quiz Multiple',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const FastPairQuiz()),
+                  );
+                },
+                child: const Text(
+                  'Commencer le Quiz de rapidité',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const SentenceRestructureQuiz()),
+                  );
+                },
+                child: const Text(
+                  'Trouver le bon ordre',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
