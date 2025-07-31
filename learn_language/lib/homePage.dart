@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:learn_language/vocabulary/SentenceCompletionQuiz.dart';
 import 'package:learn_language/vocabulary/fastPairQuiz.dart';
 import 'package:learn_language/vocabulary/sentenceRestructureQuiz.dart';
+import 'package:learn_language/vocabulary/trueFalseQuiz.dart';
 import 'package:learn_language/vocabulary/vocabularyChoiceQuiz.dart';
 import 'package:learn_language/vocabulary/vocabularyQuiz.dart';
 
@@ -31,6 +33,18 @@ class HomePage extends StatelessWidget  {
       'icon': Icons.sort,
       'page': const SentenceRestructureQuiz(),
     },
+    {
+  'title': 'Complétion de phrase',
+  'color': Colors.teal,
+  'icon': Icons.edit_note,
+  'page': const SentenceCompletionQuiz(), // À créer
+},
+{
+  'title': 'Vrai ou Faux',
+  'color': Colors.redAccent,
+  'icon': Icons.check_circle,
+  'page': const TrueFalseQuiz(), // À créer
+},
   ];
 
   @override

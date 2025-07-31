@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:learn_language/components/alphabetTrainer.dart';
+import 'package:learn_language/components/primaryButton.dart';
 import 'package:learn_language/components/primaryIconButton.dart';
 import 'package:learn_language/components/translationCard.dart';
 import 'package:learn_language/controllers/homePageController.dart';
@@ -120,6 +122,9 @@ class _HomePageState extends State<TranslatePage> {
                 }
               },
             ),
+            const Expanded(
+            child: AlphabetTrainer(),  
+          ),
           ]
     );
   }
