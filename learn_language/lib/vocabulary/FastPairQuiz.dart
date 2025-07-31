@@ -240,7 +240,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
                   children: [
                   const Text(
                       'Trouver le plus de paires possible.',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
