@@ -77,25 +77,47 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
+        child: 
+         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Remets la phrase dans le bon ordre :',
-                style: TextStyle(fontSize: 18)),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: shuffledWords.map((word) {
-                final alreadyUsed = selectedWords.contains(word);
-                return ElevatedButton(
-                  onPressed: alreadyUsed ? null : () => onWordSelected(word),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: alreadyUsed ? Colors.grey[300] : null,
-                  ),
-                  child: Text(word),
-                );
-              }).toList(),
+
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    Text(
+                    'Phrase  / 10',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  const SizedBox(height: 16),
+                   const Text(
+                      'Remets la phrase dans le bon ordre :',
+                      style:  TextStyle(fontSize: 18),
+                    ),
+                     const SizedBox(height: 16),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: shuffledWords.map((word) {
+                        final alreadyUsed = selectedWords.contains(word);
+                        return ElevatedButton(
+                          onPressed: alreadyUsed ? null : () => onWordSelected(word),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: alreadyUsed ? Colors.grey[300] : null,
+                          ),
+                          child: Text(word),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 32),
             Container(

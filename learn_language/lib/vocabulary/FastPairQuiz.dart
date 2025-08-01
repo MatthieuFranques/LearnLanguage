@@ -63,7 +63,6 @@ class _FastPairQuizState extends State<FastPairQuiz> {
   }
 
   void generatePairs() {
-    final random = Random();
     currentPairs = [...words]..shuffle();
     currentPairs = currentPairs.take(4).toList();
 
