@@ -14,6 +14,7 @@ class _HistoryPageState extends State<HistoryPage> {
   List<Ranking> _filteredRankings = [];
   String _filter = '';
   bool _isLoading = true;
+  String? _selectedQuizName;
 
   @override
   void initState() {
@@ -31,13 +32,19 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   void _applyFilter() {
-    _filteredRankings = _rankings
-        .where((r) => r.quizName.toLowerCase().contains(_filter.toLowerCase()))
-        .toList();
+    _filteredRankings = _rankings.where((r) {
+      final matchesSearch =
+          r.quizName.toLowerCase().contains(_filter.toLowerCase());
+      final matchesQuizName =
+          _selectedQuizName == null || r.quizName == _selectedQuizName;
+      return matchesSearch && matchesQuizName;
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final quizNames = _rankings.map((r) => r.quizName).toSet().toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Historique des scores'),
@@ -48,6 +55,38 @@ class _HistoryPageState extends State<HistoryPage> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
+                // Choix du quiz à filtrer
+                if (quizNames.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 16, 12, 4),
+                    child: DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(
+                        labelText: 'Filtrer par quiz',
+                        border: OutlineInputBorder(),
+                      ),
+                      value: _selectedQuizName,
+                      items: [
+                        const DropdownMenuItem<String>(
+                          value: null,
+                          child: Text('Tous les quiz'),
+                        ),
+                        ...quizNames.map(
+                          (name) => DropdownMenuItem(
+                            value: name,
+                            child: Text(name),
+                          ),
+                        )
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedQuizName = value;
+                          _applyFilter();
+                        });
+                      },
+                    ),
+                  ),
+
+                // Champ de recherche
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: TextField(
@@ -64,6 +103,8 @@ class _HistoryPageState extends State<HistoryPage> {
                     },
                   ),
                 ),
+
+                // Liste des scores filtrés
                 Expanded(
                   child: _filteredRankings.isEmpty
                       ? const Center(child: Text('Aucun score trouvé.'))
