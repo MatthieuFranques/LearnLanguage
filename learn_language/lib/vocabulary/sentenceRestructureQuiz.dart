@@ -59,13 +59,14 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
 }
 
  void loadNewSentence() {
+  saveScoreOnce();
   if (currentSentenceIndex >= totalSentences) {
     showDialog(
       context: context,
       builder: (_) => CustomEndDialog(
         title: '🎉 Quiz terminé !',
         message: 'Tu as terminé toutes les phrases !',
-        score: null, // ou tu peux passer un score si tu veux le suivre
+        score: correctAnswers,
         onReplay: () {
           currentSentenceIndex = 0;
           correctAnswers = 0;

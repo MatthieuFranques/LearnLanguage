@@ -76,7 +76,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   if (!_scoreSaved) {
     _scoreSaved = true;
     await RankingStorage.addWord(
-      Ranking('Quiz Vocabulaire', correctAnswers.toString())
+      Ranking('Quiz', correctAnswers.toString())
     );
     print("Sauvegarde du score dans le fichier JSON");
   }
@@ -109,6 +109,33 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     }
   }
 
+  void showEndDialog() {
+  saveScoreOnce();
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => CustomEndDialog(
+    title: 'Quiz terminer',
+    message: 'Tu as terminé cette session.',
+    score: correctAnswers,
+    onReplay: () {
+      setState(() {
+        words = [];
+        currentIndex = 0;
+        unlocked = false;
+        isLoading = true;
+        correctAnswers = 0;
+        loadWords();
+      });
+    },
+    onQuit: () {
+       Navigator.pop(context);
+        Navigator.pop(context); 
+    },
+  ),
+  );
+}
+
   @override
   void dispose() {
     _controller.dispose();
@@ -130,28 +157,9 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     }
 
  if (unlocked) {
-  saveScoreOnce(); // Appel unique garanti
-
-  return CustomEndDialog(
-    title: '⏰ Temps écoulé',
-    message: 'Tu as terminé cette session.',
-    score: correctAnswers,
-    onReplay: () {
-      setState(() {
-        words = [];
-        currentIndex = 0;
-        unlocked = false;
-        isLoading = true;
-        correctAnswers = 0;
-        _scoreSaved = false; 
-        loadWords();
-      });
-    },
-    onQuit: () {
-       Navigator.pop(context);
-       Navigator.pop(context); 
-    },
-  );
+ WidgetsBinding.instance.addPostFrameCallback((_) {
+    showEndDialog();
+  });
 }
 
 

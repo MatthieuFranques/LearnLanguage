@@ -121,27 +121,14 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
     }
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    if (isLoading) {
-      return const Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    if (unlocked) {
-      saveScoreOnce();
-      return CustomEndDialog(
-    title: '⏰ Temps écoulé',
+void showEndDialog() {
+  saveScoreOnce();
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => CustomEndDialog(
+    title: 'Quiz terminer',
     message: 'Tu as terminé cette session.',
     score: correctAnswers,
     onReplay: () {
@@ -158,12 +145,34 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
        Navigator.pop(context);
         Navigator.pop(context); 
     },
+  ),
   );
-    }
+}
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final word = words[currentIndex];
     final question = isEnglishToFrench ? word.english : word.french;
     final direction = isEnglishToFrench ? 'français' : 'anglais';
+
+    if (isLoading) {
+      return const Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (unlocked) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+    showEndDialog();
+  });
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,

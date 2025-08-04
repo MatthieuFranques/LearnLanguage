@@ -111,10 +111,8 @@ void showEndDialog() {
         startTimer();
       },
       onQuit: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomePage()),
-        );
+        Navigator.pop(context);
+        Navigator.pop(context); 
       },
     ),
   );
