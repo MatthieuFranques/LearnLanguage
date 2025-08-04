@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/primaryButton.dart';
 import 'package:learn_language/homePage.dart';
+import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
+import 'package:learn_language/services/words/rankingStorage.dart';
 
 class VocabularyQuiz extends StatefulWidget {
   const VocabularyQuiz({super.key});
@@ -24,6 +26,11 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   int attemptCount = 0;
   late TextEditingController _controller;
   bool isEnglishToFrench = true;
+  int correctAnswers = 0;
+  bool _scoreSaved = false;
+  int numberWords = 10;
+
+
 
   @override
   void initState() {
@@ -40,7 +47,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
         data.map((e) => Word(e['english'], e['french'])).toList();
 
     loadedWords.shuffle(Random());
-    loadedWords = loadedWords.take(10).toList();
+    loadedWords = loadedWords.take(numberWords).toList();
 
     setState(() {
       words = loadedWords;
@@ -65,6 +72,17 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     }
   }
 
+  Future<void> saveScoreOnce() async {
+  if (!_scoreSaved) {
+    _scoreSaved = true;
+    await RankingStorage.addWord(
+      Ranking('Quiz Vocabulaire', correctAnswers.toString())
+    );
+    print("Sauvegarde du score dans le fichier JSON");
+  }
+}
+
+
   void checkAnswer() {
     final word = words[currentIndex];
     final correctAnswer = isEnglishToFrench
@@ -72,8 +90,9 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
         : word.english.toLowerCase().trim();
 
     if (userAnswer.toLowerCase().trim() == correctAnswer) {
+      correctAnswers++;
       nextWord();
-    } else {
+    } else {  
       attemptCount++;
       if (attemptCount >= 3) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -110,24 +129,31 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
       );
     }
 
-    if (unlocked) {
-      return CustomEndDialog(
-      title: '⏰ Temps écoulé',
-      message: 'Tu as terminé cette session.',
-      onReplay: () {
+ if (unlocked) {
+  saveScoreOnce(); // Appel unique garanti
+
+  return CustomEndDialog(
+    title: '⏰ Temps écoulé',
+    message: 'Tu as terminé cette session.',
+    score: correctAnswers,
+    onReplay: () {
+      setState(() {
         words = [];
         currentIndex = 0;
         unlocked = false;
         isLoading = true;
-      },
-      onQuit: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) =>  HomePage()),
-        );
-      },
-    );
-    }
+        correctAnswers = 0;
+        _scoreSaved = false; 
+        loadWords();
+      });
+    },
+    onQuit: () {
+       Navigator.pop(context);
+       Navigator.pop(context); 
+    },
+  );
+}
+
 
     final word = words[currentIndex];
     final questionWord = isEnglishToFrench ? word.english : word.french;

@@ -13,6 +13,7 @@ class _HistoryPageState extends State<HistoryPage> {
   List<Ranking> _rankings = [];
   List<Ranking> _filteredRankings = [];
   String _filter = '';
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -25,58 +26,66 @@ class _HistoryPageState extends State<HistoryPage> {
     setState(() {
       _rankings = data;
       _applyFilter();
+      _isLoading = false;
     });
   }
 
   void _applyFilter() {
-    setState(() {
-      _filteredRankings = _rankings
-          .where((r) => r.quizName.toLowerCase().contains(_filter.toLowerCase()))
-          .toList();
-    });
+    _filteredRankings = _rankings
+        .where((r) => r.quizName.toLowerCase().contains(_filter.toLowerCase()))
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Historique'),
-        centerTitle: true,
+        title: const Text('Historique des scores'),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
       ),
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: 'Filtrer par nom de quiz',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
-              ),
-              onChanged: (value) {
-                _filter = value;
-                _applyFilter();
-              },
-            ),
-          ),
-          Expanded(
-            child: _filteredRankings.isEmpty
-                ? const Center(child: Text('Aucun résultat trouvé.'))
-                : ListView.builder(
-                    itemCount: _filteredRankings.length,
-                    itemBuilder: (context, index) {
-                      final ranking = _filteredRankings[index];
-                      return ListTile(
-                        leading: const Icon(Icons.quiz),
-                        title: Text(ranking.quizName),
-                        trailing: Text('${ranking.score}'),
-                      );
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Rechercher un quiz',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _filter = value;
+                        _applyFilter();
+                      });
                     },
                   ),
-          ),
-        ],
-      ),
+                ),
+                Expanded(
+                  child: _filteredRankings.isEmpty
+                      ? const Center(child: Text('Aucun score trouvé.'))
+                      : ListView.builder(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: _filteredRankings.length,
+                          itemBuilder: (context, index) {
+                            final ranking = _filteredRankings[index];
+                            return Card(
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  child: Text('${index + 1}'),
+                                ),
+                                title: Text(ranking.quizName),
+                                trailing: Text('Score : ${ranking.score}'),
+                              ),
+                            );
+                          },
+                        ),
+                ),
+              ],
+            ),
     );
   }
 }

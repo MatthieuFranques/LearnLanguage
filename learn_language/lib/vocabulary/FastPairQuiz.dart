@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/homePage.dart';
+import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
+import 'package:learn_language/services/words/rankingStorage.dart';
 
 class FastPairQuiz extends StatefulWidget {
   const FastPairQuiz({super.key});
@@ -96,6 +98,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
 }
 
 void showEndDialog() {
+  saveScoreOnce();
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -117,6 +120,12 @@ void showEndDialog() {
   );
 }
 
+  Future<void> saveScoreOnce() async { 
+    await RankingStorage.addWord(
+      Ranking('Quiz de rapidité', score.toString())
+    );
+    print("Sauvegarde du score dans le fichier JSON");
+}
 
   void onWordTap(String word) {
     if (matched.contains(word)) return;

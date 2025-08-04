@@ -5,37 +5,41 @@ import 'package:learn_language/models/ranking.dart';
 import 'package:path_provider/path_provider.dart';
 
 class RankingStorage {
+  // Obtient le chemin du fichier local
   static Future<File> _getLocalFile() async {
     final directory = await getApplicationDocumentsDirectory();
     return File('${directory.path}/ranking.json');
   }
- 
+
+  // Lit les données du fichier local ou initialise si vide
   static Future<List<Ranking>> readWords() async {
     final file = await _getLocalFile();
-  final data = await rootBundle.loadString('assets/ranking.json');
-  await file.writeAsString(data);
-  final decoded = jsonDecode(data) as List;
-  return decoded.map((e) => Ranking(e['quizName'], e['score'])).toList();
-    
+
+    if (!await file.exists() || (await file.readAsString()).trim().isEmpty) {
+      // Initialise un fichier vide avec []
+      await file.writeAsString('[]');
+    }
+
+    final data = await file.readAsString();
+    final decoded = jsonDecode(data) as List;
+    return decoded.map((e) => Ranking(e['quizName'], e['score'])).toList();
   }
 
-   static Future<void> addWord(Ranking ranking) async {
+  // Ajoute une nouvelle entrée dans le fichier
+  static Future<void> addWord(Ranking ranking) async {
     if (ranking.quizName.isEmpty || ranking.score.isEmpty) {
-      throw Exception('Les mots ne peuvent pas être vides');
+      throw Exception('Les champs ne peuvent pas être vides');
     }
-    print('Before adding word');
-    final jsonContent = await readWords();
-    print('Ajout du mot : ${ranking.quizName} - ${ranking.score}');
-    jsonContent.add(ranking);
+
+    final existingData = await readWords();
+    existingData.add(ranking);
+
     final file = await _getLocalFile();
     final encoded = jsonEncode(
-        jsonContent.map((r) => {'quizName': r.quizName, 'score': r.score}).toList());
-    print('Enregistrement des mots mis à jour');
-    if (!await file.exists()) {
-      await file.create(recursive: true);
-    }
-    print('Écriture dans le fichier : ${file.path}');
-    print('Contenu du fichier : $encoded');
+      existingData.map((r) => {'quizName': r.quizName, 'score': r.score}).toList(),
+    );
+
     await file.writeAsString(encoded);
+    print('✅ Score enregistré : ${ranking.quizName} - ${ranking.score}');
   }
- }
+}

@@ -26,6 +26,7 @@ flutter:
   assets:
     - assets/words.json
     - assets/ranking.json
+    - assets/sentences.json
     - assets/icon/
 
 flutter_icons:

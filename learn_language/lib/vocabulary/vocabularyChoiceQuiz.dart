@@ -3,7 +3,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/customEndDialog.dart';
+import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
+import 'package:learn_language/services/words/rankingStorage.dart';
 
 class VocabularyChoiceQuiz extends StatefulWidget {
   const VocabularyChoiceQuiz({super.key});
@@ -22,6 +25,8 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
   late TextEditingController _controller;
   bool isEnglishToFrench = true;
   List<String> options = [];
+  int correctAnswers = 0;
+
 
   @override
   void initState() {
@@ -46,6 +51,12 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
     generateOptions();
   }
 
+  Future<void> saveScoreOnce() async {
+    await RankingStorage.addWord(
+      Ranking('Quiz Multiple', correctAnswers.toString())
+    );
+    print("Sauvegarde du score dans le fichier JSON");
+}
   void generateOptions() {
   if (words.isEmpty) return;
 
@@ -93,6 +104,7 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('✅ Bonne réponse !')),
       );
+      correctAnswers++;
       Future.delayed(const Duration(milliseconds: 500), nextWord);
     } else {
       attemptCount++;
@@ -127,20 +139,26 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
     }
 
     if (unlocked) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('Quiz Terminé'),
-          backgroundColor: theme.primaryColor,
-          foregroundColor: Colors.white,
-        ),
-        body: const Center(
-          child: Text(
-            '🎉 Bravo, quiz terminé !',
-            style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-          ),
-        ),
-      );
+      saveScoreOnce();
+      return CustomEndDialog(
+    title: '⏰ Temps écoulé',
+    message: 'Tu as terminé cette session.',
+    score: correctAnswers,
+    onReplay: () {
+      setState(() {
+        words = [];
+        currentIndex = 0;
+        unlocked = false;
+        isLoading = true;
+        correctAnswers = 0;
+        loadWords();
+      });
+    },
+    onQuit: () {
+       Navigator.pop(context);
+        Navigator.pop(context); 
+    },
+  );
     }
 
     final word = words[currentIndex];

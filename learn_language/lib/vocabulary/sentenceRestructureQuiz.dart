@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/customEndDialog.dart';
+import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/sentence.dart';
+import 'package:learn_language/services/words/rankingStorage.dart';
 
 class SentenceRestructureQuiz extends StatefulWidget {
   const SentenceRestructureQuiz({super.key});
@@ -22,6 +25,10 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
   late List<String> shuffledWords;
   List<String> selectedWords = [];
   List<Sentence> selectedSentences = [];
+  int currentSentenceIndex = 0;
+  final int totalSentences = 8;
+  int correctAnswers = 0;
+
 
 
   @override
@@ -44,13 +51,44 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     });
   }
 
-  void loadNewSentence() {
-    final random = Random();
-    correctSentence = sentences[random.nextInt(sentences.length)];
-    shuffledWords = correctSentence.split(' ')..shuffle();
-    selectedWords.clear();
-    setState(() {});
+   Future<void> saveScoreOnce() async {
+    await RankingStorage.addWord(
+      Ranking('Quiz Multiple', correctAnswers.toString())
+    );
+    print("Sauvegarde du score dans le fichier JSON");
+}
+
+ void loadNewSentence() {
+  if (currentSentenceIndex >= totalSentences) {
+    showDialog(
+      context: context,
+      builder: (_) => CustomEndDialog(
+        title: '🎉 Quiz terminé !',
+        message: 'Tu as terminé toutes les phrases !',
+        score: null, // ou tu peux passer un score si tu veux le suivre
+        onReplay: () {
+          currentSentenceIndex = 0;
+          correctAnswers = 0;
+          loadNewSentence();
+        },
+        onQuit: () {
+          Navigator.pop(context);
+          Navigator.pop(context); 
+        },
+      ),
+    );
+    return;
   }
+
+  final random = Random();
+  correctSentence = sentences[random.nextInt(sentences.length)];
+  shuffledWords = correctSentence.split(' ')..shuffle();
+  selectedWords.clear();
+  currentSentenceIndex++;
+  setState(() {});
+}
+
+
 
   void onWordSelected(String word) {
     if (selectedWords.contains(word)) return;
@@ -58,27 +96,40 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     setState(() {});
   }
 
-  void onValidate() {
-    final result = selectedWords.join(' ');
-    final isCorrect = result == correctSentence;
+void onValidate() {
+  final result = selectedWords.join(' ');
+  final isCorrect = result == correctSentence;
 
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text(isCorrect ? '✅ Bonne réponse !' : '❌ Incorrect'),
-        content: Text('Phrase attendue :\n"$correctSentence"'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              loadNewSentence();
-            },
-            child: const Text('Suivant'),
-          )
+  if (isCorrect) {
+    correctAnswers++; // ✅ Incrémentation
+  }
+
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text(isCorrect ? '✅ Bonne réponse !' : '❌ Incorrect'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Phrase attendue :\n"$correctSentence"'),
+          const SizedBox(height: 12),
+          Text('Phrases trouvées : $correctAnswers'),
         ],
       ),
-    );
-  }
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+            loadNewSentence();
+          },
+          child: const Text('Suivant'),
+        )
+      ],
+    ),
+  );
+}
+
 
   void onClear() {
     selectedWords.clear();
@@ -110,10 +161,11 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
                   children: [
-                    Text(
-                    'Phrase  / 10',
+                   Text(
+                    'Phrase $currentSentenceIndex / $totalSentences',
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
+                  ),
+
                   const SizedBox(height: 16),
                    const Text(
                       'Remets la phrase dans le bon ordre :',
