@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:learn_language/models/sentence.dart';
 
 class SentenceRestructureQuiz extends StatefulWidget {
   const SentenceRestructureQuiz({super.key});
@@ -18,11 +21,27 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
   late String correctSentence;
   late List<String> shuffledWords;
   List<String> selectedWords = [];
+  List<Sentence> selectedSentences = [];
+
 
   @override
   void initState() {
     super.initState();
     loadNewSentence();
+  }
+
+   Future<void> loadSentences() async {
+    final String response = await rootBundle.loadString('assets/sentences.json');
+    final List data = json.decode(response);
+
+    // Charge un grand nombre de mots (par exemple 50 ou 100)
+    List<Sentence> loadedSentences = data.map((e) => Sentence(e['english'], e['french'])).toList();
+
+    setState(() {
+      selectedSentences = loadedSentences;
+      // isLoading = false;
+      // isEnglishToFrench = Random().nextBool();
+    });
   }
 
   void loadNewSentence() {
