@@ -53,14 +53,14 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
 
    Future<void> saveScoreOnce() async {
     await RankingStorage.addWord(
-      Ranking('Quiz Multiple', correctAnswers.toString())
+      Ranking('Réorganisation de phrases', correctAnswers.toString())
     );
     print("Sauvegarde du score dans le fichier JSON");
 }
 
  void loadNewSentence() {
-  saveScoreOnce();
   if (currentSentenceIndex >= totalSentences) {
+      saveScoreOnce();
     showDialog(
       context: context,
       builder: (_) => CustomEndDialog(

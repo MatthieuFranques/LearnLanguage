@@ -57,50 +57,47 @@ class _HistoryPageState extends State<HistoryPage> {
               children: [
                 // Choix du quiz à filtrer
                 if (quizNames.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 16, 12, 4),
-                    child: DropdownButtonFormField<String>(
-                      decoration: const InputDecoration(
-                        labelText: 'Filtrer par quiz',
-                        border: OutlineInputBorder(),
-                      ),
-                      value: _selectedQuizName,
-                      items: [
-                        const DropdownMenuItem<String>(
-                          value: null,
-                          child: Text('Tous les quiz'),
-                        ),
-                        ...quizNames.map(
-                          (name) => DropdownMenuItem(
-                            value: name,
-                            child: Text(name),
-                          ),
-                        )
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedQuizName = value;
-                          _applyFilter();
-                        });
-                      },
-                    ),
-                  ),
-
-                // Champ de recherche
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Rechercher un quiz',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ChoiceChip(
+                          label: const Text('Tous'),
+                          selected: _selectedQuizName == null,
+                          onSelected: (_) {
+                            setState(() {
+                              _selectedQuizName = null;
+                              _applyFilter();
+                            });
+                          },
+                          selectedColor: Theme.of(context).primaryColor,
+                          labelStyle: TextStyle(
+                            color: _selectedQuizName == null ? Colors.white : Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ...quizNames.map((name) => Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: ChoiceChip(
+                                label: Text(name),
+                                selected: _selectedQuizName == name,
+                                onSelected: (_) {
+                                  setState(() {
+                                    _selectedQuizName =
+                                        _selectedQuizName == name ? null : name;
+                                    _applyFilter();
+                                  });
+                                },
+                                selectedColor: Theme.of(context).primaryColor,
+                                labelStyle: TextStyle(
+                                  color: _selectedQuizName == name ? Colors.white : Colors.black,
+                                ),
+                              ),
+                            )),
+                      ],
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        _filter = value;
-                        _applyFilter();
-                      });
-                    },
                   ),
                 ),
 
