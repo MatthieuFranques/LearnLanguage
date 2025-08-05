@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
+import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
@@ -27,7 +29,6 @@ class _FastPairQuizState extends State<FastPairQuiz> {
   Set<String> matched = {};
   Set<String> wrong = {};
   int score = 0;
-
 
   bool isLoading = true;
 
@@ -80,48 +81,46 @@ class _FastPairQuizState extends State<FastPairQuiz> {
   }
 
   void startTimer() {
-  gameTimer?.cancel();
-  timeLeft = gameDuration;
-  score = 0;
-  matched.clear();
-  gameTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    if (timeLeft <= 1) {
-      timer.cancel();
-      showEndDialog();
-    }
-    setState(() {
-      timeLeft--;
+    gameTimer?.cancel();
+    timeLeft = gameDuration;
+    score = 0;
+    matched.clear();
+    gameTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timeLeft <= 1) {
+        timer.cancel();
+        showEndDialog();
+      }
+      setState(() {
+        timeLeft--;
+      });
     });
-  });
-}
+  }
 
-void showEndDialog() {
-  saveScoreOnce();
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (_) => CustomEndDialog(
-      title: '⏰ Temps écoulé',
-      message: 'Tu as terminé cette session.',
-      score: score,
-      onReplay: () {
-        generatePairs();
-        startTimer();
-      },
-      onQuit: () {
-        Navigator.pop(context);
-        Navigator.pop(context); 
-      },
-    ),
-  );
-}
-
-  Future<void> saveScoreOnce() async { 
-    await RankingStorage.addWord(
-      Ranking('Quiz de rapidité', score.toString())
+  void showEndDialog() {
+    saveScoreOnce();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => CustomEndDialog(
+        title: '⏰ Temps écoulé',
+        message: 'Tu as terminé cette session.',
+        score: score,
+        onReplay: () {
+          generatePairs();
+          startTimer();
+        },
+        onQuit: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        },
+      ),
     );
+  }
+
+  Future<void> saveScoreOnce() async {
+    await RankingStorage.addWord(Ranking('Quiz de rapidité', score.toString()));
     print("Sauvegarde du score dans le fichier JSON");
-}
+  }
 
   void onWordTap(String word) {
     if (matched.contains(word)) return;
@@ -216,70 +215,71 @@ void showEndDialog() {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fast Pair Quiz'),
-        backgroundColor: theme.primaryColor,
-        foregroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
+        appBar: const CustomAppBar(title: 'Fast Pair Quiz'),
+        body: Stack(
           children: [
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  const Text(
-                      'Trouver le plus de paires possible.',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Trouver le plus de paires possible.',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          LinearProgressIndicator(
+                            value: (gameDuration - timeLeft) / gameDuration,
+                            minHeight: 8,
+                            backgroundColor: Colors.grey[300],
+                            valueColor:
+                                AlwaysStoppedAnimation(theme.primaryColor),
+                          ),
+                          Text(
+                            '$timeLeft s',
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 16),
-
-                    LinearProgressIndicator(
-              value: (gameDuration - timeLeft) / gameDuration,
-              minHeight: 8,
-              backgroundColor: Colors.grey[300],
-              valueColor: AlwaysStoppedAnimation(theme.primaryColor),
-            ),
-             Text(
-              '$timeLeft s',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-             ),
-                  ],
-                ),
-              ),
-            ),         
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: frenchWords.map(buildWordBox).toList(),
-                    ),
                   ),
-                  const SizedBox(width: 16),
                   Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: englishWords.map(buildWordBox).toList(),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: frenchWords.map(buildWordBox).toList(),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: englishWords.map(buildWordBox).toList(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
+            const FooterWave()
           ],
-        ),
-      ),
-    );
+        ));
   }
 }

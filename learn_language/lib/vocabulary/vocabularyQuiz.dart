@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
+import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/components/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
@@ -27,8 +29,6 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   int correctAnswers = 0;
   bool _scoreSaved = false;
   int numberWords = 10;
-
-
 
   @override
   void initState() {
@@ -71,15 +71,12 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   }
 
   Future<void> saveScoreOnce() async {
-  if (!_scoreSaved) {
-    _scoreSaved = true;
-    await RankingStorage.addWord(
-      Ranking('Quiz', correctAnswers.toString())
-    );
-    print("Sauvegarde du score dans le fichier JSON");
+    if (!_scoreSaved) {
+      _scoreSaved = true;
+      await RankingStorage.addWord(Ranking('Quiz', correctAnswers.toString()));
+      print("Sauvegarde du score dans le fichier JSON");
+    }
   }
-}
-
 
   void checkAnswer() {
     final word = words[currentIndex];
@@ -90,7 +87,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     if (userAnswer.toLowerCase().trim() == correctAnswer) {
       correctAnswers++;
       nextWord();
-    } else {  
+    } else {
       attemptCount++;
       if (attemptCount >= 3) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -108,31 +105,31 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   }
 
   void showEndDialog() {
-  saveScoreOnce();
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (_) => CustomEndDialog(
-    title: 'Quiz terminer',
-    message: 'Tu as terminé cette session.',
-    score: correctAnswers,
-    onReplay: () {
-      setState(() {
-        words = [];
-        currentIndex = 0;
-        unlocked = false;
-        isLoading = true;
-        correctAnswers = 0;
-        loadWords();
-      });
-    },
-    onQuit: () {
-       Navigator.pop(context);
-        Navigator.pop(context); 
-    },
-  ),
-  );
-}
+    saveScoreOnce();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => CustomEndDialog(
+        title: 'Quiz terminer',
+        message: 'Tu as terminé cette session.',
+        score: correctAnswers,
+        onReplay: () {
+          setState(() {
+            words = [];
+            currentIndex = 0;
+            unlocked = false;
+            isLoading = true;
+            correctAnswers = 0;
+            loadWords();
+          });
+        },
+        onQuit: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -147,18 +144,15 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     if (isLoading) {
       return const Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
+        body: Center(child: CircularProgressIndicator()),
       );
     }
 
- if (unlocked) {
- WidgetsBinding.instance.addPostFrameCallback((_) {
-    showEndDialog();
-  });
-}
-
+    if (unlocked) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showEndDialog();
+      });
+    }
 
     final word = words[currentIndex];
     final questionWord = isEnglishToFrench ? word.english : word.french;
@@ -166,70 +160,77 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Quiz Quotidien'),
-        backgroundColor: theme.primaryColor,
-        foregroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Mot ${currentIndex + 1} sur ${words.length}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+      appBar: const CustomAppBar(title: 'Quiz Quotidien'),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: SizedBox.expand(
+              // prend tout l’espace disponible
+              child: Column(
+                mainAxisAlignment:
+                    MainAxisAlignment.center, // centre verticalement
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Mot ${currentIndex + 1} sur ${words.length}',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Traduire en $direction',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            questionWord,
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Traduire en $direction',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.black87,
+                  ),
+                  const SizedBox(height: 32),
+                  TextField(
+                    controller: _controller,
+                    onChanged: (value) => userAnswer = value,
+                    decoration: InputDecoration(
+                      labelText: 'Votre réponse',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
+                      prefixIcon: const Icon(Icons.edit),
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      questionWord,
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 24),
+                  PrimaryButton(text: 'Vérifier', onPressed: checkAnswer),
+                  const SizedBox(height: 120),
+                ],
               ),
             ),
-            const SizedBox(height: 32),
-            TextField(
-              controller: _controller,
-              onChanged: (value) => userAnswer = value,
-              decoration: InputDecoration(
-                labelText: 'Votre réponse',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                prefixIcon: const Icon(Icons.edit),
-              ),
-            ),
-            const SizedBox(height: 24),
-            PrimaryButton(text: 'Vérifier', onPressed: checkAnswer)
-          ],
-        ),
+          ),
+          const FooterWave(),
+        ],
       ),
     );
   }

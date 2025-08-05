@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learn_language/theme/apColor.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 final ThemeData appTheme = ThemeData(
   useMaterial3: true,
@@ -18,7 +18,10 @@ final ThemeData appTheme = ThemeData(
     elevation: 4,
   ),
   textTheme: const TextTheme(
-    headlineSmall: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+    headlineSmall: TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        color: AppColors.textPrimary),
     bodyLarge: TextStyle(fontSize: 18, color: AppColors.textPrimary),
     bodyMedium: TextStyle(fontSize: 16, color: AppColors.textSecondary),
   ),

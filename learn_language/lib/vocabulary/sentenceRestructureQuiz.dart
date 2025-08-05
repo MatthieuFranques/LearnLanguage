@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
+import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/sentence.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
@@ -11,7 +13,8 @@ class SentenceRestructureQuiz extends StatefulWidget {
   const SentenceRestructureQuiz({super.key});
 
   @override
-  State<SentenceRestructureQuiz> createState() => _SentenceRestructureQuizState();
+  State<SentenceRestructureQuiz> createState() =>
+      _SentenceRestructureQuizState();
 }
 
 class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
@@ -22,19 +25,21 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
   int currentSentenceIndex = 0;
   final int totalSentences = 8;
   int correctAnswers = 0;
-  bool isLoading = true; 
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    loadSentences(); 
+    loadSentences();
   }
 
   Future<void> loadSentences() async {
-    final String response = await rootBundle.loadString('assets/sentences.json');
+    final String response =
+        await rootBundle.loadString('assets/sentences.json');
     final List data = json.decode(response);
 
-    List<Sentence> loadedSentences = data.map((e) => Sentence(e['english'], e['french'])).toList();
+    List<Sentence> loadedSentences =
+        data.map((e) => Sentence(e['english'], e['french'])).toList();
     loadedSentences.shuffle();
 
     setState(() {
@@ -47,8 +52,7 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
 
   Future<void> saveScoreOnce() async {
     await RankingStorage.addWord(
-      Ranking('Réorganisation de phrases', correctAnswers.toString())
-    );
+        Ranking('Réorganisation de phrases', correctAnswers.toString()));
     print("Sauvegarde du score dans le fichier JSON");
   }
 
@@ -59,7 +63,8 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
         context: context,
         builder: (_) => CustomEndDialog(
           title: '🎉 Quiz terminé !',
-          message: 'Tu as terminé toutes les phrases ! Phrases trouvées : $correctAnswers / $totalSentences.',
+          message:
+              'Tu as terminé toutes les phrases ! Phrases trouvées : $correctAnswers / $totalSentences.',
           score: correctAnswers,
           onReplay: () {
             currentSentenceIndex = 0;
@@ -139,83 +144,87 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Restructure la phrase'),
-        backgroundColor: theme.primaryColor,
-        foregroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        appBar: const CustomAppBar(title: 'Restructure la phrase'),
+        body: Stack(
           children: [
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  children: [
-                    Text(
-                      'Phrase ${currentSentenceIndex + 1} / $totalSentences',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Remets la phrase dans le bon ordre :',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(height: 16),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: shuffledWords.map((word) {
-                        final alreadyUsed = selectedWords.contains(word);
-                        return ElevatedButton(
-                          onPressed: alreadyUsed ? null : () => onWordSelected(word),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: alreadyUsed ? Colors.grey[300] : null,
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Phrase ${currentSentenceIndex + 1} / $totalSentences',
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                           ),
-                          child: Text(word),
-                        );
-                      }).toList(),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Remets la phrase dans le bon ordre :',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          const SizedBox(height: 16),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: shuffledWords.map((word) {
+                              final alreadyUsed = selectedWords.contains(word);
+                              return ElevatedButton(
+                                onPressed: alreadyUsed
+                                    ? null
+                                    : () => onWordSelected(word),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      alreadyUsed ? Colors.grey[300] : null,
+                                ),
+                                child: Text(word),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 32),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      selectedWords.join(' '),
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: selectedWords.isNotEmpty ? onValidate : null,
+                        icon: const Icon(Icons.check),
+                        label: const Text('Valider'),
+                      ),
+                      const SizedBox(width: 12),
+                      TextButton(
+                        onPressed: onClear,
+                        child: const Text('Réinitialiser'),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 32),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                selectedWords.join(' '),
-                style: const TextStyle(fontSize: 20),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                ElevatedButton.icon(
-                  onPressed: selectedWords.isNotEmpty ? onValidate : null,
-                  icon: const Icon(Icons.check),
-                  label: const Text('Valider'),
-                ),
-                const SizedBox(width: 12),
-                TextButton(
-                  onPressed: onClear,
-                  child: const Text('Réinitialiser'),
-                ),
-              ],
-            ),
+            const FooterWave()
           ],
-        ),
-      ),
-    );
+        ));
   }
 }

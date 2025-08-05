@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:learn_language/theme/apColor.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final bool showBackButton;
 
-  const CustomAppBar({super.key, required this.title});
+  const CustomAppBar({
+    super.key,
+    required this.title,
+    this.showBackButton = true,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(120);
@@ -31,12 +36,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               title,
               style: const TextStyle(
                 color: Colors.black87,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
+                fontSize: 27,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
         ),
+        // Flèche de retour (back button)
+        if (showBackButton)
+          Positioned(
+            top: 25,
+            left: 16,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back, color: AppColors.secondary),
+              onPressed: () {
+                Navigator.of(context).maybePop();
+              },
+            ),
+          ),
       ],
     );
   }

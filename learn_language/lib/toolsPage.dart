@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learn_language/components/alphabetTrainer.dart';
 import 'package:learn_language/components/conjugationTrainer.dart';
+import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/grammarTrainer.dart';
 import 'package:learn_language/components/primaryIconButton.dart';
 import 'package:learn_language/components/translationCard.dart';
@@ -68,7 +69,8 @@ class _ToolsPageState extends State<ToolsPage> {
 
   Future<void> _addWord() async {
     final success = await _controller.addWord();
-    final message = success ? 'Mot ajouté !' : 'Veuillez remplir les deux champs';
+    final message =
+        success ? 'Mot ajouté !' : 'Veuillez remplir les deux champs';
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
@@ -105,7 +107,10 @@ class _ToolsPageState extends State<ToolsPage> {
     return ExpansionTile(
       title: Text(
         'Traduction',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: theme.primaryColor),
       ),
       initiallyExpanded: true,
       children: [
@@ -132,7 +137,10 @@ class _ToolsPageState extends State<ToolsPage> {
     return ExpansionTile(
       title: Text(
         'Alphabet',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: theme.primaryColor),
       ),
       initiallyExpanded: false,
       children: const [AlphabetTrainer()],
@@ -143,7 +151,10 @@ class _ToolsPageState extends State<ToolsPage> {
     return ExpansionTile(
       title: Text(
         'Conjugaison : To Be',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: theme.primaryColor),
       ),
       initiallyExpanded: false,
       children: const [ConjugationTrainer()],
@@ -154,7 +165,10 @@ class _ToolsPageState extends State<ToolsPage> {
     return ExpansionTile(
       title: Text(
         '📚 Grammaire anglaise',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: theme.primaryColor),
       ),
       initiallyExpanded: false,
       children: const [GrammarTrainer()],
@@ -166,11 +180,7 @@ class _ToolsPageState extends State<ToolsPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Outils'),
-        centerTitle: true,
-      ),
-      backgroundColor: Colors.white,
+      appBar: const CustomAppBar(title: 'Outils', showBackButton: false),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

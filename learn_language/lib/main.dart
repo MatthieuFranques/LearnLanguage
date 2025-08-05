@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:learn_language/components/mainNavigation.dart';
 import 'package:learn_language/services/notification/notification.dart';
+import 'package:learn_language/theme/appColor.dart';
 import 'package:learn_language/theme/themeData.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Navigation bar customization
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: AppColors.primary,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
+
   await NotificationService.initNotification();
   runApp(const MyApp());
 }

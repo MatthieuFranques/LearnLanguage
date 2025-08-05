@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learn_language/historyPage.dart';
 import 'package:learn_language/homePage.dart';
 import 'package:learn_language/settingsPage.dart';
-import 'package:learn_language/theme/apColor.dart';
+import 'package:learn_language/theme/appColor.dart';
 import 'package:learn_language/toolsPage.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -40,68 +40,97 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_currentIndex],
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color:
-              AppColors.primary.withOpacity(0.8), // Fond lavande avec opacité
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -2),
-            ),
-          ],
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(_pages.length, (index) {
-            final isSelected = _currentIndex == index;
-            return GestureDetector(
-              onTap: () => setState(() => _currentIndex = index),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: isSelected
-                          ? AppColors.secondary
-                              .withOpacity(0.5) // Rose poudré transparent
-                          : Colors.transparent,
-                    ),
-                    child: Icon(
-                      _icons[index],
-                      color: isSelected
-                          ? AppColors.textPrimary
-                          : AppColors.textSecondary,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _labels[index],
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isSelected
-                          ? AppColors.textPrimary
-                          : AppColors.textSecondary,
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
-                    ),
-                  ),
-                ],
+      bottomNavigationBar: MediaQuery.removePadding(
+        context: context,
+        removeBottom: true, // enlève le padding système en bas (safe area)
+        child: SizedBox(
+          height: 120,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              ClipPath(
+                clipper: BottomCurveClipper(),
+                child: Container(
+                  height: 120,
+                  width: double.infinity,
+                  color: AppColors.primary,
+                ),
               ),
-            );
-          }),
+              Positioned(
+                bottom: 20,
+                left: 0,
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(_pages.length, (index) {
+                    final isSelected = _currentIndex == index;
+                    return GestureDetector(
+                      onTap: () => setState(() => _currentIndex = index),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isSelected
+                                  ? AppColors.secondary.withOpacity(0.5)
+                                  : Colors.transparent,
+                            ),
+                            child: Icon(
+                              _icons[index],
+                              color: isSelected
+                                  ? AppColors.textPrimary
+                                  : AppColors.textHint,
+                              size: 28,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            _labels[index],
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: isSelected
+                                  ? AppColors.textPrimary
+                                  : AppColors.textHint,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+class BottomCurveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+
+    path.moveTo(0, 60);
+    path.quadraticBezierTo(
+      size.width / 2,
+      -40,
+      size.width,
+      60,
+    );
+
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

@@ -3,7 +3,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
+import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
@@ -27,7 +29,6 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
   List<String> options = [];
   int correctAnswers = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -40,7 +41,8 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
     final List data = json.decode(response);
 
     // Charge un grand nombre de mots (par exemple 50 ou 100)
-    List<Word> loadedWords = data.map((e) => Word(e['english'], e['french'])).toList();
+    List<Word> loadedWords =
+        data.map((e) => Word(e['english'], e['french'])).toList();
 
     setState(() {
       words = loadedWords;
@@ -53,34 +55,35 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
 
   Future<void> saveScoreOnce() async {
     await RankingStorage.addWord(
-      Ranking('Quiz Multiple', correctAnswers.toString())
-    );
+        Ranking('Quiz Multiple', correctAnswers.toString()));
     print("Sauvegarde du score dans le fichier JSON");
-}
-  void generateOptions() {
-  if (words.isEmpty) return;
-
-  final correct = isEnglishToFrench
-      ? words[currentIndex].french
-      : words[currentIndex].english;
-
-  final Set<String> optionSet = {correct};
-
-  // Ajoute jusqu'à 3 mauvaises réponses différentes
-  while (optionSet.length < 4) {
-    final randomWord = words[Random().nextInt(words.length)];
-    final wrong = isEnglishToFrench ? randomWord.french : randomWord.english;
-
-    if (wrong != correct) {
-      optionSet.add(wrong);
-    }
   }
-  // Mélange les options
-  options = optionSet.toList()..shuffle();
-}
+
+  void generateOptions() {
+    if (words.isEmpty) return;
+
+    final correct = isEnglishToFrench
+        ? words[currentIndex].french
+        : words[currentIndex].english;
+
+    final Set<String> optionSet = {correct};
+
+    // Ajoute jusqu'à 3 mauvaises réponses différentes
+    while (optionSet.length < 4) {
+      final randomWord = words[Random().nextInt(words.length)];
+      final wrong = isEnglishToFrench ? randomWord.french : randomWord.english;
+
+      if (wrong != correct) {
+        optionSet.add(wrong);
+      }
+    }
+    // Mélange les options
+    options = optionSet.toList()..shuffle();
+  }
 
   void nextWord() {
-    if (currentIndex < 9) { // Limiter à 10 questions
+    if (currentIndex < 9) {
+      // Limiter à 10 questions
       setState(() {
         currentIndex++;
         userAnswer = '';
@@ -121,33 +124,33 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
     }
   }
 
+  void showEndDialog() {
+    saveScoreOnce();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => CustomEndDialog(
+        title: 'Quiz terminer',
+        message: 'Tu as terminé cette session.',
+        score: correctAnswers,
+        onReplay: () {
+          setState(() {
+            words = [];
+            currentIndex = 0;
+            unlocked = false;
+            isLoading = true;
+            correctAnswers = 0;
+            loadWords();
+          });
+        },
+        onQuit: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
 
-void showEndDialog() {
-  saveScoreOnce();
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (_) => CustomEndDialog(
-    title: 'Quiz terminer',
-    message: 'Tu as terminé cette session.',
-    score: correctAnswers,
-    onReplay: () {
-      setState(() {
-        words = [];
-        currentIndex = 0;
-        unlocked = false;
-        isLoading = true;
-        correctAnswers = 0;
-        loadWords();
-      });
-    },
-    onQuit: () {
-       Navigator.pop(context);
-        Navigator.pop(context); 
-    },
-  ),
-  );
-}
   @override
   void dispose() {
     _controller.dispose();
@@ -170,84 +173,88 @@ void showEndDialog() {
 
     if (unlocked) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-    showEndDialog();
-  });
+        showEndDialog();
+      });
     }
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Quiz Choix'),
-        backgroundColor: theme.primaryColor,
-        foregroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [           
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  children: [
-                    Text(
-                    'Mot ${currentIndex + 1} / 10',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  const SizedBox(height: 16),
-                    Text(
-                      'Traduire en $direction',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      question,
-                      style: TextStyle(
-                        fontSize: 28,
-                        color: theme.primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),      
-            LayoutBuilder(
-            builder: (context, constraints) {
-              final availableWidth = constraints.maxWidth;
-              final buttonWidth = (availableWidth - 16) / 2; // 16 = spacing
-
-              return Wrap(
-                spacing: 16, // espace horizontal entre boutons
-                runSpacing: 16, // espace vertical entre lignes
-                children: options.map((option) {
-                  return SizedBox(
-                    width: buttonWidth,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[200],
-                        foregroundColor: Colors.black87,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+      appBar: const CustomAppBar(title: 'Quiz Choix'),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Mot ${currentIndex + 1} / 10',
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      onPressed: () => checkAnswer(option),
-                      child: Text(option, style: const TextStyle(fontSize: 18)),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Traduire en $direction',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          question,
+                          style: TextStyle(
+                            fontSize: 28,
+                            color: theme.primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                }).toList(),
-              );
-            },
-          )
-          ],
-        ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final availableWidth = constraints.maxWidth;
+                    final buttonWidth =
+                        (availableWidth - 16) / 2; // 16 = spacing
+
+                    return Wrap(
+                      spacing: 16, // espace horizontal entre boutons
+                      runSpacing: 16, // espace vertical entre lignes
+                      children: options.map((option) {
+                        return SizedBox(
+                          width: buttonWidth,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey[200],
+                              foregroundColor: Colors.black87,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () => checkAnswer(option),
+                            child: Text(option,
+                                style: const TextStyle(fontSize: 18)),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  },
+                )
+              ],
+            ),
+          ),
+          const FooterWave(),
+        ],
       ),
     );
   }
