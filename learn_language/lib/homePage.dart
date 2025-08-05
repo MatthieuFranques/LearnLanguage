@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/vocabulary/fastPairQuiz.dart';
 import 'package:learn_language/vocabulary/sentenceRestructureQuiz.dart';
 import 'package:learn_language/vocabulary/vocabularyListeningQuiz.dart';
 import 'package:learn_language/vocabulary/vocabularyChoiceQuiz.dart';
 import 'package:learn_language/vocabulary/vocabularyQuiz.dart';
 
-class HomePage extends StatelessWidget  {
-   HomePage({super.key});
- final List<Map<String, dynamic>> quizzes = [
+class HomePage extends StatelessWidget {
+  HomePage({super.key});
+  final List<Map<String, dynamic>> quizzes = [
     {
       'title': 'Quiz',
       'color': Colors.blue,
@@ -32,27 +33,24 @@ class HomePage extends StatelessWidget  {
       'icon': Icons.format_list_numbered,
       'page': const SentenceRestructureQuiz(),
     },
-{
-  'title': 'Compréhension',
-  'color': Colors.redAccent,
-  'icon': Icons.headphones,
-  'page': const VocabularyListeningQuiz(), 
-},
     {
-  'title': 'Prononciation',
-  'color': Colors.teal,
-  'icon': Icons.campaign,
-  'page': const VocabularyListeningQuiz(), // À créer
-},
+      'title': 'Compréhension',
+      'color': Colors.redAccent,
+      'icon': Icons.headphones,
+      'page': const VocabularyListeningQuiz(),
+    },
+    {
+      'title': 'Prononciation',
+      'color': Colors.teal,
+      'icon': Icons.campaign,
+      'page': const VocabularyListeningQuiz(), // À créer
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sélection du Quiz'),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBar(title: 'Sélection du Quiz'),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(24.0),

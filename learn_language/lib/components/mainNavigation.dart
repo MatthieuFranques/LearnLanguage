@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learn_language/historyPage.dart';
 import 'package:learn_language/homePage.dart';
 import 'package:learn_language/settingsPage.dart';
+import 'package:learn_language/theme/apColor.dart';
 import 'package:learn_language/toolsPage.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -21,7 +22,7 @@ class _MainNavigationState extends State<MainNavigation> {
     const SettingsPage(),
   ];
 
-   final List<IconData> _icons = [
+  final List<IconData> _icons = [
     Icons.home,
     Icons.toll_outlined,
     Icons.history,
@@ -37,14 +38,13 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color:
+              AppColors.primary.withOpacity(0.8), // Fond lavande avec opacité
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -59,7 +59,7 @@ class _MainNavigationState extends State<MainNavigation> {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(4, (index) {
+          children: List.generate(_pages.length, (index) {
             final isSelected = _currentIndex == index;
             return GestureDetector(
               onTap: () => setState(() => _currentIndex = index),
@@ -71,11 +71,16 @@ class _MainNavigationState extends State<MainNavigation> {
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: isSelected ? theme.primaryColor.withOpacity(0.1) : Colors.transparent,
+                      color: isSelected
+                          ? AppColors.secondary
+                              .withOpacity(0.5) // Rose poudré transparent
+                          : Colors.transparent,
                     ),
                     child: Icon(
                       _icons[index],
-                      color: isSelected ? theme.primaryColor : Colors.grey,
+                      color: isSelected
+                          ? AppColors.textPrimary
+                          : AppColors.textSecondary,
                       size: 28,
                     ),
                   ),
@@ -84,8 +89,11 @@ class _MainNavigationState extends State<MainNavigation> {
                     _labels[index],
                     style: TextStyle(
                       fontSize: 12,
-                      color: isSelected ? theme.primaryColor : Colors.grey,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      color: isSelected
+                          ? AppColors.textPrimary
+                          : AppColors.textSecondary,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
                     ),
                   ),
                 ],
