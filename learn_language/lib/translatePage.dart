@@ -10,11 +10,12 @@ import 'package:learn_language/services/wordSelectionDialog.dart';
 
 class TranslatePage extends StatefulWidget {
   const TranslatePage({super.key});
+
   @override
-  State<TranslatePage> createState() => _HomePageState();
+  State<TranslatePage> createState() => _TranslatePageState();
 }
 
-class _HomePageState extends State<TranslatePage> {
+class _TranslatePageState extends State<TranslatePage> {
   final HomePageController _controller = HomePageController();
 
   @override
@@ -53,7 +54,6 @@ class _HomePageState extends State<TranslatePage> {
         }
       });
     } else {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Erreur de traduction')),
       );
@@ -68,22 +68,102 @@ class _HomePageState extends State<TranslatePage> {
 
   Future<void> _addWord() async {
     final success = await _controller.addWord();
-    if (success) {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mot ajouté !')),
+    final message = success ? 'Mot ajouté !' : 'Veuillez remplir les deux champs';
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+
+    if (success) setState(() {});
+  }
+
+  Future<void> _scanWord() async {
+    final ocrResult = await pickImageAndExtractText();
+    if (!mounted) return;
+
+    if (ocrResult != null) {
+      showDialog(
+        context: context,
+        builder: (_) => WordSelectionDialog(
+          ocrResult: ocrResult,
+          onWordSelected: (word) {
+            setState(() {
+              _controller.englishController.text = word;
+            });
+            _translateWord();
+          },
+        ),
       );
-      setState(() {}); // pour rafraîchir si besoin
     } else {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez remplir les deux champs')),
+        const SnackBar(content: Text('Aucun texte détecté')),
       );
     }
   }
+
+  Widget _buildTranslationSection(ThemeData theme) {
+    return ExpansionTile(
+      title: Text(
+        'Traduction',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+      ),
+      initiallyExpanded: true,
+      children: [
+        TranslationCard(
+          isEnglishToFrench: _controller.isEnglishToFrench,
+          englishController: _controller.englishController,
+          frenchController: _controller.frenchController,
+          onToggleDirection: _toggleDirection,
+          onAddWord: _addWord,
+          actionButtonColor: theme.colorScheme.secondary,
+        ),
+        const SizedBox(height: 32),
+        PrimaryIconButton(
+          text: 'Scanner un mot',
+          icon: Icons.camera_alt,
+          onPressed: _scanWord,
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  Widget _buildAlphabetSection(ThemeData theme) {
+    return ExpansionTile(
+      title: Text(
+        'Alphabet',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+      ),
+      initiallyExpanded: false,
+      children: const [AlphabetTrainer()],
+    );
+  }
+
+  Widget _buildConjugationSection(ThemeData theme) {
+    return ExpansionTile(
+      title: Text(
+        'Conjugaison : To Be',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+      ),
+      initiallyExpanded: false,
+      children: const [ConjugationTrainer()],
+    );
+  }
+
+  Widget _buildGrammarSection(ThemeData theme) {
+    return ExpansionTile(
+      title: Text(
+        '📚 Grammaire anglaise',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+      ),
+      initiallyExpanded: false,
+      children: const [GrammarTrainer()],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-        final theme = Theme.of(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -91,84 +171,17 @@ class _HomePageState extends State<TranslatePage> {
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
-      body: 
-      SingleChildScrollView(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-             ExpansionTile(
-            title: Text(
-              'Traduction',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
-            ),
-            initiallyExpanded: true,
-          children: [
-              TranslationCard(
-              isEnglishToFrench: _controller.isEnglishToFrench,
-              englishController: _controller.englishController,
-              frenchController: _controller.frenchController,
-              onToggleDirection: _toggleDirection,
-              onAddWord: _addWord,
-              actionButtonColor: theme.colorScheme.secondary,
-            ),
-            const SizedBox(height: 32),
-            PrimaryIconButton(
-              text: 'Scanner un mot',
-              icon: Icons.camera_alt,
-              onPressed: () async {
-                final ocrResult = await pickImageAndExtractText();
-                if (ocrResult != null) {
-                  showDialog(
-                    // ignore: use_build_context_synchronously
-                    context: context,
-                    builder: (_) => WordSelectionDialog(
-                      ocrResult: ocrResult,
-                      onWordSelected: (word) {
-                        setState(() {
-                          _controller.englishController.text = word;
-                        });
-                        _translateWord();
-                      },
-                    ),
-                  );
-                } else {
-                  // ignore: use_build_context_synchronously
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Aucun texte détecté')),
-                  );
-                }
-              },
-            ),
-          ]), 
-          ExpansionTile(
-            title: Text(
-              'Alphabet',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
-            ),
-            initiallyExpanded: false,
-          children: const [
-             AlphabetTrainer(),          
-          ]),           
-            ExpansionTile(
-            title: Text(
-              'Conjugaison : To Be',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
-            ),
-            initiallyExpanded: false,
-          children: const [
-             ConjugationTrainer(),          
-          ]),
-          ExpansionTile(
-            title: Text(
-              '📚 Grammaire anglaise',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
-            ),
-            initiallyExpanded: false,
-          children: const [
-             GrammarTrainer(),  
-          ]),
-          ])
-    )
+            _buildTranslationSection(theme),
+            _buildAlphabetSection(theme),
+            _buildConjugationSection(theme),
+            _buildGrammarSection(theme),
+          ],
+        ),
+      ),
     );
   }
 }
