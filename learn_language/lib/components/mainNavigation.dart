@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learn_language/historyPage.dart';
 import 'package:learn_language/homePage.dart';
 import 'package:learn_language/settingsPage.dart';
-import 'package:learn_language/translatePage.dart';
+import 'package:learn_language/toolsPage.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({Key? key}) : super(key: key);
@@ -16,21 +16,21 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _pages = [
     HomePage(),
-    const TranslatePage(),
+    const ToolsPage(),
     const HistoryPage(),
     const SettingsPage(),
   ];
 
    final List<IconData> _icons = [
     Icons.home,
-    Icons.translate,
+    Icons.toll_outlined,
     Icons.history,
     Icons.settings,
   ];
 
   final List<String> _labels = [
     'Accueil',
-    'Traduire',
+    'Outils',
     'Historique',
     'Paramètres',
   ];

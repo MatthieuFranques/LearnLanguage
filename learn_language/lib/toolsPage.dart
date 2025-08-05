@@ -8,14 +8,14 @@ import 'package:learn_language/controllers/homePageController.dart';
 import 'package:learn_language/services/pickImage.dart';
 import 'package:learn_language/services/wordSelectionDialog.dart';
 
-class TranslatePage extends StatefulWidget {
-  const TranslatePage({super.key});
+class ToolsPage extends StatefulWidget {
+  const ToolsPage({super.key});
 
   @override
-  State<TranslatePage> createState() => _TranslatePageState();
+  State<ToolsPage> createState() => _ToolsPageState();
 }
 
-class _TranslatePageState extends State<TranslatePage> {
+class _ToolsPageState extends State<ToolsPage> {
   final HomePageController _controller = HomePageController();
 
   @override
@@ -167,7 +167,7 @@ class _TranslatePageState extends State<TranslatePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Traduction & autre'),
+        title: const Text('Outils'),
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
