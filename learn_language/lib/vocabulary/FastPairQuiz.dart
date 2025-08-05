@@ -215,13 +215,14 @@ class _FastPairQuizState extends State<FastPairQuiz> {
     }
 
     return Scaffold(
-        appBar: const CustomAppBar(title: 'Fast Pair Quiz'),
+        appBar: const CustomAppBar(title: 'Quiz de rapidité'),
         body: Stack(
           children: [
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 children: [
+                  const SizedBox(height: 48),
                   Card(
                     elevation: 4,
                     shape: RoundedRectangleBorder(

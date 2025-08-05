@@ -8,7 +8,6 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
         appBar: CustomAppBar(title: 'Paramètres', showBackButton: false),
-        backgroundColor: Colors.white,
         body: Center(child: Text('⚙️ Paramètres')));
   }
 }

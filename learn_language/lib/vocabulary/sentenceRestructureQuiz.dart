@@ -144,7 +144,7 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     }
 
     return Scaffold(
-        appBar: const CustomAppBar(title: 'Restructure la phrase'),
+        appBar: const CustomAppBar(title: 'Restructurer la phrase'),
         body: Stack(
           children: [
             Padding(
