@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget  {
     {
       'title': 'Quiz Multiple',
       'color': Colors.green,
-      'icon': Icons.list,
+      'icon': Icons.radio_button_checked,
       'page': const VocabularyChoiceQuiz(),
     },
     {
@@ -29,20 +29,20 @@ class HomePage extends StatelessWidget  {
     {
       'title': 'Trouver le bon ordre',
       'color': Colors.purple,
-      'icon': Icons.sort,
+      'icon': Icons.format_list_numbered,
       'page': const SentenceRestructureQuiz(),
     },
-//     {
-//   'title': 'Complétion de phrase',
-//   'color': Colors.teal,
-//   'icon': Icons.edit_note,
-//   'page': const SentenceCompletionQuiz(), // À créer
-// },
 {
   'title': 'Compréhension',
   'color': Colors.redAccent,
-  'icon': Icons.record_voice_over,
+  'icon': Icons.headphones,
   'page': const VocabularyListeningQuiz(), 
+},
+    {
+  'title': 'Prononciation',
+  'color': Colors.teal,
+  'icon': Icons.campaign,
+  'page': const VocabularyListeningQuiz(), // À créer
 },
   ];
 
