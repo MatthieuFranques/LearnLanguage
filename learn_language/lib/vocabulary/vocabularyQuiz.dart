@@ -141,7 +141,6 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 

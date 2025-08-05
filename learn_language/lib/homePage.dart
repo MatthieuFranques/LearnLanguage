@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:learn_language/vocabulary/SentenceCompletionQuiz.dart';
 import 'package:learn_language/vocabulary/fastPairQuiz.dart';
 import 'package:learn_language/vocabulary/sentenceRestructureQuiz.dart';
-import 'package:learn_language/vocabulary/trueFalseQuiz.dart';
+import 'package:learn_language/vocabulary/vocabularyListeningQuiz.dart';
 import 'package:learn_language/vocabulary/vocabularyChoiceQuiz.dart';
 import 'package:learn_language/vocabulary/vocabularyQuiz.dart';
 
@@ -33,17 +32,17 @@ class HomePage extends StatelessWidget  {
       'icon': Icons.sort,
       'page': const SentenceRestructureQuiz(),
     },
-    {
-  'title': 'Complétion de phrase',
-  'color': Colors.teal,
-  'icon': Icons.edit_note,
-  'page': const SentenceCompletionQuiz(), // À créer
-},
+//     {
+//   'title': 'Complétion de phrase',
+//   'color': Colors.teal,
+//   'icon': Icons.edit_note,
+//   'page': const SentenceCompletionQuiz(), // À créer
+// },
 {
-  'title': 'Vrai ou Faux',
+  'title': 'Compréhension',
   'color': Colors.redAccent,
-  'icon': Icons.check_circle,
-  'page': const TrueFalseQuiz(), // À créer
+  'icon': Icons.record_voice_over,
+  'page': const VocabularyListeningQuiz(), 
 },
   ];
 
@@ -79,11 +78,13 @@ class HomePage extends StatelessWidget  {
               ),
               child: Container(
                 decoration: BoxDecoration(
+                  // ignore: deprecated_member_use
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: color),
                   boxShadow: [
                     BoxShadow(
+                      // ignore: deprecated_member_use
                       color: color.withOpacity(0.2),
                       blurRadius: 8,
                       offset: const Offset(0, 4),

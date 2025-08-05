@@ -15,12 +15,6 @@ class SentenceRestructureQuiz extends StatefulWidget {
 }
 
 class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
-  final List<String> sentences = [
-    'I am going to the market',
-    'She reads a book every evening',
-    'We are learning Flutter today',
-  ];
-
   late String correctSentence;
   late List<String> shuffledWords;
   List<String> selectedWords = [];
@@ -28,68 +22,65 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
   int currentSentenceIndex = 0;
   final int totalSentences = 8;
   int correctAnswers = 0;
-
-
+  bool isLoading = true; 
 
   @override
   void initState() {
     super.initState();
-    loadNewSentence();
+    loadSentences(); 
   }
 
-   Future<void> loadSentences() async {
+  Future<void> loadSentences() async {
     final String response = await rootBundle.loadString('assets/sentences.json');
     final List data = json.decode(response);
 
-    // Charge un grand nombre de mots (par exemple 50 ou 100)
     List<Sentence> loadedSentences = data.map((e) => Sentence(e['english'], e['french'])).toList();
+    loadedSentences.shuffle();
 
     setState(() {
-      selectedSentences = loadedSentences;
-      // isLoading = false;
-      // isEnglishToFrench = Random().nextBool();
+      selectedSentences = loadedSentences.take(totalSentences).toList();
+      isLoading = false;
     });
+
+    loadNewSentence();
   }
 
-   Future<void> saveScoreOnce() async {
+  Future<void> saveScoreOnce() async {
     await RankingStorage.addWord(
       Ranking('Réorganisation de phrases', correctAnswers.toString())
     );
     print("Sauvegarde du score dans le fichier JSON");
-}
-
- void loadNewSentence() {
-  if (currentSentenceIndex >= totalSentences) {
-      saveScoreOnce();
-    showDialog(
-      context: context,
-      builder: (_) => CustomEndDialog(
-        title: '🎉 Quiz terminé !',
-        message: 'Tu as terminé toutes les phrases !',
-        score: correctAnswers,
-        onReplay: () {
-          currentSentenceIndex = 0;
-          correctAnswers = 0;
-          loadNewSentence();
-        },
-        onQuit: () {
-          Navigator.pop(context);
-          Navigator.pop(context); 
-        },
-      ),
-    );
-    return;
   }
 
-  final random = Random();
-  correctSentence = sentences[random.nextInt(sentences.length)];
-  shuffledWords = correctSentence.split(' ')..shuffle();
-  selectedWords.clear();
-  currentSentenceIndex++;
-  setState(() {});
-}
+  void loadNewSentence() {
+    if (currentSentenceIndex >= totalSentences) {
+      saveScoreOnce();
+      showDialog(
+        context: context,
+        builder: (_) => CustomEndDialog(
+          title: '🎉 Quiz terminé !',
+          message: 'Tu as terminé toutes les phrases ! Phrases trouvées : $correctAnswers / $totalSentences.',
+          score: correctAnswers,
+          onReplay: () {
+            currentSentenceIndex = 0;
+            correctAnswers = 0;
+            loadNewSentence();
+          },
+          onQuit: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        ),
+      );
+      return;
+    }
 
-
+    final sentence = selectedSentences[currentSentenceIndex];
+    correctSentence = sentence.english;
+    shuffledWords = correctSentence.split(' ')..shuffle();
+    selectedWords.clear();
+    setState(() {});
+  }
 
   void onWordSelected(String word) {
     if (selectedWords.contains(word)) return;
@@ -97,40 +88,40 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     setState(() {});
   }
 
-void onValidate() {
-  final result = selectedWords.join(' ');
-  final isCorrect = result == correctSentence;
+  void onValidate() {
+    final result = selectedWords.join(' ');
+    final isCorrect = result == correctSentence;
 
-  if (isCorrect) {
-    correctAnswers++; // ✅ Incrémentation
-  }
+    if (isCorrect) {
+      correctAnswers++;
+    }
 
-  showDialog(
-    context: context,
-    builder: (_) => AlertDialog(
-      title: Text(isCorrect ? '✅ Bonne réponse !' : '❌ Incorrect'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Phrase attendue :\n"$correctSentence"'),
-          const SizedBox(height: 12),
-          Text('Phrases trouvées : $correctAnswers'),
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(isCorrect ? '✅ Bonne réponse !' : '❌ Incorrect'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Phrase attendue :\n"$correctSentence"'),
+            const SizedBox(height: 12),
+            Text('Phrases trouvées : $correctAnswers'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              currentSentenceIndex++; // ✅ Avance après validation
+              loadNewSentence();
+            },
+            child: const Text('Suivant'),
+          )
         ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-            loadNewSentence();
-          },
-          child: const Text('Suivant'),
-        )
-      ],
-    ),
-  );
-}
-
+    );
+  }
 
   void onClear() {
     selectedWords.clear();
@@ -140,6 +131,13 @@ void onValidate() {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Restructure la phrase'),
@@ -148,11 +146,9 @@ void onValidate() {
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: 
-         Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-
             Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
@@ -162,17 +158,16 @@ void onValidate() {
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
                   children: [
-                   Text(
-                    'Phrase $currentSentenceIndex / $totalSentences',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-
-                  const SizedBox(height: 16),
-                   const Text(
-                      'Remets la phrase dans le bon ordre :',
-                      style:  TextStyle(fontSize: 18),
+                    Text(
+                      'Phrase ${currentSentenceIndex + 1} / $totalSentences',
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                     const SizedBox(height: 16),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Remets la phrase dans le bon ordre :',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(height: 16),
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
