@@ -14,11 +14,6 @@ class WordSelectionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final words = ocrResult.text
-        .split(RegExp(r'\s+'))
-        .where((w) => w.trim().isNotEmpty)
-        .toList();
-
     return Dialog(
       insetPadding: const EdgeInsets.all(16),
       child: ConstrainedBox(

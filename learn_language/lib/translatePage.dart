@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learn_language/components/alphabetTrainer.dart';
-import 'package:learn_language/components/primaryButton.dart';
+import 'package:learn_language/components/conjugationTrainer.dart';
+import 'package:learn_language/components/grammarTrainer.dart';
 import 'package:learn_language/components/primaryIconButton.dart';
 import 'package:learn_language/components/translationCard.dart';
 import 'package:learn_language/controllers/homePageController.dart';
@@ -90,9 +91,19 @@ class _HomePageState extends State<TranslatePage> {
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
-      body: Column(
+      body: 
+      SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
           children: [
-            TranslationCard(
+             ExpansionTile(
+            title: Text(
+              'Traduction',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+            ),
+            initiallyExpanded: true,
+          children: [
+              TranslationCard(
               isEnglishToFrench: _controller.isEnglishToFrench,
               englishController: _controller.englishController,
               frenchController: _controller.frenchController,
@@ -128,10 +139,36 @@ class _HomePageState extends State<TranslatePage> {
                 }
               },
             ),
-            const Expanded(
-            child: AlphabetTrainer(),  
-          ),
-          ]
-    ));
+          ]), 
+          ExpansionTile(
+            title: Text(
+              'Alphabet',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+            ),
+            initiallyExpanded: false,
+          children: const [
+             AlphabetTrainer(),          
+          ]),           
+            ExpansionTile(
+            title: Text(
+              'Conjugaison : To Be',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+            ),
+            initiallyExpanded: false,
+          children: const [
+             ConjugationTrainer(),          
+          ]),
+          ExpansionTile(
+            title: Text(
+              '📚 Grammaire anglaise',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+            ),
+            initiallyExpanded: false,
+          children: const [
+             GrammarTrainer(),  
+          ]),
+          ])
+    )
+    );
   }
 }

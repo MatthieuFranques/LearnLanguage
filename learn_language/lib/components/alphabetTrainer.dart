@@ -97,15 +97,9 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: ExpansionTile(
-            title: Text(
-              'Alphabet',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
-            ),
-            initiallyExpanded: false,
+        child: Column(
           children: [
             const Text(
               'Clique sur une lettre pour l’entendre et voir sa prononciation.',
@@ -144,7 +138,6 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
               ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
