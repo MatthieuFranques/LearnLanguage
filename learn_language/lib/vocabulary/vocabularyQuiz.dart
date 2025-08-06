@@ -163,69 +163,71 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
       appBar: const CustomAppBar(title: 'Quiz Quotidien'),
       body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: SizedBox.expand(
-              // prend tout l’espace disponible
-              child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // centre verticalement
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Mot ${currentIndex + 1} sur ${words.length}',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Traduire en $direction',
-                            style: const TextStyle(
-                              fontSize: 20,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            questionWord,
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: theme.primaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  TextField(
-                    controller: _controller,
-                    onChanged: (value) => userAnswer = value,
-                    decoration: InputDecoration(
-                      labelText: 'Votre réponse',
-                      border: OutlineInputBorder(
+          Align(
+            alignment: const Alignment(0,
+                -0.5), // centré horizontalement, un peu plus haut verticalement
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.center, // centre verticalement
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      prefixIcon: const Icon(Icons.edit),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Mot ${currentIndex + 1} sur ${words.length}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Traduire en $direction',
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              questionWord,
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: theme.primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  PrimaryButton(text: 'Vérifier', onPressed: checkAnswer),
-                  const SizedBox(height: 120),
-                ],
+                    const SizedBox(height: 72),
+                    TextField(
+                      controller: _controller,
+                      onChanged: (value) => userAnswer = value,
+                      decoration: InputDecoration(
+                        labelText: 'Votre réponse',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        prefixIcon: const Icon(Icons.edit),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    PrimaryButton(text: 'Vérifier', onPressed: checkAnswer),
+                  ],
+                ),
               ),
             ),
           ),

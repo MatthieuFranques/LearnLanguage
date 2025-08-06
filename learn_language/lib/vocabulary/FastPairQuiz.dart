@@ -8,6 +8,7 @@ import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class FastPairQuiz extends StatefulWidget {
   const FastPairQuiz({super.key});
@@ -207,7 +208,6 @@ class _FastPairQuizState extends State<FastPairQuiz> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     if (isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -215,72 +215,73 @@ class _FastPairQuizState extends State<FastPairQuiz> {
     }
 
     return Scaffold(
-        appBar: const CustomAppBar(title: 'Quiz de rapidité'),
-        body: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 48),
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Trouver le plus de paires possible.',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          LinearProgressIndicator(
-                            value: (gameDuration - timeLeft) / gameDuration,
-                            minHeight: 8,
-                            backgroundColor: Colors.grey[300],
-                            valueColor:
-                                AlwaysStoppedAnimation(theme.primaryColor),
-                          ),
-                          Text(
-                            '$timeLeft s',
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+      appBar: const CustomAppBar(title: 'Quiz de rapidité'),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 86.0, left: 24.0, right: 24.0),
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Trouver le plus de paires possible.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: frenchWords.map(buildWordBox).toList(),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: englishWords.map(buildWordBox).toList(),
-                          ),
-                        ),
-                      ],
+                    const SizedBox(height: 16),
+                    LinearProgressIndicator(
+                      value: (gameDuration - timeLeft) / gameDuration,
+                      minHeight: 8,
+                      backgroundColor: Colors.grey[300],
+                      valueColor:
+                          const AlwaysStoppedAnimation(AppColors.primary),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    Text(
+                      '$timeLeft s',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const FooterWave()
-          ],
-        ));
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: frenchWords.map(buildWordBox).toList(),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: englishWords.map(buildWordBox).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const FooterWave(), // placé naturellement en bas
+        ],
+      ),
+    );
   }
 }

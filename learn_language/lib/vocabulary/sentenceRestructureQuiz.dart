@@ -5,9 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/footerWave.dart';
+import 'package:learn_language/components/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/sentence.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class SentenceRestructureQuiz extends StatefulWidget {
   const SentenceRestructureQuiz({super.key});
@@ -135,8 +137,6 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     if (isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -144,87 +144,99 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     }
 
     return Scaffold(
-        appBar: const CustomAppBar(title: 'Restructurer la phrase'),
-        body: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Phrase ${currentSentenceIndex + 1} / $totalSentences',
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 16),
-                          const Text(
-                            'Remets la phrase dans le bon ordre :',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          const SizedBox(height: 16),
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: shuffledWords.map((word) {
-                              final alreadyUsed = selectedWords.contains(word);
-                              return ElevatedButton(
-                                onPressed: alreadyUsed
-                                    ? null
-                                    : () => onWordSelected(word),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      alreadyUsed ? Colors.grey[300] : null,
-                                ),
-                                child: Text(word),
-                              );
-                            }).toList(),
-                          ),
-                        ],
+      appBar: const CustomAppBar(title: 'Restructurer la phrase'),
+      body: Stack(
+        children: [
+          Align(
+            alignment: const Alignment(0,
+                -0.5), // centré horizontalement, un peu plus haut verticalement
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Phrase ${currentSentenceIndex + 1} / $totalSentences',
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'Remets la phrase dans le bon ordre :',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            const SizedBox(height: 16),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: shuffledWords.map((word) {
+                                final alreadyUsed =
+                                    selectedWords.contains(word);
+                                return ElevatedButton(
+                                  onPressed: alreadyUsed
+                                      ? null
+                                      : () => onWordSelected(word),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: alreadyUsed
+                                        ? Colors.grey[300]
+                                        : AppColors.buttonHover,
+                                  ),
+                                  child: Text(word),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 32),
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      selectedWords.join(' '),
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: selectedWords.isNotEmpty ? onValidate : null,
-                        icon: const Icon(Icons.check),
-                        label: const Text('Valider'),
+                    const SizedBox(height: 68),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      const SizedBox(width: 12),
-                      TextButton(
-                        onPressed: onClear,
-                        child: const Text('Réinitialiser'),
+                      child: Text(
+                        selectedWords.join(' '),
+                        style: const TextStyle(fontSize: 20),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(height: 42),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed:
+                              selectedWords.isNotEmpty ? onValidate : null,
+                          icon: const Icon(Icons.check),
+                          label: const Text('Valider'),
+                        ),
+                        const SizedBox(width: 12),
+                        TextButton(
+                          onPressed: onClear,
+                          child: const Text('Réinitialiser'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            const FooterWave()
-          ],
-        ));
+          ),
+          const FooterWave(),
+        ],
+      ),
+    );
   }
 }

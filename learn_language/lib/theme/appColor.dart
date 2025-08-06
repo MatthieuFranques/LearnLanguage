@@ -13,6 +13,16 @@ class AppColors {
   // Couleurs complémentaires / UI
   static const background = Color(0xFFF9F6F1); // Crème / Ivoire
   static const card = Color(0xFFFFFFFF); // Blanc pur
+  static const border = Color(0xFFB0B0B0); // Gris clair pour les bordures
+  static const shadow = Color(0xFFE0E0E0); // Gris clair pour les ombres
+  static const highlight =
+      Color(0xFFFFB3A7); // Corail doux pour les éléments interactifs
+  static const button = Color(0xFF4CE0D2); // Menthe pour les boutons
+  static const buttonHover = Color(0xFF22AAA1); // Turquoise foncé pour hover
+  static const buttonDisabled =
+      Color(0xFFB0B0B0); // Gris clair pour les boutons désactivés
+  static const buttonText =
+      Color(0xFF041B15); // Texte des boutons (noir profond)
 
   // Texte
   static const textPrimary = Color(0xFF041B15); // Noir profond (de ta palette)

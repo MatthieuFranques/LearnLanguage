@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class AlphabetTrainer extends StatefulWidget {
   const AlphabetTrainer({super.key});
@@ -15,17 +16,57 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
   bool _isSpeaking = false;
 
   final Map<String, String> phoneticMap = {
-    'A': '[ei]', 'E': '[i:]', 'I': '[ai]', 'O': '[əʊ]', 'U': '[ju:]',
-    'B': '[bi:]', 'C': '[si:]', 'D': '[di:]', 'F': '[ef]', 'G': '[dʒi:]',
-    'H': '[eitʃ]', 'J': '[dʒei]', 'K': '[kei]', 'L': '[el]', 'M': '[em]',
-    'N': '[en]', 'P': '[pi:]', 'Q': '[kju:]', 'R': '[ɑ:]', 'S': '[es]',
-    'T': '[ti:]', 'V': '[vi:]', 'W': '[ˈdʌblju:]', 'X': '[eks]', 'Y': '[wai]', 'Z': '[zed]',
+    'A': '[ei]',
+    'E': '[i:]',
+    'I': '[ai]',
+    'O': '[əʊ]',
+    'U': '[ju:]',
+    'B': '[bi:]',
+    'C': '[si:]',
+    'D': '[di:]',
+    'F': '[ef]',
+    'G': '[dʒi:]',
+    'H': '[eitʃ]',
+    'J': '[dʒei]',
+    'K': '[kei]',
+    'L': '[el]',
+    'M': '[em]',
+    'N': '[en]',
+    'P': '[pi:]',
+    'Q': '[kju:]',
+    'R': '[ɑ:]',
+    'S': '[es]',
+    'T': '[ti:]',
+    'V': '[vi:]',
+    'W': '[ˈdʌblju:]',
+    'X': '[eks]',
+    'Y': '[wai]',
+    'Z': '[zed]',
   };
 
   final List<String> vowels = ['A', 'E', 'I', 'O', 'U'];
   final List<String> consonants = [
-    'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M',
-    'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'
+    'B',
+    'C',
+    'D',
+    'F',
+    'G',
+    'H',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z'
   ];
 
   Future<void> _speakLetter(String letter) async {
@@ -65,12 +106,14 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
-              color: isSelected ? theme.colorScheme.primary.withOpacity(0.85) : Colors.grey[200],
+              color: isSelected
+                  ? AppColors.primary.withOpacity(0.85)
+                  : AppColors.border,
               borderRadius: BorderRadius.circular(10),
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: theme.colorScheme.primary.withOpacity(0.4),
+                        color: AppColors.primary.withOpacity(0.4),
                         blurRadius: 6,
                         offset: const Offset(0, 3),
                       )
@@ -83,7 +126,8 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: isSelected ? Colors.white : Colors.black87,
+                  color:
+                      isSelected ? AppColors.textHint : AppColors.textPrimary,
                 ),
               ),
             ),
@@ -98,46 +142,39 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
     final theme = Theme.of(context);
 
     return SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Text(
-              'Clique sur une lettre pour l’entendre et voir sa prononciation.',
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Voyelles', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor)),
-            ),
-            const SizedBox(height: 8),
-            _buildLetterGrid(vowels, theme),
-            const SizedBox(height: 24),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Consonnes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor)),
-            ),
-            const SizedBox(height: 8),
-            _buildLetterGrid(consonants, theme),
-
-            const SizedBox(height: 24),
-            if (_selectedLetter != null && _selectedPhonetic != null)
-              Column(
-                children: [
-                  Text(
-                    'Lettre : $_selectedLetter',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Prononciation : $_selectedPhonetic',
-                    style: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-                  ),
-                ],
-              ),
-          ],
-        ),
-      );
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          const Text(
+            'Clique sur une lettre pour l’entendre et voir sa prononciation.',
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Voyelles',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: theme.primaryColor)),
+          ),
+          const SizedBox(height: 8),
+          _buildLetterGrid(vowels, theme),
+          const SizedBox(height: 24),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('Consonnes',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: theme.primaryColor)),
+          ),
+          const SizedBox(height: 8),
+          _buildLetterGrid(consonants, theme),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
   }
 }

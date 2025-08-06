@@ -110,7 +110,7 @@ class _ToolsPageState extends State<ToolsPage> {
         style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: theme.primaryColor),
+            color: theme.primaryColorDark),
       ),
       initiallyExpanded: true,
       children: [
@@ -120,7 +120,6 @@ class _ToolsPageState extends State<ToolsPage> {
           frenchController: _controller.frenchController,
           onToggleDirection: _toggleDirection,
           onAddWord: _addWord,
-          actionButtonColor: theme.colorScheme.secondary,
         ),
         const SizedBox(height: 32),
         PrimaryIconButton(
@@ -140,7 +139,7 @@ class _ToolsPageState extends State<ToolsPage> {
         style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: theme.primaryColor),
+            color: theme.primaryColorDark),
       ),
       initiallyExpanded: false,
       children: const [AlphabetTrainer()],
@@ -154,7 +153,7 @@ class _ToolsPageState extends State<ToolsPage> {
         style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: theme.primaryColor),
+            color: theme.primaryColorDark),
       ),
       initiallyExpanded: false,
       children: const [ConjugationTrainer()],
@@ -164,11 +163,11 @@ class _ToolsPageState extends State<ToolsPage> {
   Widget _buildGrammarSection(ThemeData theme) {
     return ExpansionTile(
       title: Text(
-        '📚 Grammaire anglaise',
+        'Grammaire anglaise',
         style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: theme.primaryColor),
+            color: theme.primaryColorDark),
       ),
       initiallyExpanded: false,
       children: const [GrammarTrainer()],

@@ -8,6 +8,7 @@ import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class VocabularyListeningQuiz extends StatefulWidget {
   const VocabularyListeningQuiz({super.key});
@@ -180,115 +181,126 @@ class _VocabularyListeningQuizState extends State<VocabularyListeningQuiz> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: 'Quiz de vocabulaire audio'),
       body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Mot ${currentIndex + 1} / 10',
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Écoute le mot et choisis la bonne traduction',
-                          style: TextStyle(fontSize: 18),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: speakWord,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.primaryColor,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 32, vertical: 28),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+          Align(
+            alignment: const Alignment(0,
+                -0.5), // centré horizontalement, un peu plus haut verticalement
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Mot ${currentIndex + 1} / 10',
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          child: const Icon(
-                            Icons.volume_up,
-                            size: 32,
-                          ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'Écoute le mot et choisis la bonne traduction',
+                              style: TextStyle(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: speakWord,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: theme.primaryColor,
+                                foregroundColor: AppColors.card,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 32, vertical: 28),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Icon(
+                                Icons.volume_up,
+                                size: 32,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    final availableWidth = constraints.maxWidth;
-                    final spacing = 16.0;
-                    final buttonWidth = (availableWidth - spacing) / 2;
+                    const SizedBox(height: 72),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final availableWidth = constraints.maxWidth;
+                        const spacing = 16.0;
+                        final buttonWidth = (availableWidth - spacing) / 2;
 
-                    return Wrap(
-                      spacing: spacing,
-                      runSpacing: spacing,
-                      children: _options.map((option) {
-                        Color backgroundColor;
-                        Color foregroundColor;
+                        return Wrap(
+                          spacing: spacing,
+                          runSpacing: spacing,
+                          children: _options.map((option) {
+                            // Définir les couleurs par défaut
+                            Color backgroundColor = AppColors.buttonHover;
+                            Color foregroundColor = AppColors.card;
 
-                        if (_answered) {
-                          if (option == _correctAnswer) {
-                            backgroundColor = Colors.green;
-                            foregroundColor = Colors.white;
-                          } else if (_attemptCount > 0 &&
-                              option != _correctAnswer) {
-                            backgroundColor = Colors.red.shade300;
-                            foregroundColor = Colors.white;
-                          } else {
-                            backgroundColor = theme.colorScheme.secondary;
-                            foregroundColor = Colors.white;
-                          }
-                        } else {
-                          backgroundColor = theme.colorScheme.secondary;
-                          foregroundColor = Colors.white;
-                        }
+                            // Gestion des états après réponse
+                            if (_answered) {
+                              if (option == _correctAnswer) {
+                                backgroundColor = AppColors.success;
+                                foregroundColor = AppColors.card;
+                              } else if (_attemptCount > 0 &&
+                                  option != _correctAnswer) {
+                                backgroundColor = AppColors.buttonHover;
+                                foregroundColor = AppColors.card;
+                              } else {
+                                backgroundColor = AppColors.buttonDisabled;
+                                foregroundColor = AppColors.card;
+                              }
+                            }
 
-                        return SizedBox(
-                          width: buttonWidth,
-                          child: ElevatedButton(
-                            onPressed:
-                                _answered ? null : () => checkAnswer(option),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: backgroundColor,
-                              foregroundColor: foregroundColor,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                            return SizedBox(
+                              width: buttonWidth,
+                              child: ElevatedButton(
+                                onPressed: _answered
+                                    ? null
+                                    : () => checkAnswer(option),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: backgroundColor,
+                                  foregroundColor: foregroundColor,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 14),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                  disabledBackgroundColor:
+                                      AppColors.buttonDisabled,
+                                  disabledForegroundColor:
+                                      AppColors.textDisabled,
+                                  elevation: 2,
+                                  shadowColor: AppColors.shadow,
+                                ),
+                                child: Text(option),
                               ),
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            child: Text(option),
-                          ),
+                            );
+                          }).toList(),
                         );
-                      }).toList(),
-                    );
-                  },
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 120), // <-- espace pour le FooterWave
-              ],
+              ),
             ),
           ),
-          const FooterWave(), // <-- fixé en bas, sans padding
+          const FooterWave(),
         ],
       ),
     );

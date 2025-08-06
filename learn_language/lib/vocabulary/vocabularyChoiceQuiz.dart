@@ -9,6 +9,7 @@ import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class VocabularyChoiceQuiz extends StatefulWidget {
   const VocabularyChoiceQuiz({super.key});
@@ -178,79 +179,81 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: 'Quiz Choix'),
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Mot ${currentIndex + 1} / 10',
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Traduire en $direction',
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          question,
-                          style: TextStyle(
-                            fontSize: 28,
-                            color: theme.primaryColor,
-                            fontWeight: FontWeight.bold,
+            child: SizedBox.expand(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Mot ${currentIndex + 1} / 10',
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 16),
+                          Text(
+                            'Traduire en $direction',
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            question,
+                            style: const TextStyle(
+                              fontSize: 28,
+                              color: AppColors.textPrimary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 24),
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    final availableWidth = constraints.maxWidth;
-                    final buttonWidth =
-                        (availableWidth - 16) / 2; // 16 = spacing
+                  const SizedBox(height: 24),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final availableWidth = constraints.maxWidth;
+                      final buttonWidth =
+                          (availableWidth - 16) / 2; // 16 = spacing
 
-                    return Wrap(
-                      spacing: 16, // espace horizontal entre boutons
-                      runSpacing: 16, // espace vertical entre lignes
-                      children: options.map((option) {
-                        return SizedBox(
-                          width: buttonWidth,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey[200],
-                              foregroundColor: Colors.black87,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                      return Wrap(
+                        spacing: 16, // espace horizontal entre boutons
+                        runSpacing: 16, // espace vertical entre lignes
+                        children: options.map((option) {
+                          return SizedBox(
+                            width: buttonWidth,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.buttonHover,
+                                foregroundColor: AppColors.textHint,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
+                              onPressed: () => checkAnswer(option),
+                              child: Text(option,
+                                  style: const TextStyle(fontSize: 18)),
                             ),
-                            onPressed: () => checkAnswer(option),
-                            child: Text(option,
-                                style: const TextStyle(fontSize: 18)),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  },
-                )
-              ],
+                          );
+                        }).toList(),
+                      );
+                    },
+                  )
+                ],
+              ),
             ),
           ),
           const FooterWave(),
