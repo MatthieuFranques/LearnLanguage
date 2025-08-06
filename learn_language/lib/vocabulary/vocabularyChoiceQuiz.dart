@@ -41,12 +41,16 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
     final String response = await rootBundle.loadString('assets/words.json');
     final List data = json.decode(response);
 
-    // Charge un grand nombre de mots (par exemple 50 ou 100)
-    List<Word> loadedWords =
+    List<Word> allWords =
         data.map((e) => Word(e['english'], e['french'])).toList();
 
+    allWords.shuffle(); // mélange tous les mots
+
+// Prend les 10 premiers mots après mélange
+    List<Word> selectedWords = allWords.take(10).toList();
+
     setState(() {
-      words = loadedWords;
+      words = selectedWords;
       isLoading = false;
       isEnglishToFrench = Random().nextBool();
     });

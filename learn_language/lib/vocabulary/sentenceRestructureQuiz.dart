@@ -200,7 +200,7 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 68),
+                    const SizedBox(height: 24),
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
