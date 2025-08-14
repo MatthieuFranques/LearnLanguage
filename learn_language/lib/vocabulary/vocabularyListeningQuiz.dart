@@ -6,9 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/footerWave.dart';
+import 'package:learn_language/components/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
 import 'package:learn_language/theme/appColor.dart';
+import 'package:learn_language/theme/appGradients.dart';
 
 class VocabularyListeningQuiz extends StatefulWidget {
   const VocabularyListeningQuiz({super.key});
@@ -209,24 +211,23 @@ class _VocabularyListeningQuizState extends State<VocabularyListeningQuiz> {
                             const SizedBox(height: 16),
                             const Text(
                               'Écoute le mot et choisis la bonne traduction',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: speakWord,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: theme.primaryColor,
-                                foregroundColor: AppColors.card,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 32, vertical: 28),
-                                shape: RoundedRectangleBorder(
+                            GestureDetector(
+                              onTap: speakWord,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 28),
+                                decoration: BoxDecoration(
+                                  gradient: AppGradients.primaryGradientTop,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                              ),
-                              child: const Icon(
-                                Icons.volume_up,
-                                size: 32,
+                                child: const Icon(
+                                  Icons.volume_up,
+                                  size: 32,
+                                  color: AppColors.card, 
+                                ),
                               ),
                             ),
                           ],
@@ -240,59 +241,34 @@ class _VocabularyListeningQuizState extends State<VocabularyListeningQuiz> {
                         const spacing = 16.0;
                         final buttonWidth = (availableWidth - spacing) / 2;
 
-                        return Wrap(
-                          spacing: spacing,
-                          runSpacing: spacing,
-                          children: _options.map((option) {
-                            // Définir les couleurs par défaut
-                            Color backgroundColor = AppColors.buttonHover;
-                            Color foregroundColor = AppColors.card;
+                      return Wrap(
+                        spacing: spacing,
+                        runSpacing: spacing,
+                        children: _options.map((option) {
+                          bool disabled = false;
+                          Gradient gradient = AppGradients.primaryGradient;
 
-                            // Gestion des états après réponse
-                            if (_answered) {
-                              if (option == _correctAnswer) {
-                                backgroundColor = AppColors.success;
-                                foregroundColor = AppColors.card;
-                              } else if (_attemptCount > 0 &&
-                                  option != _correctAnswer) {
-                                backgroundColor = AppColors.buttonHover;
-                                foregroundColor = AppColors.card;
-                              } else {
-                                backgroundColor = AppColors.buttonDisabled;
-                                foregroundColor = AppColors.card;
-                              }
+                          // Gestion des états après réponse
+                          if (_answered) {
+                            if (option == _correctAnswer) {
+                              gradient = AppGradients.successGradient; // bouton vert
+                            } else if (_attemptCount > 0 && option != _correctAnswer) {
+                              gradient = AppGradients.primaryGradient; // gradient normal
+                            } else {
+                              gradient = AppGradients.errorGradient; // bouton rouge
+                              disabled = true;
                             }
-
-                            return SizedBox(
-                              width: buttonWidth,
-                              child: ElevatedButton(
-                                onPressed: _answered
-                                    ? null
-                                    : () => checkAnswer(option),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: backgroundColor,
-                                  foregroundColor: foregroundColor,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 14),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                  disabledBackgroundColor:
-                                      AppColors.buttonDisabled,
-                                  disabledForegroundColor:
-                                      AppColors.textDisabled,
-                                  elevation: 2,
-                                  shadowColor: AppColors.shadow,
-                                ),
-                                child: Text(option),
-                              ),
-                            );
-                          }).toList(),
-                        );
+                          }
+                          return SizedBox(
+                            width: buttonWidth,
+                            child: PrimaryButton(
+                              text: option,
+                              onPressed: _answered ? null : () => checkAnswer(option),
+                              disabled: disabled,
+                            ),
+                          );
+                        }).toList(),
+                      );
                       },
                     ),
                   ],
