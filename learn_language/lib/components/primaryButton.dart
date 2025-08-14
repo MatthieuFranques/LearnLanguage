@@ -3,7 +3,7 @@ import 'package:learn_language/theme/appGradients.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? backgroundColor;
   final double height;
 

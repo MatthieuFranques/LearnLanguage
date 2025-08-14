@@ -6,6 +6,7 @@ import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/components/primaryButton.dart';
+import 'package:learn_language/components/primaryIconButton.dart';
 import 'package:learn_language/components/secondaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/sentence.dart';
@@ -136,6 +137,13 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     setState(() {});
   }
 
+  VoidCallback? getValidateCallback() {
+  if (selectedWords.isNotEmpty) {
+    return onValidate;
+  }
+  return null;
+}
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -204,33 +212,49 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                     ),
                     const SizedBox(height: 24),
                     Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppColors.shadow,
-                        borderRadius: BorderRadius.circular(12),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: AppColors.shadow,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                selectedWords.join(' '),
+                                style: const TextStyle(fontSize: 20),
+                                softWrap: true, 
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.replay_outlined, size: 24),
+                              onPressed: onClear,
+                              splashRadius: 20,
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Text(
-                        selectedWords.join(' '),
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ),
+
                     const SizedBox(height: 42),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton.icon(
-                          onPressed:
-                              selectedWords.isNotEmpty ? onValidate : null,
-                          icon: const Icon(Icons.check),
-                          label: const Text('Valider'),
+                        Expanded(
+                          child: PrimaryButton(
+                            onPressed: getValidateCallback(),
+                            text: 'Valider',
+                          ),
                         ),
                         const SizedBox(width: 12),
-                        TextButton(
-                          onPressed: onClear,
-                          child: const Text('Réinitialiser'),
-                        ),
+                        // SecondaryButton(
+                        //   onPressed: onClear,
+                        //   text: 'Réinitialiser', 
+                        // ),
                       ],
                     ),
+
                   ],
                 ),
               ),

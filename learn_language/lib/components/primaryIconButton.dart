@@ -4,7 +4,7 @@ import 'package:learn_language/theme/appGradients.dart';
 class PrimaryIconButton extends StatelessWidget {
   final String text;
   final IconData icon;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? backgroundColor;
   final double height;
 
@@ -18,8 +18,9 @@ class PrimaryIconButton extends StatelessWidget {
   });
 
  @override
- @override
   Widget build(BuildContext context) {
+    final isDisabled = onPressed == null;
+
     return SizedBox(
       width: double.infinity,
       height: height,
@@ -35,7 +36,9 @@ class PrimaryIconButton extends StatelessWidget {
         ),
         child: Ink(
           decoration: BoxDecoration(
-            gradient: AppGradients.primaryGradient,
+            gradient: isDisabled
+            ? LinearGradient(colors: [Colors.grey[400]!, Colors.grey[500]!]) 
+            : AppGradients.primaryGradient,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Container(
