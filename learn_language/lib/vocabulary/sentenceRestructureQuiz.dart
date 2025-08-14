@@ -6,6 +6,7 @@ import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/components/primaryButton.dart';
+import 'package:learn_language/components/secondaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/sentence.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
@@ -120,7 +121,7 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              currentSentenceIndex++; // ✅ Avance après validation
+              currentSentenceIndex++; 
               loadNewSentence();
             },
             child: const Text('Suivant'),
@@ -183,13 +184,14 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                               children: shuffledWords.map((word) {
                                 final alreadyUsed =
                                     selectedWords.contains(word);
-                                return ElevatedButton(
+                                 return 
+                                ElevatedButton(
                                   onPressed: alreadyUsed
                                       ? null
                                       : () => onWordSelected(word),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: alreadyUsed
-                                        ? Colors.grey[300]
+                                        ? AppColors.buttonDisabled
                                         : AppColors.buttonHover,
                                   ),
                                   child: Text(word),
@@ -204,7 +206,7 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200],
+                        color: AppColors.shadow,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(

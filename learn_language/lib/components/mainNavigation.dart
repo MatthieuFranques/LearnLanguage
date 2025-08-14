@@ -3,6 +3,7 @@ import 'package:learn_language/historyPage.dart';
 import 'package:learn_language/homePage.dart';
 import 'package:learn_language/settingsPage.dart';
 import 'package:learn_language/theme/appColor.dart';
+import 'package:learn_language/theme/appGradients.dart';
 import 'package:learn_language/toolsPage.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -42,7 +43,7 @@ class _MainNavigationState extends State<MainNavigation> {
       body: _pages[_currentIndex],
       bottomNavigationBar: MediaQuery.removePadding(
         context: context,
-        removeBottom: true, // enlève le padding système en bas (safe area)
+        removeBottom: true, 
         child: SizedBox(
           height: 120,
           child: Stack(
@@ -53,7 +54,9 @@ class _MainNavigationState extends State<MainNavigation> {
                 child: Container(
                   height: 120,
                   width: double.infinity,
-                  color: AppColors.primary,
+                  decoration: const BoxDecoration(   
+                    gradient: AppGradients.primaryGradientTop,
+                  ),
                 ),
               ),
               Positioned(
@@ -72,17 +75,11 @@ class _MainNavigationState extends State<MainNavigation> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: isSelected
-                                  ? AppColors.secondary.withOpacity(0.5)
-                                  : Colors.transparent,
-                            ),
                             child: Icon(
                               _icons[index],
                               color: isSelected
                                   ? AppColors.textPrimary
-                                  : AppColors.textHint,
+                                  : AppColors.textcolorBg,
                               size: 28,
                             ),
                           ),
@@ -93,7 +90,7 @@ class _MainNavigationState extends State<MainNavigation> {
                               fontSize: 14,
                               color: isSelected
                                   ? AppColors.textPrimary
-                                  : AppColors.textHint,
+                                  : AppColors.textcolorBg,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

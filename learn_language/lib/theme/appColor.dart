@@ -2,39 +2,43 @@ import 'dart:ui';
 
 class AppColors {
   // Palette principale
-  static const primary = Color(0xFF4CE0D2); // Menthe principale
-  static const primaryLight = Color(0xFF84CAE7); // Bleu doux
-  static const primaryDark = Color(0xFF22AAA1); // Turquoise foncé
+  static const primary = Color(0xFF00B4D8); // Bleu turquoise
+  static const primaryLight = Color(0xFF90E0EF); // Bleu clair aqua
+  static const primaryDark = Color(0xFF0077B6); // Bleu profond océan
+  static const primaryBright = Color(0xFF48CAE4); // Bleu éclatant
 
-  // Tons très sombres (accents ou fond profond)
-  static const dark = Color(0xFF136F63); // Vert très foncé
-  static const darkest = Color(0xFF041B15); // Presque noir, profond
 
-  // Couleurs complémentaires / UI
-  static const background = Color(0xFFF9F6F1); // Crème / Ivoire
+  // Couleur secondaire
+  static const secondary = Color(0xFF22C55E); // Vert sauge
+  static const secondaryLight = Color(0xFF86EFAC); // Vert clair
+  static const secondaryDark = Color(0xFF15803D); // Vert foncé
+
+  // Nouvelle couleur accent
+  static const accentPurple = Color(0xFF8B5CF6); // Violet moderne
+
+  // Tons neutres
+  static const background = Color(0xFFF3F4F6); // Gris clair premium
   static const card = Color(0xFFFFFFFF); // Blanc pur
-  static const border = Color(0xFFB0B0B0); // Gris clair pour les bordures
-  static const shadow = Color(0xFFE0E0E0); // Gris clair pour les ombres
-  static const highlight =
-      Color(0xFFFFB3A7); // Corail doux pour les éléments interactifs
-  static const button = Color(0xFF4CE0D2); // Menthe pour les boutons
-  static const buttonHover = Color(0xFF22AAA1); // Turquoise foncé pour hover
-  static const buttonDisabled =
-      Color(0xFFB0B0B0); // Gris clair pour les boutons désactivés
-  static const buttonText =
-      Color(0xFF041B15); // Texte des boutons (noir profond)
+  static const border = Color(0xFFE5E7EB); // Gris clair
+  static const shadow = Color(0xFFD1D5DB); // Gris ombre
+
+  // Éléments interactifs
+  static const highlight = Color(0xFFF59E0B); // Orange doux
+  static const button = Color(0xFF2563EB); // Bleu ardoise
+  static const buttonHover = Color(0xFF1E3A8A); // Bleu profond
+  static const buttonDisabled = Color(0xFF9CA3AF); // Gris désactivé
+  static const buttonText = Color(0xFFFFFFFF); // Blanc sur bouton
 
   // Texte
-  static const textPrimary = Color(0xFF041B15); // Noir profond (de ta palette)
-  static const textSecondary = Color(0xFF84CAE7); // Bleu clair pour accent
-  static const textTertiary = Color(0xFF136F63); // Vert foncé pour les liens
-  static const textDisabled =
-      Color(0xFFB0B0B0); // Gris clair pour le texte désactivé
-  static const textHint =
-      Color.fromARGB(255, 241, 241, 241); // Gris clair pour les indices
+  static const textPrimary = Color(0xFF111827); // Gris très foncé
+  static const textSecondary = Color(0xFF2563EB); // Bleu accent
+  static const textTertiary = Color(0xFF22C55E); // Vert accent
+  static const textDisabled = Color(0xFF9CA3AF); // Gris clair
+  static const textHint = Color(0xFF6B7280); // Gris moyen
+  static const textcolorBg =background; // Blanc
+
+
   // États
-  static const success = Color(0xFF22AAA1); // Utilise comme success color
-  static const error = Color(0xFFFFB3A7); // Corail doux (garde ton ancienne)
-  // Accent secondaire (optionnel)
-  static const secondary = Color(0xFFFAD4D8); // Rose poudré
+  static const success = Color(0xFF22C55E); // Vert sauge
+  static const error = Color(0xFFDC2626); // Rouge vif
 }

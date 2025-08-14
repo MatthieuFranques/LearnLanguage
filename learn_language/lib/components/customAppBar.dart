@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn_language/theme/appColor.dart';
+import 'package:learn_language/theme/appGradients.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -23,7 +24,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           clipper: InvertedCurveClipper(),
           child: Container(
             height: preferredSize.height,
-            color: AppColors.primary, // Utilise la couleur primaire
+             decoration: const BoxDecoration(   
+                gradient: AppGradients.primaryGradientTop,
+              ),
           ),
         ),
         // Titre centré
@@ -35,7 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Text(
               title,
               style: const TextStyle(
-                color: Colors.black87,
+                color: AppColors.textPrimary,
                 fontSize: 27,
                 fontWeight: FontWeight.w800,
               ),
@@ -48,7 +51,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             top: 25,
             left: 16,
             child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: AppColors.secondary),
+              icon: const Icon(Icons.arrow_back, color: AppColors.buttonText),
               onPressed: () {
                 Navigator.of(context).maybePop();
               },
