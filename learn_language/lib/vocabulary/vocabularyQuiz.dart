@@ -9,6 +9,7 @@ import 'package:learn_language/components/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class VocabularyQuiz extends StatefulWidget {
   const VocabularyQuiz({super.key});
@@ -139,7 +140,6 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     if (isLoading) {
       return const Scaffold(
@@ -159,7 +159,6 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     final direction = isEnglishToFrench ? 'français' : 'anglais';
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: 'Quiz Quotidien'),
       body: Stack(
         children: [
@@ -196,16 +195,16 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
                               'Traduire en $direction',
                               style: const TextStyle(
                                 fontSize: 20,
-                                color: Colors.black87,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             const SizedBox(height: 12),
                             Text(
                               questionWord,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: theme.primaryColor,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                           ],

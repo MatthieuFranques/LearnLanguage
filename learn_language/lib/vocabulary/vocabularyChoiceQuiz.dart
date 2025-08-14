@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/footerWave.dart';
+import 'package:learn_language/components/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
@@ -164,14 +165,12 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final word = words[currentIndex];
     final question = isEnglishToFrench ? word.english : word.french;
     final direction = isEnglishToFrench ? 'français' : 'anglais';
 
     if (isLoading) {
       return const Scaffold(
-        backgroundColor: Colors.white,
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -209,7 +208,7 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
                           const SizedBox(height: 16),
                           Text(
                             'Traduire en $direction',
-                            style: const TextStyle(fontSize: 18),
+                            style: const TextStyle(fontSize: 18, color: AppColors.textPrimary),
                           ),
                           const SizedBox(height: 12),
                           Text(
@@ -237,20 +236,8 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
                         children: options.map((option) {
                           return SizedBox(
                             width: buttonWidth,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.buttonHover,
-                                foregroundColor: AppColors.textHint,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 14),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              onPressed: () => checkAnswer(option),
-                              child: Text(option,
-                                  style: const TextStyle(fontSize: 18)),
-                            ),
+                            child: 
+                            PrimaryButton(text: option, onPressed: () => checkAnswer(option))
                           );
                         }).toList(),
                       );

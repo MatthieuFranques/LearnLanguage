@@ -9,6 +9,7 @@ import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
 import 'package:learn_language/theme/appColor.dart';
+import 'package:learn_language/theme/appGradients.dart';
 
 class FastPairQuiz extends StatefulWidget {
   const FastPairQuiz({super.key});
@@ -179,31 +180,35 @@ class _FastPairQuizState extends State<FastPairQuiz> {
     if (isMatched) return const SizedBox.shrink();
 
     return GestureDetector(
-      onTap: () => onWordTap(word),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-        decoration: BoxDecoration(
-          color: isWrong
-              ? Colors.red[300]
-              : isSelected
-                  ? Colors.blue[100]
-                  : Colors.grey[200],
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? Colors.blue : Colors.transparent,
-            width: 2,
-          ),
-        ),
-        child: Center(
-          child: Text(
-            word,
-            style: const TextStyle(fontSize: 18, color: Colors.black87),
-          ),
-        ),
+  onTap: () => onWordTap(word),
+  child: AnimatedContainer(
+    duration: const Duration(milliseconds: 250),
+    margin: const EdgeInsets.symmetric(vertical: 6),
+    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+    decoration: BoxDecoration(
+      gradient: (!isSelected && !isWrong)
+          ? AppGradients.primaryGradient 
+          : null,
+      color: isWrong
+          ? Colors.red[300]
+          : isSelected
+              ? Colors.blue[100]
+              : null, 
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(
+        color: isSelected ? Colors.blue : Colors.transparent,
+        width: 2,
       ),
-    );
+    ),
+    child: Center(
+      child: Text(
+        word,
+        style: const TextStyle(fontSize: 18, color: AppColors.buttonText),
+      ),
+    ),
+  ),
+);
+
   }
 
   @override
@@ -237,6 +242,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -253,6 +259,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary
                       ),
                     ),
                   ],
@@ -260,8 +267,10 @@ class _FastPairQuizState extends State<FastPairQuiz> {
               ),
             ),
           ),
-          Expanded(
-            child: Row(
+         Expanded(
+          child:  Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16), 
+              child: Row(
               children: [
                 Expanded(
                   child: Column(
@@ -278,7 +287,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
                 ),
               ],
             ),
-          ),
+          ),),
           const FooterWave(), // placé naturellement en bas
         ],
       ),

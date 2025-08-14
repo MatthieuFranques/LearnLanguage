@@ -51,7 +51,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: const CustomAppBar(title: 'Accueil', showBackButton: false),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
