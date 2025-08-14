@@ -41,4 +41,11 @@ class AppColors {
   // États
   static const success = Color(0xFF22C55E); // Vert sauge
   static const error = Color(0xFFDC2626); // Rouge vif
+
+static const quizBlue = Color(0xFFD0F0FF);      // Bleu très clair
+static const quizBlueDeep = Color(0xFFA0E0FF);  // Bleu clair un peu plus soutenu
+static const quizOrange = Color(0xFFFFE0B2);    // Orange pastel doux
+static const quizGreen = Color(0xFFC8E6C9);     // Vert pastel doux
+static const quizPurple = Color(0xFFE1BEE7);    // Violet pastel doux
+static const quizPink = Color(0xFFF8BBD0);      // Rose pastel doux
 }
