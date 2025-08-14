@@ -186,7 +186,7 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 128),
             child: SizedBox.expand(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
