@@ -3,7 +3,15 @@
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "main.dart.js", "use": "@vercel/static" },
-    { "src": "assets/**", "use": "@vercel/static" }
+    { "src": "flutter_service_worker.js", "use": "@vercel/static" },
+    { "src": "assets/**", "use": "@vercel/static" },
+    { "src": "manifest.json", "use": "@vercel/static" }
   ],
-  "routes": [{ "src": "/(.*)", "dest": "/index.html" }]
+  "routes": [
+    {
+      "src": "/(.*\\.js|.*\\.json|.*\\.wasm|.*\\.html|.*\\.png|.*\\.svg|.*\\.css|.*\\.ico|.*\\.txt)$",
+      "dest": "/$1"
+    },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 }
