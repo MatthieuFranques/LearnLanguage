@@ -78627,7 +78627,7 @@ return A.I($async$Cj,r)},
 K(a){var s=this.d
 s=new A.a_(s,new A.ahj(),A.U(s).i("a_<1,n>")).iz(0)
 A.X(s,!0,A.k(s).c)
-return A.lY(B.Ce,null,this.r?B.lq:B.AS,null)}}
+return A.lY(B.Cd,null,this.r?B.lq:B.AS,null)}}
 A.ahi.prototype={
 $0(){var s=this.a,r=t.zW
 s.d=A.b([],r)
@@ -78639,7 +78639,7 @@ $1(a){return a.a},
 $S:501}
 A.HB.prototype={
 K(a){var s=null
-return A.lY(B.Cd,B.aA,new A.bo(B.iU,new A.wz(B.Ne,new A.aaE(new A.a14(this),5,!0,!0,!0,s),s,B.ai,!1,s,s,B.z9,!1,s,5,B.W,B.x8,s,B.K,B.am,s),s),s)}}
+return A.lY(B.Cc,B.aA,new A.bo(B.iU,new A.wz(B.Ne,new A.aaE(new A.a14(this),5,!0,!0,!0,s),s,B.ai,!1,s,s,B.z9,!1,s,5,B.W,B.x8,s,B.K,B.am,s),s),s)}}
 A.a14.prototype={
 $2(a,b){var s,r,q,p=null,o=this.a.c[b],n=t.G.a(o.h(0,"color")),m=t.tk.a(o.h(0,"icon")),l=A.bn(o.h(0,"title")),k=t.l7.a(o.h(0,"page")),j=A.S(255,n.gm()>>>16&255,n.gm()>>>8&255,n.gm()&255).a
 j=A.S(j>>>24&255,B.c.aj((n.gm()>>>16&255)*0.99),j>>>8&255,j&255)
@@ -78750,7 +78750,7 @@ o=A.U(r).i("a_<1,f>")
 o=A.lc(A.cr(A.X(new A.a_(r,p,o),!0,o.i("ag.E")),B.C,B.bS,B.T))
 r=m.r
 n=A.U(r).i("a_<1,f>")
-return A.lY(B.Cf,l,A.cr(A.b([new A.bo(B.Di,s,l),A.lc(new A.bo(B.iT,A.ke(A.b([o,B.N7,A.lc(A.cr(A.X(new A.a_(r,p,n),!0,n.i("ag.E")),B.C,B.bS,B.T))],q),B.C,B.F,B.T),l)),B.ej],q),B.C,B.F,B.T),l)}}
+return A.lY(B.Ce,l,A.cr(A.b([new A.bo(B.Di,s,l),A.lc(new A.bo(B.iT,A.ke(A.b([o,B.N7,A.lc(A.cr(A.X(new A.a_(r,p,n),!0,n.i("ag.E")),B.C,B.bS,B.T))],q),B.C,B.F,B.T),l)),B.ej],q),B.C,B.F,B.T),l)}}
 A.ag6.prototype={
 $1(a){var s=J.aT(a)
 return new A.dI(s.h(a,"english"),s.h(a,"french"))},
@@ -78988,7 +78988,7 @@ if(r.w)return B.eJ
 if(r.r)$.Z.p2$.push(new A.ame(r))
 o=A.c4(12)
 s=t.p
-return A.lY(B.Cg,q,A.hl(B.bt,A.b([new A.bo(B.Dg,new A.cH(1/0,1/0,A.cr(A.b([A.ve(new A.bo(B.bO,A.cr(A.b([A.bv("Mot "+(r.e+1)+" / 10",q,q,q,q,B.kj,q,q),B.b2,A.bv("Traduire en "+m,q,q,q,q,B.hG,q,q),B.d2,A.bv(n,q,q,q,q,B.yq,q,q)],s),B.C,B.F,B.T),q),q,4,q,new A.bu(o,B.l)),B.ck,new A.x4(new A.amf(r),q)],s),B.bL,B.F,B.T),q),q),B.ej],s),B.K,B.be),q)}}
+return A.lY(B.Cf,q,A.hl(B.bt,A.b([new A.bo(B.Dg,new A.cH(1/0,1/0,A.cr(A.b([A.ve(new A.bo(B.bO,A.cr(A.b([A.bv("Mot "+(r.e+1)+" / 10",q,q,q,q,B.kj,q,q),B.b2,A.bv("Traduire en "+m,q,q,q,q,B.hG,q,q),B.d2,A.bv(n,q,q,q,q,B.yq,q,q)],s),B.C,B.F,B.T),q),q,4,q,new A.bu(o,B.l)),B.ck,new A.x4(new A.amf(r),q)],s),B.bL,B.F,B.T),q),q),B.ej],s),B.K,B.be),q)}}
 A.amg.prototype={
 $1(a){var s=J.aT(a)
 return new A.dI(s.h(a,"english"),s.h(a,"french"))},
@@ -79118,7 +79118,7 @@ if(q.e.length===0)return B.eJ
 if(q.x)$.Z.p2$.push(new A.amq(q))
 s=A.c4(12)
 r=t.p
-return A.lY(B.Cc,p,A.hl(B.bt,A.b([new A.d1(B.i4,p,p,A.oQ(new A.bo(B.bO,A.cr(A.b([A.ve(new A.bo(B.bO,A.cr(A.b([A.bv("Mot "+(q.f+1)+" / 10",p,p,p,p,B.d4,p,p),B.b2,B.SH,B.b2,A.h7(p,A.dP(p,B.Ew,B.t,p,new A.cp(B.bx,p,p,A.c4(12),p,p,B.ab),p,p,p,B.Dk,p,p,p),B.W,!1,p,p,p,p,p,p,p,p,p,p,p,p,p,q.gWk(),p,p,p,p,p,p)],r),B.C,B.F,B.T),p),p,4,p,new A.bu(s,B.l)),B.y1,new A.x4(new A.amr(q),p)],r),B.bL,B.F,B.T),p),p),p),B.ej],r),B.K,B.be),p)}}
+return A.lY(B.Ci,p,A.hl(B.bt,A.b([new A.d1(B.i4,p,p,A.oQ(new A.bo(B.bO,A.cr(A.b([A.ve(new A.bo(B.bO,A.cr(A.b([A.bv("Mot "+(q.f+1)+" / 10",p,p,p,p,B.d4,p,p),B.b2,B.SH,B.b2,A.h7(p,A.dP(p,B.Ew,B.t,p,new A.cp(B.bx,p,p,A.c4(12),p,p,B.ab),p,p,p,B.Dk,p,p,p),B.W,!1,p,p,p,p,p,p,p,p,p,p,p,p,p,q.gWk(),p,p,p,p,p,p)],r),B.C,B.F,B.T),p),p,4,p,new A.bu(s,B.l)),B.y1,new A.x4(new A.amr(q),p)],r),B.bL,B.F,B.T),p),p),p),B.ej],r),B.K,B.be),p)}}
 A.amv.prototype={
 $1(a){var s=J.aT(a),r=t.N
 return A.am(["english",A.bn(s.h(a,"english")),"french",A.bn(s.h(a,"french"))],r,r)},
@@ -79257,7 +79257,7 @@ m=t.p
 p=A.ve(new A.bo(B.bO,A.cr(A.b([A.bv("Mot "+(r+1)+" sur "+s.length,k,k,k,k,B.d4,k,k),B.b2,A.bv("Traduire en "+n,k,k,k,k,B.Qy,k,k),B.d2,A.bv(o,k,k,k,k,B.yq,k,k)],m),B.C,B.F,B.T),k),k,4,k,new A.bu(p,B.l))
 s=l.y
 s===$&&A.a()
-return A.lY(B.Ci,k,A.hl(B.bt,A.b([new A.d1(B.i4,k,k,A.oQ(new A.bo(B.bO,A.cr(A.b([p,B.y1,A.aqM(s,k,A.a1X(k,new A.en(4,A.c4(12),B.ia),k,k,k,k,k,k,!0,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,"Votre r\xe9ponse",k,B.Eo,k,k,k,k,k,k,k,k,k,k,k),new A.amD(l),!1,k),B.ck,A.Ji(!1,B.cL,50,l.gae7(),"V\xe9rifier")],m),B.bL,B.bS,B.T),k),k),k),B.ej],m),B.K,B.be),k)}}
+return A.lY(B.Ch,k,A.hl(B.bt,A.b([new A.d1(B.i4,k,k,A.oQ(new A.bo(B.bO,A.cr(A.b([p,B.y1,A.aqM(s,k,A.a1X(k,new A.en(4,A.c4(12),B.ia),k,k,k,k,k,k,!0,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,"Votre r\xe9ponse",k,B.Eo,k,k,k,k,k,k,k,k,k,k,k),new A.amD(l),!1,k),B.ck,A.Ji(!1,B.cL,50,l.gae7(),"V\xe9rifier")],m),B.bL,B.bS,B.T),k),k),k),B.ej],m),B.K,B.be),k)}}
 A.amE.prototype={
 $1(a){var s=J.aT(a)
 return new A.dI(s.h(a,"english"),s.h(a,"french"))},
@@ -79366,7 +79366,7 @@ n.toString
 n.f.Aa(B.Nm)}case 1:return A.H(q,r)}})
 return A.I($async$w7,r)},
 K(a){var s=this,r=null,q=s.d,p=t.p
-return A.lY(B.Ch,r,A.oQ(A.cr(A.b([A.apI(A.b([new A.LE(q.a,q.b,q.c,s.gabR(),s.ga_Z(),r),B.Na,new A.Jj("Scanner un mot",B.DZ,s.gaad(),r),B.b2],p),!0,B.Sy),B.Dw,B.Dx,B.Dy],p),B.C,B.F,B.T),B.dn),r)}}
+return A.lY(B.Cg,r,A.oQ(A.cr(A.b([A.apI(A.b([new A.LE(q.a,q.b,q.c,s.gabR(),s.ga_Z(),r),B.Na,new A.Jj("Scanner un mot",B.DZ,s.gaad(),r),B.b2],p),!0,B.Sy),B.Dw,B.Dx,B.Dy],p),B.C,B.F,B.T),B.dn),r)}}
 A.alS.prototype={
 $0(){var s=this.a
 s.d.ajT(s.gOX(),new A.alR(s))},
@@ -84316,13 +84316,13 @@ B.c9=new A.qd(B.kA,null,null,null,null,null,null,null)
 B.b5=new A.Gp(0,"base")
 B.iG=new A.Gp(1,"elevated")
 B.Cb=new A.fZ("Restructurer la phrase",!0,null)
-B.Cc=new A.fZ("Quiz de vocabulaire audio",!0,null)
-B.Cd=new A.fZ("Accueil",!1,null)
-B.Ce=new A.fZ("Historique",!1,null)
-B.Cf=new A.fZ("Quiz de rapidit\xe9",!0,null)
-B.Cg=new A.fZ("Quiz Choix",!0,null)
-B.Ch=new A.fZ("Outils",!1,null)
-B.Ci=new A.fZ("Quiz Quotidien",!0,null)
+B.Cc=new A.fZ("Accueil",!1,null)
+B.Cd=new A.fZ("Historique",!1,null)
+B.Ce=new A.fZ("Quiz de rapidit\xe9",!0,null)
+B.Cf=new A.fZ("Quiz Choix",!0,null)
+B.Cg=new A.fZ("Outils",!1,null)
+B.Ch=new A.fZ("Quiz",!0,null)
+B.Ci=new A.fZ("Quiz audio",!0,null)
 B.Ck=new A.XA(1,"latency")
 B.Cl=new A.vJ(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.Cm=new A.vK(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
