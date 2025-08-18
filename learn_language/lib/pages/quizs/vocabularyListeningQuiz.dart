@@ -93,33 +93,32 @@ class _VocabularyListeningQuizState extends State<VocabularyListeningQuiz> {
     await _tts.speak(_wordToListen);
   }
 
-void checkAnswer(String selected) {
-  if (_answered) return;
+  void checkAnswer(String selected) {
+    if (_answered) return;
 
-  setState(() {
-    if (selected.toLowerCase() == _correctAnswer.toLowerCase()) {
-      _answered = true;
-      correctAnswers++;
-    } else {
+    setState(() {
+      if (selected.toLowerCase() == _correctAnswer.toLowerCase()) {
         _answered = true;
+        correctAnswers++;
+      } else {
+        _answered = true;
+      }
+    });
+
+    if (_answered) {
+      AnswerPopup.show(
+        context,
+        isCorrect: selected.toLowerCase() == _correctAnswer.toLowerCase(),
+        correctAnswer: _correctAnswer,
+        onContinue: () {
+          setState(() {
+            currentIndex++;
+          });
+          prepareQuestion();
+        },
+      );
     }
-  });
-
-  if (_answered) {
-    AnswerPopup.show(
-      context,
-      isCorrect: selected.toLowerCase() == _correctAnswer.toLowerCase(),
-      correctAnswer: _correctAnswer,
-      onContinue: () {
-        setState(() {
-          currentIndex++;
-        });
-        prepareQuestion();
-      },
-    );
   }
-}
-
 
   Future<void> saveScoreOnce() async {
     await RankingStorage.addWord(
@@ -127,31 +126,31 @@ void checkAnswer(String selected) {
     print("Sauvegarde du score dans le fichier JSON");
   }
 
-void showEndDialog() {
-  saveScoreOnce();
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (_) => CustomEndDialog(
-      title: 'Quiz terminé',
-       message: 'Tu as trouvé  $correctAnswers / 10 mots',
-             score: correctAnswers,
-      onReplay: () {
-        setState(() {
-          currentIndex = 0;
-          correctAnswers = 0;
-          _unlocked = false;
-          words.shuffle();
-        });
-        prepareQuestion();
-      },
-      onQuit: () {
-        Navigator.pop(context); 
-        Navigator.pop(context); 
-      },
-    ),
-  );
-}
+  void showEndDialog() {
+    saveScoreOnce();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => CustomEndDialog(
+        title: 'Quiz terminé',
+        message: 'Tu as trouvé  $correctAnswers / 10 mots',
+        score: correctAnswers,
+        onReplay: () {
+          setState(() {
+            currentIndex = 0;
+            correctAnswers = 0;
+            _unlocked = false;
+            words.shuffle();
+          });
+          prepareQuestion();
+        },
+        onQuit: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -174,7 +173,7 @@ void showEndDialog() {
     }
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Quiz de vocabulaire audio'),
+      appBar: const CustomAppBar(title: 'Quiz audio'),
       body: Stack(
         children: [
           Align(
@@ -197,19 +196,23 @@ void showEndDialog() {
                             Text(
                               'Mot ${currentIndex + 1} / 10',
                               style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textPrimary),
                             ),
                             const SizedBox(height: 16),
                             const Text(
                               'Écoute le mot et choisis la bonne traduction',
-                              style: TextStyle(fontSize: 18, color: AppColors.textPrimary),
+                              style: TextStyle(
+                                  fontSize: 18, color: AppColors.textPrimary),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 16),
                             GestureDetector(
                               onTap: speakWord,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 28),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 32, vertical: 28),
                                 decoration: BoxDecoration(
                                   // gradient: AppGradients.primaryGradientTop,
                                   color: AppColors.primary,
@@ -218,7 +221,7 @@ void showEndDialog() {
                                 child: const Icon(
                                   Icons.volume_up,
                                   size: 32,
-                                  color: AppColors.textcolorBg, 
+                                  color: AppColors.textcolorBg,
                                 ),
                               ),
                             ),
@@ -233,21 +236,23 @@ void showEndDialog() {
                         const spacing = 16.0;
                         final buttonWidth = (availableWidth - spacing) / 2;
 
-                      return Wrap(
-                        spacing: spacing,
-                        runSpacing: spacing,
-                        children: _options.map((option) {
-                          bool disabled = false;
-                          return SizedBox(
-                            width: buttonWidth,
-                            child: PrimaryButton(
-                              text: option,
-                              onPressed: _answered ? null : () => checkAnswer(option),
-                              disabled: disabled,
-                            ),
-                          );
-                        }).toList(),
-                      );
+                        return Wrap(
+                          spacing: spacing,
+                          runSpacing: spacing,
+                          children: _options.map((option) {
+                            bool disabled = false;
+                            return SizedBox(
+                              width: buttonWidth,
+                              child: PrimaryButton(
+                                text: option,
+                                onPressed: _answered
+                                    ? null
+                                    : () => checkAnswer(option),
+                                disabled: disabled,
+                              ),
+                            );
+                          }).toList(),
+                        );
                       },
                     ),
                   ],
