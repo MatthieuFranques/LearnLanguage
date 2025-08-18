@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:learn_language/components/layout/footerWave.dart';
 import 'package:learn_language/pages/historyPage.dart';
 import 'package:learn_language/pages/homePage.dart';
 import 'package:learn_language/pages/settingsPage.dart';
 import 'package:learn_language/theme/appColor.dart';
-import 'package:learn_language/theme/appGradients.dart';
 import 'package:learn_language/pages/toolsPage.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -50,15 +50,15 @@ class _MainNavigationState extends State<MainNavigation> {
             alignment: Alignment.bottomCenter,
             children: [
               ClipPath(
-                clipper: BottomCurveClipper(),
-                child: Container(
-                  height: 120,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(   
-                    gradient: AppGradients.primaryGradientTop,
-                  ),
+              clipper: BottomCurveClipper(),
+              child: Container(
+                height: 120,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColors.primaryDark,
                 ),
               ),
+            ),
               Positioned(
                 bottom: 20,
                 left: 0,
@@ -78,8 +78,8 @@ class _MainNavigationState extends State<MainNavigation> {
                             child: Icon(
                               _icons[index],
                               color: isSelected
-                                  ? AppColors.textPrimary
-                                  : AppColors.textcolorBg,
+                                  ? AppColors.textcolorBg
+                                  : AppColors.secondary,
                               size: 28,
                             ),
                           ),
@@ -89,8 +89,8 @@ class _MainNavigationState extends State<MainNavigation> {
                             style: TextStyle(
                               fontSize: 14,
                               color: isSelected
-                                  ? AppColors.textPrimary
-                                  : AppColors.textcolorBg,
+                                  ? AppColors.textcolorBg
+                                  : AppColors.secondary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -106,28 +106,4 @@ class _MainNavigationState extends State<MainNavigation> {
       ),
     );
   }
-}
-
-class BottomCurveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-
-    path.moveTo(0, 60);
-    path.quadraticBezierTo(
-      size.width / 2,
-      -40,
-      size.width,
-      60,
-    );
-
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

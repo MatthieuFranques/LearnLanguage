@@ -125,7 +125,7 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color:
-                      isSelected ? AppColors.textHint : AppColors.textPrimary,
+                      isSelected ? AppColors.textHint : AppColors.textcolorBg,
                 ),
               ),
             ),

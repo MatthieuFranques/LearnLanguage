@@ -48,7 +48,7 @@ static const LinearGradient primaryGradientTop = LinearGradient(
   /// Dégradé succès 
   static const LinearGradient successGradient = LinearGradient(
     colors: [
-      AppColors.secondaryLight,
+      AppColors.success,
       AppColors.success,
       AppColors.secondaryDark,
     ],

@@ -2,54 +2,54 @@ import 'dart:ui';
 
 class AppColors {
   // Palette principale
-  static const primary = Color(0xFF00B4D8); // Bleu turquoise
-  static const primaryLight = Color(0xFF90E0EF); // Bleu clair aqua
-  static const primaryDark = Color(0xFF0077B6); // Bleu profond océan
-  static const primaryBright = Color(0xFF48CAE4); // Bleu éclatant
-
+  static const primary = Color(0xFF4E617B);       // Header, bouton principal
+  static const primaryLight = Color(0xFF607BAA);  // Survols, éléments interactifs
+  static const primaryDark = Color(0xFF20365A);   // Texte principal
+  static const primaryBright = Color(0xFFE6177F); // Accent / highlights
 
   // Couleur secondaire
-  static const secondary = Color(0xFF22C55E); // Vert sauge
-  static const secondaryLight = Color(0xFF86EFAC); // Vert clair
-  static const secondaryDark = Color(0xFF15803D); // Vert foncé
+  static const secondary = Color(0xFF607BAA);
+  static const secondaryLight = Color(0xFF7BA7D9); // Optionnel, nuance claire
+  static const secondaryDark = Color(0xFF4E617B);
 
   // Nouvelle couleur accent
-  static const accentPurple = Color(0xFF8B5CF6); // Violet moderne
+  static const accentFuchsia = Color(0xFFE6177F);
 
   // Tons neutres
-  static const background = Color(0xFFF3F4F6); // Gris clair premium
-  static const card = Color(0xFFFFFFFF); // Blanc pur
-  static const border = Color(0xFFE5E7EB); // Gris clair
-  static const shadow = Color(0xFFD1D5DB); // Gris ombre
+  static const background = Color(0xFFF5F5F5); // Fond général
+  static const card = Color(0xFFCCC7A8);       // Cartes, encadrés
+  static const border = Color(0xFF607BAA);     // Bordures
+  static const shadow = Color(0xFF20365A);     // Ombres
 
   // Éléments interactifs
-  static const highlight = Color(0xFFF59E0B); // Orange doux
-  static const button = Color(0xFF2563EB); // Bleu ardoise
-  static const buttonHover = Color(0xFF1E3A8A); // Bleu profond
-  static const buttonDisabled = Color(0xFF9CA3AF); // Gris désactivé
-  static const buttonText = Color(0xFFFFFFFF); // Blanc sur bouton
+  static const highlight = Color(0xFFE6177F);      // Survols / accents
+  static const button = Color(0xFF4E617B);         // Boutons principaux
+  static const buttonHover = Color(0xFF607BAA);    // Boutons au survol
+  static const buttonDisabled = Color(0xFFCCC7A8); // Boutons désactivés
+  static const buttonText = Color(0xFFF5F5F5);     // Texte sur boutons foncés
 
   // Texte
-  static const textPrimary = Color(0xFF111827); // Gris très foncé
-  static const textSecondary = Color(0xFF2563EB); // Bleu accent
-  static const textTertiary = Color(0xFF22C55E); // Vert accent
-  static const textDisabled = Color(0xFF9CA3AF); // Gris clair
-  static const textHint = Color(0xFF6B7280); // Gris moyen
-  static const textcolorBg =background; // Blanc
-
+  static const textPrimary = Color(0xFF20365A);   // Texte principal
+  static const textSecondary = Color(0xFF607BAA); // Texte secondaire
+  static const textTertiary = Color(0xFF4E617B);  // Texte moins important
+  static const textDisabled = Color(0xFF7B8390);  // Texte désactivé
+  static const textHint = Color(0xFFE6177F);      // Texte hint / accent
+  static const textcolorBg = background;
 
   // États
-  static const success = Color(0xFF22C55E); // Vert sauge
-  static const error = Color(0xFFDC2626); // Rouge vif
+  static const success = Color(0xFF7BBF6F); // Validation, succès
+  static const error = Color(0xFFE6177F);   // Erreur / notification
 
+  // Couleurs pour l'accueil / quiz
+  // static const quiz1 = primary;
+  // static const quiz2 = primaryLight;
+  // static const quiz3 = primaryDark;
+  // static const quiz4 = accentFuchsia;
+  // static const quiz5 = success;
 
-// Couleurs harmonisées pour l'accueil (pastel doux et cohérent)
-
-static const quizBlue       = Color(0xFFD0F0FF); // Bleu très clair (dominant)
-static const quizBlueDeep   = Color(0xFFA0E0FF); // Bleu clair soutenu
-static const quizGreen      = Color(0xFFB2E4DB); // Vert-menthe pastel doux
-static const quizTeal       = Color(0xFFB2EBF2); // Turquoise pastel (proche du bleu)
-static const quizLavender   = Color(0xFFE1DFF7); // Lavande pastel, doux et léger
-static const quizPink       = Color(0xFFF8D7E3); // Rose poudré doux
-
+static const quiz1 = Color(0xFF607BAA); // bleu moyen
+static const quiz2 = Color(0xFF4E617B); // bleu foncé
+static const quiz3 = Color(0xFFE6177F); // fuchsia vif pour accent
+static const quiz4 = Color(0xFF7BBF6F); // vert vif / succès
+static const quiz5 = Color(0xFFF2A93B); // orange doux / énergie
 }

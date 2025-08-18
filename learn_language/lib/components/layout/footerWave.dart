@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learn_language/theme/appGradients.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class FooterWave extends StatelessWidget {
   const FooterWave({super.key});
@@ -13,7 +13,8 @@ class FooterWave extends StatelessWidget {
         child: Container(
           height: 100,
            decoration: const BoxDecoration(   
-            gradient: AppGradients.primaryGradientTop,
+            // gradient: AppGradients.primaryGradientTop,
+             color: AppColors.primaryDark,
           ),
         ),
       ),

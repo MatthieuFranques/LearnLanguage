@@ -211,13 +211,14 @@ void showEndDialog() {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 28),
                                 decoration: BoxDecoration(
-                                  gradient: AppGradients.primaryGradientTop,
+                                  // gradient: AppGradients.primaryGradientTop,
+                                  color: AppColors.primary,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: const Icon(
                                   Icons.volume_up,
                                   size: 32,
-                                  color: AppColors.card, 
+                                  color: AppColors.textcolorBg, 
                                 ),
                               ),
                             ),

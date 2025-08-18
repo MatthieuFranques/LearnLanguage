@@ -12,31 +12,31 @@ class HomePage extends StatelessWidget {
 final List<Map<String, dynamic>> quizzes = [
   {
     'title': 'Quiz',
-    'color': AppColors.quizBlue,
+    'color': AppColors.quiz1,
     'icon': Icons.quiz,
     'page': const VocabularyQuiz(),
   },
   {
     'title': 'Quiz Multiple',
-    'color': AppColors.quizBlueDeep,
+    'color': AppColors.quiz2,
     'icon': Icons.radio_button_checked,
     'page': const VocabularyChoiceQuiz(),
   },
   {
     'title': 'Quiz de rapidité',
-    'color': AppColors.quizPink,
+    'color': AppColors.quiz3,
     'icon': Icons.timer,
     'page': const FastPairQuiz(),
   },
   {
     'title': 'Trouver le bon ordre',
-    'color': AppColors.quizGreen,
+    'color': AppColors.quiz4,
     'icon': Icons.format_list_numbered,
     'page': const SentenceRestructureQuiz(),
   },
   {
     'title': 'Compréhension',
-    'color': AppColors.quizLavender,
+    'color': AppColors.quiz5,
     'icon': Icons.headphones,
     'page': const VocabularyListeningQuiz(),
   },
@@ -84,7 +84,7 @@ color: color.withOpacity(1.0).withRed((color.red * 0.99).toInt()),
                   borderRadius: BorderRadius.circular(18),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.textPrimary.withOpacity(0.05),
+                      color: AppColors.textcolorBg.withOpacity(0.05),
                       blurRadius: 8,
                       spreadRadius: 2,
                       offset: const Offset(0, 4),
@@ -101,7 +101,7 @@ color: color.withOpacity(1.0).withRed((color.red * 0.99).toInt()),
                  Icon(
                         icon,
                         size: 42,
-                        color: AppColors.textPrimary,
+                        color: AppColors.textcolorBg,
                       ),
 
                     const SizedBox(height: 10),
@@ -110,7 +110,7 @@ color: color.withOpacity(1.0).withRed((color.red * 0.99).toInt()),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: AppColors.textcolorBg,
                       ),
                       textAlign: TextAlign.center,
                     ),

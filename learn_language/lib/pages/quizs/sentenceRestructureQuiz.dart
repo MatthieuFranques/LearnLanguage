@@ -194,8 +194,12 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                     Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         decoration: BoxDecoration(
-                          color: AppColors.shadow,
+                          color: AppColors.background,
                           borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppColors.primaryDark, 
+                            width: 2.0,                    
+                          ),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -204,7 +208,7 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                             Expanded(
                               child: Text(
                                 selectedWords.join(' '),
-                                style: const TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 20, color: AppColors.primaryDark , fontWeight: FontWeight.bold,),
                                 softWrap: true, 
                               ),
                             ),

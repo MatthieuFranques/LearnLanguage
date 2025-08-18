@@ -21,7 +21,7 @@ class TranslationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      color: AppColors.card,
+      color: AppColors.buttonText,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -119,7 +119,7 @@ class TranslationCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.card,
+                    color: AppColors.buttonText,
                   ),
                 ),
               ),

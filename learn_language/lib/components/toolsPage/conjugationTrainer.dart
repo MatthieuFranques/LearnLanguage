@@ -121,7 +121,7 @@ class _ConjugationTrainerState extends State<ConjugationTrainer> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: isSelected ? AppColors.textHint : AppColors.textPrimary,
+                  color: isSelected ? AppColors.textHint : AppColors.textcolorBg,
                 ),
               ),
             ),

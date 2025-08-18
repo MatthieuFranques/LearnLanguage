@@ -68,7 +68,7 @@ class _HistoryPageState extends State<HistoryPage> {
   child: Column(
     mainAxisSize: MainAxisSize.min,
     children: [
-      Icon(Icons.block, size: 60, color: Colors.grey),
+      Icon(Icons.block, size: 60, color: AppColors.textDisabled),
       SizedBox(height: 12),
       Text(
         "Historique non disponible sur Web",
@@ -82,7 +82,7 @@ class _HistoryPageState extends State<HistoryPage> {
       SizedBox(height: 8),
       Text(
         "Cette fonctionnalité sera ajoutée dans une future mise à jour.",
-        style: TextStyle(color: Colors.grey),
+        style: TextStyle(color: AppColors.textDisabled),
         textAlign: TextAlign.center,
       ),
     ],

@@ -25,7 +25,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Container(
             height: preferredSize.height,
              decoration: const BoxDecoration(   
-                gradient: AppGradients.primaryGradientTop,
+                color: AppColors.primaryDark,
+                // gradient: AppGradients.primaryGradientTop,
               ),
           ),
         ),
