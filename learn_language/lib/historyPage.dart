@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -62,7 +63,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       child: Row(
                         children: [
                           ChoiceChip(
-                            label: const Text('Tous'),
+                            label: const Text('Tous', style: TextStyle(color: AppColors.textPrimary)),
                             selected: _selectedQuizName == null,
                             onSelected: (_) {
                               setState(() {
@@ -70,11 +71,11 @@ class _HistoryPageState extends State<HistoryPage> {
                                 _applyFilter();
                               });
                             },
-                            selectedColor: Theme.of(context).primaryColor,
+                            selectedColor: AppColors.primary,
                             labelStyle: TextStyle(
                               color: _selectedQuizName == null
-                                  ? Colors.white
-                                  : Colors.black,
+                                   ? AppColors.buttonText
+                                   : AppColors.textPrimary,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -95,8 +96,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                   selectedColor: Theme.of(context).primaryColor,
                                   labelStyle: TextStyle(
                                     color: _selectedQuizName == name
-                                        ? Colors.white
-                                        : Colors.black,
+                                        ? AppColors.buttonText
+                                        : AppColors.textPrimary,
                                   ),
                                 ),
                               )),
@@ -117,10 +118,10 @@ class _HistoryPageState extends State<HistoryPage> {
                             return Card(
                               child: ListTile(
                                 leading: CircleAvatar(
-                                  child: Text('${index + 1}'),
+                                  child: Text('${index + 1}', style: const TextStyle(color: AppColors.textPrimary)),
                                 ),
-                                title: Text(ranking.quizName),
-                                trailing: Text('Score : ${ranking.score}'),
+                                title: Text(ranking.quizName, style: const TextStyle(color: AppColors.textPrimary)),
+                                trailing: Text('Score : ${ranking.score}', style: const TextStyle(color: AppColors.textPrimary)),
                               ),
                             );
                           },

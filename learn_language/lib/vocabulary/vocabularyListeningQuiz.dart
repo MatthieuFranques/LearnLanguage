@@ -206,7 +206,7 @@ class _VocabularyListeningQuizState extends State<VocabularyListeningQuiz> {
                             Text(
                               'Mot ${currentIndex + 1} / 10',
                               style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                                  fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                             ),
                             const SizedBox(height: 16),
                             const Text(

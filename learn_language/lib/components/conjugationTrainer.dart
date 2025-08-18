@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class ConjugationTrainer extends StatefulWidget {
   const ConjugationTrainer({super.key});
@@ -83,7 +84,7 @@ class _ConjugationTrainerState extends State<ConjugationTrainer> {
     super.dispose();
   }
 
-  Widget _buildConjugationGrid(String tense, ThemeData theme) {
+  Widget _buildConjugationGrid(String tense) {
     final items = conjugationMap.entries
         .where((entry) => entry.value == tense)
         .map((e) => e.key)
@@ -102,12 +103,12 @@ class _ConjugationTrainerState extends State<ConjugationTrainer> {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
-              color: isSelected ? theme.colorScheme.primary.withOpacity(0.85) : Colors.grey[200],
+              color: isSelected ? AppColors.primary.withOpacity(0.85) : AppColors.border,
               borderRadius: BorderRadius.circular(10),
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: theme.colorScheme.primary.withOpacity(0.4),
+                        color: AppColors.primary.withOpacity(0.4),
                         blurRadius: 6,
                         offset: const Offset(0, 3),
                       )
@@ -120,7 +121,7 @@ class _ConjugationTrainerState extends State<ConjugationTrainer> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: isSelected ? Colors.white : Colors.black87,
+                  color: isSelected ? AppColors.textHint : AppColors.textPrimary,
                 ),
               ),
             ),
@@ -133,7 +134,6 @@ class _ConjugationTrainerState extends State<ConjugationTrainer> {
   @override
   @override
 Widget build(BuildContext context) {
-  final theme = Theme.of(context);
 
  final Map<String, String> explanations = {
   'Present': 'Le présent simple est utilisé pour exprimer des vérités générales, des habitudes ou des états permanents.\nExemple : I am happy.',
@@ -159,7 +159,7 @@ final List<String> tenses = [
           const SizedBox(height: 12),
           const Text(
             'Clique sur une forme pour l’entendre.',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16, color: AppColors.textDisabled),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
@@ -176,13 +176,13 @@ final List<String> tenses = [
             return ExpansionTile(
               title: Text(
                 '$icon $tense',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: theme.primaryColor),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
               ),
               children: [
                 const SizedBox(height: 4),
-                Text(explanations[tense]!, style: const TextStyle(fontSize: 15)),
+                Text(explanations[tense]!, style: const TextStyle(fontSize: 15, color: AppColors.textPrimary)),
                 const SizedBox(height: 12),
-                _buildConjugationGrid(tense, theme),
+                _buildConjugationGrid(tense),
                 const SizedBox(height: 16),
               ],
             );
@@ -193,7 +193,7 @@ final List<String> tenses = [
             Center(
               child: Text(
                 '🗣️ $_selectedForm',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primary),
               ),
             ),
         ],

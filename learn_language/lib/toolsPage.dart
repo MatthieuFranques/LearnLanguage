@@ -8,6 +8,7 @@ import 'package:learn_language/components/translationCard.dart';
 import 'package:learn_language/controllers/homePageController.dart';
 import 'package:learn_language/services/pickImage.dart';
 import 'package:learn_language/services/wordSelectionDialog.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class ToolsPage extends StatefulWidget {
   const ToolsPage({super.key});
@@ -103,14 +104,14 @@ class _ToolsPageState extends State<ToolsPage> {
     }
   }
 
-  Widget _buildTranslationSection(ThemeData theme) {
+  Widget _buildTranslationSection() {
     return ExpansionTile(
-      title: Text(
+      title: const Text(
         'Traduction',
         style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: theme.primaryColorDark),
+            color: AppColors.textPrimary),
       ),
       initiallyExpanded: true,
       children: [
@@ -132,51 +133,50 @@ class _ToolsPageState extends State<ToolsPage> {
     );
   }
 
-  Widget _buildAlphabetSection(ThemeData theme) {
-    return ExpansionTile(
+  Widget _buildAlphabetSection() {
+    return const ExpansionTile(
       title: Text(
         'Alphabet',
         style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: theme.primaryColorDark),
+            color: AppColors.textPrimary),
       ),
       initiallyExpanded: false,
       children: const [AlphabetTrainer()],
     );
   }
 
-  Widget _buildConjugationSection(ThemeData theme) {
-    return ExpansionTile(
+  Widget _buildConjugationSection() {
+    return const ExpansionTile(
       title: Text(
         'Conjugaison : To Be',
         style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: theme.primaryColorDark),
+            color: AppColors.textPrimary),
       ),
       initiallyExpanded: false,
-      children: const [ConjugationTrainer()],
+      children: [ConjugationTrainer()],
     );
   }
 
-  Widget _buildGrammarSection(ThemeData theme) {
-    return ExpansionTile(
+  Widget _buildGrammarSection() {
+    return const ExpansionTile(
       title: Text(
         'Grammaire anglaise',
         style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: theme.primaryColorDark),
+            color: AppColors.textPrimary),
       ),
       initiallyExpanded: false,
-      children: const [GrammarTrainer()],
+      children: [GrammarTrainer()],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: const CustomAppBar(title: 'Outils', showBackButton: false),
@@ -184,10 +184,10 @@ class _ToolsPageState extends State<ToolsPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _buildTranslationSection(theme),
-            _buildAlphabetSection(theme),
-            _buildConjugationSection(theme),
-            _buildGrammarSection(theme),
+            _buildTranslationSection(),
+            _buildAlphabetSection(),
+            _buildConjugationSection(),
+            _buildGrammarSection(),
           ],
         ),
       ),

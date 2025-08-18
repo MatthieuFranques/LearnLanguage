@@ -178,12 +178,12 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                             Text(
                               'Phrase ${currentSentenceIndex + 1} / $totalSentences',
                               style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                                  fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                             ),
                             const SizedBox(height: 16),
                             const Text(
                               'Remets la phrase dans le bon ordre :',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18 , color: AppColors.textPrimary),
                             ),
                             const SizedBox(height: 16),
                             Wrap(

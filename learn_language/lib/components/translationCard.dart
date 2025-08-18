@@ -63,7 +63,7 @@ class TranslationCard extends StatelessWidget {
               decoration: InputDecoration(
                 labelText:
                     isEnglishToFrench ? 'Mot en anglais' : 'Mot en français',
-                labelStyle: const TextStyle(color: AppColors.textTertiary),
+                labelStyle: const TextStyle(color: AppColors.textDisabled),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(color: AppColors.border),
@@ -87,7 +87,7 @@ class TranslationCard extends StatelessWidget {
                 labelText: isEnglishToFrench
                     ? 'Traduction en français'
                     : 'Traduction en anglais',
-                labelStyle: const TextStyle(color: AppColors.textTertiary),
+                labelStyle: const TextStyle(color: AppColors.textDisabled),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(color: AppColors.border),

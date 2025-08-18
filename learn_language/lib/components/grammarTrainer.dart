@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:learn_language/theme/appColor.dart';
 
 class GrammarTrainer extends StatelessWidget {
   const GrammarTrainer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     final Map<String, String> grammarLessons = {
       '🧠 Les modaux (can, must, should...)': '''
@@ -61,10 +61,10 @@ Utilisés pour remplacer les noms dans une phrase.
             return ExpansionTile(
               title: Text(
                 entry.key,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
-                  color: theme.primaryColor,
+                  color: AppColors.textPrimary,
                 ),
               ),
               children: [
@@ -72,7 +72,7 @@ Utilisés pour remplacer les noms dans une phrase.
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
                     entry.value,
-                    style: const TextStyle(fontSize: 15, height: 1.4),
+                    style: const TextStyle(fontSize: 15, height: 1.4, color : AppColors.textPrimary),
                   ),
                 ),
               ],

@@ -203,7 +203,7 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
                           Text(
                             'Mot ${currentIndex + 1} / 10',
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                                fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                           ),
                           const SizedBox(height: 16),
                           Text(

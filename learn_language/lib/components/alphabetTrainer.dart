@@ -92,7 +92,7 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
     super.dispose();
   }
 
-  Widget _buildLetterGrid(List<String> letters, ThemeData theme) {
+  Widget _buildLetterGrid(List<String> letters) {
     return GridView.count(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -139,7 +139,6 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
@@ -147,31 +146,31 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
         children: [
           const Text(
             'Clique sur une lettre pour l’entendre et voir sa prononciation.',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16, color : AppColors.textDisabled),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
-          Align(
+          const Align(
             alignment: Alignment.centerLeft,
             child: Text('Voyelles',
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: theme.primaryColor)),
+                    color: AppColors.textPrimary)),
           ),
           const SizedBox(height: 8),
-          _buildLetterGrid(vowels, theme),
+          _buildLetterGrid(vowels),
           const SizedBox(height: 24),
-          Align(
+          const Align(
             alignment: Alignment.centerLeft,
             child: Text('Consonnes',
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: theme.primaryColor)),
+                    color: AppColors.textPrimary)),
           ),
           const SizedBox(height: 8),
-          _buildLetterGrid(consonants, theme),
+          _buildLetterGrid(consonants),
           const SizedBox(height: 24),
         ],
       ),

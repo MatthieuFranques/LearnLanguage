@@ -143,7 +143,6 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
 
     if (isLoading) {
       return const Scaffold(
-        backgroundColor: Colors.white,
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -187,7 +186,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
                               'Mot ${currentIndex + 1} sur ${words.length}',
                               style: const TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.bold, color: AppColors.textPrimary
                               ),
                             ),
                             const SizedBox(height: 16),
