@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:learn_language/components/customAppBar.dart';
+import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/components/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
@@ -128,39 +129,32 @@ class _VocabularyListeningQuizState extends State<VocabularyListeningQuiz> {
     print("Sauvegarde du score dans le fichier JSON");
   }
 
-  void showEndDialog() {
-    saveScoreOnce();
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => AlertDialog(
-        title: const Text('Quiz terminé'),
-        content: Text('Tu as obtenu $correctAnswers sur 10 bonnes réponses.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              setState(() {
-                currentIndex = 0;
-                correctAnswers = 0;
-                _unlocked = false;
-                words.shuffle();
-              });
-              prepareQuestion();
-            },
-            child: const Text('Rejouer'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-            child: const Text('Quitter'),
-          ),
-        ],
-      ),
-    );
-  }
+void showEndDialog() {
+  saveScoreOnce();
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => CustomEndDialog(
+      title: 'Quiz terminé',
+       message: 'Tu as trouvé  $correctAnswers / 10 mots',
+             score: correctAnswers,
+      onReplay: () {
+        setState(() {
+          currentIndex = 0;
+          correctAnswers = 0;
+          _unlocked = false;
+          words.shuffle();
+        });
+        prepareQuestion();
+      },
+      onQuit: () {
+        Navigator.pop(context); 
+        Navigator.pop(context); 
+      },
+    ),
+  );
+}
+
 
   @override
   void dispose() {

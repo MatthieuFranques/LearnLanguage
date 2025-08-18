@@ -66,9 +66,9 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
       showDialog(
         context: context,
         builder: (_) => CustomEndDialog(
-          title: '🎉 Quiz terminé !',
+          title: 'Quiz terminé !',
           message:
-              'Tu as terminé toutes les phrases ! Phrases trouvées : $correctAnswers / $totalSentences.',
+              'Tu as trouvé  $correctAnswers / $totalSentences phrases.',
           score: correctAnswers,
           onReplay: () {
             currentSentenceIndex = 0;

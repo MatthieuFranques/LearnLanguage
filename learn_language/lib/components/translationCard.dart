@@ -43,7 +43,7 @@ class TranslationCard extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.swap_horiz),
-                  color: AppColors.primary,
+                  color: AppColors.textPrimary,
                   onPressed: onToggleDirection,
                 ),
                 Text(
@@ -69,14 +69,14 @@ class TranslationCard extends StatelessWidget {
                   borderSide: const BorderSide(color: AppColors.border),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.primary),
+                  borderSide: const BorderSide(color: AppColors.textPrimary),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 prefixIcon:
-                    const Icon(Icons.language, color: AppColors.primary),
+                    const Icon(Icons.language, color: AppColors.textPrimary),
               ),
               style: const TextStyle(color: AppColors.textPrimary),
-              cursorColor: AppColors.primary,
+              cursorColor: AppColors.textPrimary,
             ),
             const SizedBox(height: 16),
             TextField(
@@ -93,11 +93,11 @@ class TranslationCard extends StatelessWidget {
                   borderSide: const BorderSide(color: AppColors.border),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColors.primary),
+                  borderSide: const BorderSide(color: AppColors.textPrimary),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 prefixIcon:
-                    const Icon(Icons.translate, color: AppColors.primary),
+                    const Icon(Icons.translate, color: AppColors.textPrimary),
               ),
               style: const TextStyle(color: AppColors.textPrimary),
             ),

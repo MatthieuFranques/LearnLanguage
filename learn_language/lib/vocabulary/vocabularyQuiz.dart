@@ -112,7 +112,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
       barrierDismissible: false,
       builder: (_) => CustomEndDialog(
         title: 'Quiz terminer',
-        message: 'Tu as terminé cette session.',
+        message: 'Tu as trouvé  $correctAnswers / $numberWords mots',        
         score: correctAnswers,
         onReplay: () {
           setState(() {

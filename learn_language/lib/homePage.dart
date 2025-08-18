@@ -24,7 +24,7 @@ final List<Map<String, dynamic>> quizzes = [
   },
   {
     'title': 'Quiz de rapidité',
-    'color': AppColors.quizOrange,
+    'color': AppColors.quizPink,
     'icon': Icons.timer,
     'page': const FastPairQuiz(),
   },
@@ -36,16 +36,16 @@ final List<Map<String, dynamic>> quizzes = [
   },
   {
     'title': 'Compréhension',
-    'color': AppColors.quizPink,
+    'color': AppColors.quizLavender,
     'icon': Icons.headphones,
     'page': const VocabularyListeningQuiz(),
   },
-  {
-    'title': 'Prononciation',
-    'color': AppColors.quizPurple,
-    'icon': Icons.campaign,
-    'page': const VocabularyListeningQuiz(),
-  },
+  // {
+  //   'title': 'Prononciation',
+  //   'color': AppColors.quizLavender  ,
+  //   'icon': Icons.campaign,
+  //   'page': const VocabularyListeningQuiz(),
+  // },
 ];
 
  @override

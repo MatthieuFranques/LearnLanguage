@@ -42,10 +42,14 @@ class AppColors {
   static const success = Color(0xFF22C55E); // Vert sauge
   static const error = Color(0xFFDC2626); // Rouge vif
 
-static const quizBlue = Color(0xFFD0F0FF);      // Bleu très clair
-static const quizBlueDeep = Color(0xFFA0E0FF);  // Bleu clair un peu plus soutenu
-static const quizOrange = Color(0xFFFFE0B2);    // Orange pastel doux
-static const quizGreen = Color(0xFFC8E6C9);     // Vert pastel doux
-static const quizPurple = Color(0xFFE1BEE7);    // Violet pastel doux
-static const quizPink = Color(0xFFF8BBD0);      // Rose pastel doux
+
+// Couleurs harmonisées pour l'accueil (pastel doux et cohérent)
+
+static const quizBlue       = Color(0xFFD0F0FF); // Bleu très clair (dominant)
+static const quizBlueDeep   = Color(0xFFA0E0FF); // Bleu clair soutenu
+static const quizGreen      = Color(0xFFB2E4DB); // Vert-menthe pastel doux
+static const quizTeal       = Color(0xFFB2EBF2); // Turquoise pastel (proche du bleu)
+static const quizLavender   = Color(0xFFE1DFF7); // Lavande pastel, doux et léger
+static const quizPink       = Color(0xFFF8D7E3); // Rose poudré doux
+
 }

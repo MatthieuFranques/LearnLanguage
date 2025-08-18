@@ -104,8 +104,8 @@ class _FastPairQuizState extends State<FastPairQuiz> {
       context: context,
       barrierDismissible: false,
       builder: (_) => CustomEndDialog(
-        title: '⏰ Temps écoulé',
-        message: 'Tu as terminé cette session.',
+        title: 'Temps écoulé',
+        message: 'Tu as trouvé $score mots.',
         score: score,
         onReplay: () {
           generatePairs();
