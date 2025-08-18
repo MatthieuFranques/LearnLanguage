@@ -10,5 +10,10 @@
       }
     }
   ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/learning_language/build/web/index.html"
+    }
+  ]
 }
