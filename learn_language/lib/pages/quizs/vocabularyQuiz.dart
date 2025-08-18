@@ -80,29 +80,29 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     }
   }
 
-void checkAnswer() {
-  final word = words[currentIndex];
-  final correctAnswer = isEnglishToFrench
-      ? word.french.toLowerCase().trim()
-      : word.english.toLowerCase().trim();
+  void checkAnswer() {
+    final word = words[currentIndex];
+    final correctAnswer = isEnglishToFrench
+        ? word.french.toLowerCase().trim()
+        : word.english.toLowerCase().trim();
 
-  if (userAnswer.toLowerCase().trim() == correctAnswer) {
-    AnswerPopup.show(
-      context,
-      isCorrect: true,
-      correctAnswer: correctAnswer,
-      onContinue: nextWord,
-    );
-    correctAnswers++;
-  } else {
-    AnswerPopup.show(
-      context,
-      isCorrect: false,
-      correctAnswer: correctAnswer, onContinue: nextWord,
-    );
+    if (userAnswer.toLowerCase().trim() == correctAnswer) {
+      AnswerPopup.show(
+        context,
+        isCorrect: true,
+        correctAnswer: correctAnswer,
+        onContinue: nextWord,
+      );
+      correctAnswers++;
+    } else {
+      AnswerPopup.show(
+        context,
+        isCorrect: false,
+        correctAnswer: correctAnswer,
+        onContinue: nextWord,
+      );
+    }
   }
-}
-
 
   void showEndDialog() {
     saveScoreOnce();
@@ -111,7 +111,7 @@ void checkAnswer() {
       barrierDismissible: false,
       builder: (_) => CustomEndDialog(
         title: 'Quiz terminer',
-        message: 'Tu as trouvé  $correctAnswers / $numberWords mots',        
+        message: 'Tu as trouvé  $correctAnswers / $numberWords mots',
         score: correctAnswers,
         onReplay: () {
           setState(() {
@@ -139,7 +139,6 @@ void checkAnswer() {
 
   @override
   Widget build(BuildContext context) {
-
     if (isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -157,7 +156,7 @@ void checkAnswer() {
     final direction = isEnglishToFrench ? 'français' : 'anglais';
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Quiz Quotidien'),
+      appBar: const CustomAppBar(title: 'Quiz'),
       body: Stack(
         children: [
           Align(
@@ -184,9 +183,9 @@ void checkAnswer() {
                             Text(
                               'Mot ${currentIndex + 1} sur ${words.length}',
                               style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold, color: AppColors.textPrimary
-                              ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textPrimary),
                             ),
                             const SizedBox(height: 16),
                             Text(
