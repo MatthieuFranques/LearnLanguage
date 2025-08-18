@@ -28,7 +28,6 @@ class _VocabularyListeningQuizState extends State<VocabularyListeningQuiz> {
   int currentIndex = 0;
   bool isEnglishToFrench = true;
   bool _answered = false;
-  int _attemptCount = 0;
   bool _unlocked = false;
 
   late String _correctAnswer;
@@ -69,7 +68,6 @@ class _VocabularyListeningQuizState extends State<VocabularyListeningQuiz> {
 
     setState(() {
       _answered = false;
-      _attemptCount = 0;
 
       final currentWord = words[currentIndex];
       _wordToListen = currentWord['english']!;
@@ -99,7 +97,6 @@ void checkAnswer(String selected) {
   if (_answered) return;
 
   setState(() {
-    _attemptCount++;
     if (selected.toLowerCase() == _correctAnswer.toLowerCase()) {
       _answered = true;
       correctAnswers++;
@@ -164,7 +161,7 @@ void showEndDialog() {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    Theme.of(context);
 
     if (words.isEmpty) {
       return const Scaffold(
@@ -240,19 +237,6 @@ void showEndDialog() {
                         runSpacing: spacing,
                         children: _options.map((option) {
                           bool disabled = false;
-                          Gradient gradient = AppGradients.primaryGradient;
-
-                          // Gestion des états après réponse
-                          if (_answered) {
-                            if (option == _correctAnswer) {
-                              gradient = AppGradients.successGradient; // bouton vert
-                            } else if (_attemptCount > 0 && option != _correctAnswer) {
-                              gradient = AppGradients.primaryGradient; // gradient normal
-                            } else {
-                              gradient = AppGradients.errorGradient; // bouton rouge
-                              disabled = true;
-                            }
-                          }
                           return SizedBox(
                             width: buttonWidth,
                             child: PrimaryButton(

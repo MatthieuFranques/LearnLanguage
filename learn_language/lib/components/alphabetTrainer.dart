@@ -12,7 +12,6 @@ class AlphabetTrainer extends StatefulWidget {
 class _AlphabetTrainerState extends State<AlphabetTrainer> {
   final FlutterTts _tts = FlutterTts();
   String? _selectedLetter;
-  String? _selectedPhonetic;
   bool _isSpeaking = false;
 
   final Map<String, String> phoneticMap = {
@@ -82,7 +81,6 @@ class _AlphabetTrainerState extends State<AlphabetTrainer> {
 
     setState(() {
       _selectedLetter = letter;
-      _selectedPhonetic = phoneticMap[letter];
     });
   }
 
