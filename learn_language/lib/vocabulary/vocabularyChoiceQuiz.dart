@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/AnswerPopup.dart';
 import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/footerWave.dart';
@@ -105,30 +106,29 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
     }
   }
 
-  void checkAnswer(String answer) {
-    final word = words[currentIndex];
-    final correct = isEnglishToFrench ? word.french : word.english;
+ void checkAnswer(String answer) {
+  final word = words[currentIndex];
+  final correct = isEnglishToFrench ? word.french : word.english;
 
-    if (answer.toLowerCase().trim() == correct.toLowerCase().trim()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('✅ Bonne réponse !')),
+  if (answer.toLowerCase().trim() == correct.toLowerCase().trim()) {
+    AnswerPopup.show(
+      context,
+      isCorrect: true,
+      correctAnswer: correct,
+      onContinue: nextWord,
+    );
+    correctAnswers++;
+  } else {
+    attemptCount++;
+      AnswerPopup.show(
+        context,
+        isCorrect: false,
+        correctAnswer: correct,
+        onContinue: nextWord,
       );
-      correctAnswers++;
-      Future.delayed(const Duration(milliseconds: 500), nextWord);
-    } else {
-      attemptCount++;
-      if (attemptCount >= 3) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('❌ Réponse correcte : $correct')),
-        );
-        Future.delayed(const Duration(milliseconds: 500), nextWord);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Mauvaise réponse, réessayez !')),
-        );
-      }
-    }
   }
+}
+
 
   void showEndDialog() {
     saveScoreOnce();

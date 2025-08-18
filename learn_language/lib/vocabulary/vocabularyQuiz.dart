@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/AnswerPopup.dart';
 import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/footerWave.dart';
@@ -79,31 +80,30 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     }
   }
 
-  void checkAnswer() {
-    final word = words[currentIndex];
-    final correctAnswer = isEnglishToFrench
-        ? word.french.toLowerCase().trim()
-        : word.english.toLowerCase().trim();
+void checkAnswer() {
+  final word = words[currentIndex];
+  final correctAnswer = isEnglishToFrench
+      ? word.french.toLowerCase().trim()
+      : word.english.toLowerCase().trim();
 
-    if (userAnswer.toLowerCase().trim() == correctAnswer) {
-      correctAnswers++;
-      nextWord();
-    } else {
-      attemptCount++;
-      if (attemptCount >= 3) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Réponse : $correctAnswer')),
-        );
-        nextWord();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Mauvaise réponse, réessayez !')),
-        );
-        _controller.clear();
-        userAnswer = '';
-      }
-    }
+  if (userAnswer.toLowerCase().trim() == correctAnswer) {
+    AnswerPopup.show(
+      context,
+      isCorrect: true,
+      correctAnswer: correctAnswer,
+      onContinue: nextWord,
+    );
+    correctAnswers++;
+  } else {
+    AnswerPopup.show(
+      context,
+      isCorrect: false,
+      correctAnswer: correctAnswer, onContinue: nextWord,
+    );
+    ;
   }
+}
+
 
   void showEndDialog() {
     saveScoreOnce();

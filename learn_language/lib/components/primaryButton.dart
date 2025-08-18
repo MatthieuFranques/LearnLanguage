@@ -7,6 +7,7 @@ class PrimaryButton extends StatelessWidget {
   final Color? backgroundColor;
   final double height;
   final bool disabled;
+  final Gradient? gradient;
 
   const PrimaryButton({
     super.key,
@@ -15,7 +16,8 @@ class PrimaryButton extends StatelessWidget {
     this.backgroundColor,
     this.height = 50,
     this.disabled = false,
-  });
+    this.gradient = AppGradients.primaryGradient
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class PrimaryButton extends StatelessWidget {
   ),
   child: Ink(
     decoration: BoxDecoration(
-      gradient: AppGradients.primaryGradient, 
+      gradient: gradient ?? AppGradients.primaryGradient,
       borderRadius: BorderRadius.circular(12),
     ),
         child: Container(

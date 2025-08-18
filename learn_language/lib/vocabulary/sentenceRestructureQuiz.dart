@@ -1,13 +1,11 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn_language/components/AnswerPopup.dart';
 import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/footerWave.dart';
 import 'package:learn_language/components/primaryButton.dart';
-import 'package:learn_language/components/primaryIconButton.dart';
-import 'package:learn_language/components/secondaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/sentence.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
@@ -97,40 +95,21 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     setState(() {});
   }
 
-  void onValidate() {
-    final result = selectedWords.join(' ');
-    final isCorrect = result == correctSentence;
+ void onValidate() {
+  final result = selectedWords.join(' ');
+  final isCorrect = result == correctSentence;
 
-    if (isCorrect) {
-      correctAnswers++;
-    }
-
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text(isCorrect ? '✅ Bonne réponse !' : '❌ Incorrect'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Phrase attendue :\n"$correctSentence"'),
-            const SizedBox(height: 12),
-            Text('Phrases trouvées : $correctAnswers'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              currentSentenceIndex++; 
-              loadNewSentence();
-            },
-            child: const Text('Suivant'),
-          )
-        ],
-      ),
-    );
+  if (isCorrect) {
+    correctAnswers++;
   }
+  // Affichage du feedback
+  AnswerPopup.show(
+    context,
+    isCorrect: isCorrect,
+    correctAnswer: correctSentence, onContinue: loadNewSentence,
+  );
+}
+
 
   void onClear() {
     selectedWords.clear();

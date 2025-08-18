@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:learn_language/components/AnswerPopup.dart';
 import 'package:learn_language/components/customAppBar.dart';
 import 'package:learn_language/components/customEndDialog.dart';
 import 'package:learn_language/components/footerWave.dart';
@@ -94,34 +95,34 @@ class _VocabularyListeningQuizState extends State<VocabularyListeningQuiz> {
     await _tts.speak(_wordToListen);
   }
 
-  void checkAnswer(String selected) {
-    if (_answered) return;
+void checkAnswer(String selected) {
+  if (_answered) return;
 
-    setState(() {
-      _attemptCount++;
-      if (selected.toLowerCase() == _correctAnswer.toLowerCase()) {
+  setState(() {
+    _attemptCount++;
+    if (selected.toLowerCase() == _correctAnswer.toLowerCase()) {
+      _answered = true;
+      correctAnswers++;
+    } else {
         _answered = true;
-        correctAnswers++;
-        _tts.speak('Correct!');
-      } else {
-        if (_attemptCount >= 3) {
-          _answered = true;
-          _tts.speak('The correct answer was $_correctAnswer');
-        } else {
-          _tts.speak('Incorrect, try again');
-        }
-      }
-    });
+    }
+  });
 
-    if (_answered) {
-      Future.delayed(const Duration(seconds: 2), () {
+  if (_answered) {
+    AnswerPopup.show(
+      context,
+      isCorrect: selected.toLowerCase() == _correctAnswer.toLowerCase(),
+      correctAnswer: _correctAnswer,
+      onContinue: () {
         setState(() {
           currentIndex++;
         });
         prepareQuestion();
-      });
-    }
+      },
+    );
   }
+}
+
 
   Future<void> saveScoreOnce() async {
     await RankingStorage.addWord(
@@ -154,7 +155,6 @@ void showEndDialog() {
     ),
   );
 }
-
 
   @override
   void dispose() {
