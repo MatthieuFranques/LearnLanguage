@@ -5,7 +5,12 @@
     { "src": "main.dart.js", "use": "@vercel/static" },
     { "src": "flutter_service_worker.js", "use": "@vercel/static" },
     { "src": "assets/**", "use": "@vercel/static" },
-    { "src": "manifest.json", "use": "@vercel/static" }
+    { "src": "manifest.json", "use": "@vercel/static" },
+    { "src": "version.json", "use": "@vercel/static" },
+    { "src": "icons/**", "use": "@vercel/static" },
+    { "src": "flutter.js", "use": "@vercel/static" },
+    { "src": "flutter_service_worker.js", "use": "@vercel/static" },
+    { "src": "flutter_bootstrap.js", "use": "@vercel/static" }
   ],
   "routes": [
     {
