@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:learn_language/components/customAppBar.dart';
-import 'package:learn_language/components/customEndDialog.dart';
-import 'package:learn_language/components/footerWave.dart';
+import 'package:learn_language/components/layout/customAppBar.dart';
+import 'package:learn_language/components/layout/footerWave.dart';
+import 'package:learn_language/components/popups/customEndDialog.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
@@ -23,7 +23,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
   List<Word> currentPairs = [];
   List<String> frenchWords = [];
   List<String> englishWords = [];
-  Map<String, String> correctMap = {}; // français -> anglais
+  Map<String, String> correctMap = {}; 
 
   String? selectedWord;
   bool selectingFrench = true;
@@ -150,7 +150,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
         setState(() {});
         Timer(const Duration(seconds: 1), () {
           if (matched.length == 8) {
-            generatePairs(); // relancer si tout trouvé
+            generatePairs(); 
           } else {
             setState(() {});
           }
@@ -288,7 +288,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
               ],
             ),
           ),),
-          const FooterWave(), // placé naturellement en bas
+          const FooterWave(), 
         ],
       ),
     );

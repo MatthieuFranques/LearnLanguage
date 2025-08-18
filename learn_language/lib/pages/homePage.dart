@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:learn_language/components/customAppBar.dart';
+import 'package:learn_language/components/layout/customAppBar.dart';
 import 'package:learn_language/theme/appColor.dart';
-import 'package:learn_language/vocabulary/fastPairQuiz.dart';
-import 'package:learn_language/vocabulary/sentenceRestructureQuiz.dart';
-import 'package:learn_language/vocabulary/vocabularyListeningQuiz.dart';
-import 'package:learn_language/vocabulary/vocabularyChoiceQuiz.dart';
-import 'package:learn_language/vocabulary/vocabularyQuiz.dart';
+import 'package:learn_language/pages/quizs/fastPairQuiz.dart';
+import 'package:learn_language/pages/quizs/sentenceRestructureQuiz.dart';
+import 'package:learn_language/pages/quizs/vocabularyListeningQuiz.dart';
+import 'package:learn_language/pages/quizs/vocabularyChoiceQuiz.dart';
+import 'package:learn_language/pages/quizs/vocabularyQuiz.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});

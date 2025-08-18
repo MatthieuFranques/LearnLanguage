@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:learn_language/components/alphabetTrainer.dart';
-import 'package:learn_language/components/conjugationTrainer.dart';
-import 'package:learn_language/components/customAppBar.dart';
-import 'package:learn_language/components/grammarTrainer.dart';
-import 'package:learn_language/components/primaryIconButton.dart';
-import 'package:learn_language/components/translationCard.dart';
+import 'package:learn_language/components/toolsPage/alphabetTrainer.dart';
+import 'package:learn_language/components/toolsPage/conjugationTrainer.dart';
+import 'package:learn_language/components/layout/customAppBar.dart';
+import 'package:learn_language/components/toolsPage/grammarTrainer.dart';
+import 'package:learn_language/components/buttons/primaryIconButton.dart';
+import 'package:learn_language/components/toolsPage/translationCard.dart';
 import 'package:learn_language/controllers/homePageController.dart';
 import 'package:learn_language/services/pickImage.dart';
-import 'package:learn_language/services/wordSelectionDialog.dart';
+import 'package:learn_language/components/popups/wordSelectionDialog.dart';
 import 'package:learn_language/theme/appColor.dart';
 
 class ToolsPage extends StatefulWidget {
@@ -143,7 +143,7 @@ class _ToolsPageState extends State<ToolsPage> {
             color: AppColors.textPrimary),
       ),
       initiallyExpanded: false,
-      children: const [AlphabetTrainer()],
+      children: [AlphabetTrainer()],
     );
   }
 

@@ -6,7 +6,7 @@ final ThemeData appTheme = ThemeData(
   colorScheme: const ColorScheme.light(
     primary: AppColors.primary,
     secondary: AppColors.secondary,
-    background: AppColors.background,
+    surface: AppColors.background,
     error: AppColors.error,
   ),
   scaffoldBackgroundColor: AppColors.background,

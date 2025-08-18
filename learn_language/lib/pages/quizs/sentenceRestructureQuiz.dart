@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:learn_language/components/AnswerPopup.dart';
-import 'package:learn_language/components/customAppBar.dart';
-import 'package:learn_language/components/customEndDialog.dart';
-import 'package:learn_language/components/footerWave.dart';
-import 'package:learn_language/components/primaryButton.dart';
+import 'package:learn_language/components/popups/AnswerPopup.dart';
+import 'package:learn_language/components/layout/customAppBar.dart';
+import 'package:learn_language/components/popups/customEndDialog.dart';
+import 'package:learn_language/components/layout/footerWave.dart';
+import 'package:learn_language/components/buttons/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/sentence.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
@@ -108,6 +108,7 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     isCorrect: isCorrect,
     correctAnswer: correctSentence, onContinue: loadNewSentence,
   );
+  currentSentenceIndex++;
 }
 
 

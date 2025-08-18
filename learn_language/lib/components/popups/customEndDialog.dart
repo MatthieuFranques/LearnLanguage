@@ -12,7 +12,7 @@ class CustomEndDialog extends StatelessWidget {
   final VoidCallback onQuit;
 
   const CustomEndDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.message,
     this.score,
@@ -20,7 +20,7 @@ class CustomEndDialog extends StatelessWidget {
     this.quitText = 'Quitter',
     required this.onReplay,
     required this.onQuit,
-  }) : super(key: key);
+  });
 
   @override
 Widget build(BuildContext context) {

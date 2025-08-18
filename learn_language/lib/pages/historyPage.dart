@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart'; 
-import 'package:learn_language/components/customAppBar.dart';
+import 'package:learn_language/components/layout/customAppBar.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
 import 'package:learn_language/theme/appColor.dart';
@@ -15,7 +15,7 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   List<Ranking> _rankings = [];
   List<Ranking> _filteredRankings = [];
-  String _filter = '';
+  final String _filter = '';
   bool _isLoading = true;
   String? _selectedQuizName;
 

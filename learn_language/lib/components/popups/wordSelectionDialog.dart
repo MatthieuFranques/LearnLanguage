@@ -7,10 +7,10 @@ class WordSelectionDialog extends StatelessWidget {
   final void Function(String) onWordSelected;
 
   const WordSelectionDialog({
-    Key? key,
+    super.key,
     required this.ocrResult,
     required this.onWordSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

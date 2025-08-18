@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:learn_language/components/mainNavigation.dart';
+import 'package:learn_language/components/layout/mainNavigation.dart';
 import 'package:learn_language/services/notification/notification.dart';
 import 'package:learn_language/theme/appColor.dart';
 import 'package:learn_language/theme/themeData.dart';

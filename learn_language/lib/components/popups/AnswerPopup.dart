@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learn_language/components/primaryButton.dart';
+import 'package:learn_language/components/buttons/primaryButton.dart';
 import 'package:learn_language/theme/appColor.dart';
 import 'package:learn_language/theme/appGradients.dart';
 

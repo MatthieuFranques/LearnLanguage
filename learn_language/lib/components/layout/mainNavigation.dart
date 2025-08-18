@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:learn_language/historyPage.dart';
-import 'package:learn_language/homePage.dart';
-import 'package:learn_language/settingsPage.dart';
+import 'package:learn_language/pages/historyPage.dart';
+import 'package:learn_language/pages/homePage.dart';
+import 'package:learn_language/pages/settingsPage.dart';
 import 'package:learn_language/theme/appColor.dart';
 import 'package:learn_language/theme/appGradients.dart';
-import 'package:learn_language/toolsPage.dart';
+import 'package:learn_language/pages/toolsPage.dart';
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({Key? key}) : super(key: key);
+  const MainNavigation({super.key});
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();

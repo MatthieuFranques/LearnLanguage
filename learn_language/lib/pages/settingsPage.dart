@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:learn_language/components/customAppBar.dart';
+import 'package:learn_language/components/layout/customAppBar.dart';
 import 'package:learn_language/theme/appColor.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
- Widget build(BuildContext context) {
+ @override
+  Widget build(BuildContext context) {
   return const Scaffold(
     appBar: CustomAppBar(title: 'Paramètres', showBackButton: false),
     body: Center(
