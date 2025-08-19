@@ -162,10 +162,14 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
         children: [
           Align(
             alignment: const Alignment(0,
-                -0.5), // centré horizontalement, un peu plus haut verticalement
+                -0.5), 
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(24.0),
+                padding: EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 100,
+                    ),
                 child: Column(
                   mainAxisAlignment:
                       MainAxisAlignment.center, // centre verticalement
@@ -228,10 +232,10 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
               ),
             ),
           ),
-        IgnorePointer(
-          ignoring: MediaQuery.of(context).viewInsets.bottom > 0, // vrai si clavier ouvert
-          child: FooterWave(),
-        )
+         Align(
+        alignment: Alignment.bottomCenter,
+        child: FooterWave(),
+      ),
          ],
       ),
     );

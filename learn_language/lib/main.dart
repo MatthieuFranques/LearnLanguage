@@ -18,18 +18,23 @@ void main() async {
     ),
   );
 
-  // Changer le favicon Web dynamiquement
   setFavicon('assets/icon/app_icon.png');
-
   runApp(const MyApp());
 }
 
 void setFavicon(String url) {
-  final link = html.document.querySelector("link[rel*='icon']") ?? html.LinkElement();
-  link.setAttribute('type', 'image/png');
-  link.setAttribute('rel', 'icon');
-  link.setAttribute('href', url + '?v=1');
-  html.document.head!.append(link);
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    final link = html.document.querySelector("link[rel*='icon']") as html.LinkElement?;
+    if (link != null) {
+      link.href = url + '?v=${DateTime.now().millisecondsSinceEpoch}';
+    } else {
+      final newLink = html.LinkElement()
+        ..rel = 'icon'
+        ..type = 'image/png'
+        ..href = url + '?v=${DateTime.now().millisecondsSinceEpoch}';
+      html.document.head!.append(newLink);
+    }
+  });
 }
 
 class MyApp extends StatefulWidget {
