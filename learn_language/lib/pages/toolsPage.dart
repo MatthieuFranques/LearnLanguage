@@ -113,7 +113,7 @@ class _ToolsPageState extends State<ToolsPage> {
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimary),
       ),
-      initiallyExpanded: true,
+      initiallyExpanded: false,
       children: [
         TranslationCard(
           isEnglishToFrench: _controller.isEnglishToFrench,

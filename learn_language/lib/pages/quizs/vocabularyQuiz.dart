@@ -156,6 +156,7 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
     final direction = isEnglishToFrench ? 'français' : 'anglais';
 
     return Scaffold(
+    resizeToAvoidBottomInset: true,
       appBar: const CustomAppBar(title: 'Quiz'),
       body: Stack(
         children: [
@@ -227,8 +228,15 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
               ),
             ),
           ),
-          const FooterWave(),
-        ],
+      Positioned(
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: IgnorePointer(
+          ignoring: true,
+          child: FooterWave(),
+        ),),
+                ],
       ),
     );
   }
