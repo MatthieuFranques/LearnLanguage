@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:learn_language/components/layout/mainNavigation.dart';
 import 'package:learn_language/theme/appColor.dart';
 import 'package:learn_language/theme/themeData.dart';
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,24 +15,7 @@ void main() async {
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
-
-  setFavicon('assets/icon/app_icon.png');
   runApp(const MyApp());
-}
-
-void setFavicon(String url) {
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    final link = html.document.querySelector("link[rel*='icon']") as html.LinkElement?;
-    if (link != null) {
-      link.href = url + '?v=${DateTime.now().millisecondsSinceEpoch}';
-    } else {
-      final newLink = html.LinkElement()
-        ..rel = 'icon'
-        ..type = 'image/png'
-        ..href = url + '?v=${DateTime.now().millisecondsSinceEpoch}';
-      html.document.head!.append(newLink);
-    }
-  });
 }
 
 class MyApp extends StatefulWidget {

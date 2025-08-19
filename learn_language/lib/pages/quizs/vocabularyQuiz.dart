@@ -232,10 +232,6 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
               ),
             ),
           ),
-         Align(
-        alignment: Alignment.bottomCenter,
-        child: FooterWave(),
-      ),
          ],
       ),
     );
