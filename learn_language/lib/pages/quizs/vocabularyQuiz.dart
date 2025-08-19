@@ -228,15 +228,11 @@ class _VocabularyQuizState extends State<VocabularyQuiz> {
               ),
             ),
           ),
-      Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: IgnorePointer(
-          ignoring: true,
+        IgnorePointer(
+          ignoring: MediaQuery.of(context).viewInsets.bottom > 0, // vrai si clavier ouvert
           child: FooterWave(),
-        ),),
-                ],
+        )
+         ],
       ),
     );
   }

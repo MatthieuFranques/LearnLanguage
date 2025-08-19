@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:learn_language/components/layout/mainNavigation.dart';
 import 'package:learn_language/theme/appColor.dart';
 import 'package:learn_language/theme/themeData.dart';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +18,18 @@ void main() async {
     ),
   );
 
+  // Changer le favicon Web dynamiquement
+  setFavicon('assets/icon/app_icon.png');
+
   runApp(const MyApp());
+}
+
+void setFavicon(String url) {
+  final link = html.document.querySelector("link[rel*='icon']") ?? html.LinkElement();
+  link.setAttribute('type', 'image/png');
+  link.setAttribute('rel', 'icon');
+  link.setAttribute('href', url + '?v=1');
+  html.document.head!.append(link);
 }
 
 class MyApp extends StatefulWidget {

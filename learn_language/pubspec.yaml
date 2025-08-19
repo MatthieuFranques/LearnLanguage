@@ -27,6 +27,7 @@ flutter:
     - assets/ranking.json
     - assets/sentences.json
     - assets/icon/
+    - assets/icon/app_icon.png 
 
 flutter_icons:
   android: true
