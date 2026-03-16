@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:learn_language/components/popups/AnswerPopup.dart';
 import 'package:learn_language/components/layout/customAppBar.dart';
 import 'package:learn_language/components/popups/customEndDialog.dart';
-import 'package:learn_language/components/layout/footerWave.dart';
 import 'package:learn_language/components/buttons/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
@@ -106,29 +105,28 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
     }
   }
 
- void checkAnswer(String answer) {
-  final word = words[currentIndex];
-  final correct = isEnglishToFrench ? word.french : word.english;
+  void checkAnswer(String answer) {
+    final word = words[currentIndex];
+    final correct = isEnglishToFrench ? word.french : word.english;
 
-  if (answer.toLowerCase().trim() == correct.toLowerCase().trim()) {
-    AnswerPopup.show(
-      context,
-      isCorrect: true,
-      correctAnswer: correct,
-      onContinue: nextWord,
-    );
-    correctAnswers++;
-  } else {
-    attemptCount++;
+    if (answer.toLowerCase().trim() == correct.toLowerCase().trim()) {
+      AnswerPopup.show(
+        context,
+        isCorrect: true,
+        correctAnswer: correct,
+        onContinue: nextWord,
+      );
+      correctAnswers++;
+    } else {
+      attemptCount++;
       AnswerPopup.show(
         context,
         isCorrect: false,
         correctAnswer: correct,
         onContinue: nextWord,
       );
+    }
   }
-}
-
 
   void showEndDialog() {
     saveScoreOnce();
@@ -186,7 +184,8 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
       body: Stack(
         children: [
           Padding(
-          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 128),
+            padding: const EdgeInsets.only(
+                left: 24, right: 24, bottom: 24, top: 128),
             child: SizedBox.expand(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -203,12 +202,15 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
                           Text(
                             'Mot ${currentIndex + 1} / 10',
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textPrimary),
                           ),
                           const SizedBox(height: 16),
                           Text(
                             'Traduire en $direction',
-                            style: const TextStyle(fontSize: 18, color: AppColors.textPrimary),
+                            style: const TextStyle(
+                                fontSize: 18, color: AppColors.textPrimary),
                           ),
                           const SizedBox(height: 12),
                           Text(
@@ -235,10 +237,10 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
                         runSpacing: 16, // espace vertical entre lignes
                         children: options.map((option) {
                           return SizedBox(
-                            width: buttonWidth,
-                            child: 
-                            PrimaryButton(text: option, onPressed: () => checkAnswer(option))
-                          );
+                              width: buttonWidth,
+                              child: PrimaryButton(
+                                  text: option,
+                                  onPressed: () => checkAnswer(option)));
                         }).toList(),
                       );
                     },
@@ -247,7 +249,6 @@ class _VocabularyChoiceQuizState extends State<VocabularyChoiceQuiz> {
               ),
             ),
           ),
-          const FooterWave(),
         ],
       ),
     );

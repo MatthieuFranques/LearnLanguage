@@ -9,46 +9,40 @@ import 'package:learn_language/pages/quizs/vocabularyQuiz.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
-final List<Map<String, dynamic>> quizzes = [
-  {
-    'title': 'Quiz',
-    'color': AppColors.quiz1,
-    'icon': Icons.quiz,
-    'page': const VocabularyQuiz(),
-  },
-  {
-    'title': 'Quiz Multiple',
-    'color': AppColors.quiz2,
-    'icon': Icons.radio_button_checked,
-    'page': const VocabularyChoiceQuiz(),
-  },
-  {
-    'title': 'Quiz de rapidité',
-    'color': AppColors.quiz3,
-    'icon': Icons.timer,
-    'page': const FastPairQuiz(),
-  },
-  {
-    'title': 'Trouver le bon ordre',
-    'color': AppColors.quiz4,
-    'icon': Icons.format_list_numbered,
-    'page': const SentenceRestructureQuiz(),
-  },
-  {
-    'title': 'Compréhension',
-    'color': AppColors.quiz5,
-    'icon': Icons.headphones,
-    'page': const VocabularyListeningQuiz(),
-  },
-  // {
-  //   'title': 'Prononciation',
-  //   'color': AppColors.quizLavender  ,
-  //   'icon': Icons.campaign,
-  //   'page': const VocabularyListeningQuiz(),
-  // },
-];
+  final List<Map<String, dynamic>> quizzes = [
+    {
+      'title': 'Quiz',
+      'color': AppColors.quiz1,
+      'icon': Icons.quiz,
+      'page': const VocabularyQuiz(),
+    },
+    {
+      'title': 'Quiz Multiple',
+      'color': AppColors.quiz2,
+      'icon': Icons.radio_button_checked,
+      'page': const VocabularyChoiceQuiz(),
+    },
+    {
+      'title': 'Quiz de rapidité',
+      'color': AppColors.quiz3,
+      'icon': Icons.timer,
+      'page': const FastPairQuiz(),
+    },
+    {
+      'title': 'Trouver le bon ordre',
+      'color': AppColors.quiz4,
+      'icon': Icons.format_list_numbered,
+      'page': const SentenceRestructureQuiz(),
+    },
+    {
+      'title': 'Compréhension',
+      'color': AppColors.quiz5,
+      'icon': Icons.headphones,
+      'page': const VocabularyListeningQuiz(),
+    },
+  ];
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -60,8 +54,8 @@ final List<Map<String, dynamic>> quizzes = [
         padding: const EdgeInsets.all(20.0),
         child: GridView.builder(
           itemCount: quizzes.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 250, // largeur max par carte
             crossAxisSpacing: 20,
             mainAxisSpacing: 20,
             childAspectRatio: 1.1,
@@ -80,7 +74,9 @@ final List<Map<String, dynamic>> quizzes = [
               ),
               child: Container(
                 decoration: BoxDecoration(
-color: color.withOpacity(1.0).withRed((color.red * 0.99).toInt()),
+                  color: color
+                      .withOpacity(1.0)
+                      .withRed((color.red * 0.99).toInt()),
                   borderRadius: BorderRadius.circular(18),
                   boxShadow: [
                     BoxShadow(
@@ -98,12 +94,11 @@ color: color.withOpacity(1.0).withRed((color.red * 0.99).toInt()),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                 Icon(
-                        icon,
-                        size: 42,
-                        color: AppColors.textcolorBg,
-                      ),
-
+                    Icon(
+                      icon,
+                      size: 42,
+                      color: AppColors.textcolorBg,
+                    ),
                     const SizedBox(height: 10),
                     Text(
                       title,

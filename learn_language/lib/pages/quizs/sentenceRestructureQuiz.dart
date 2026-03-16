@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:learn_language/components/popups/AnswerPopup.dart';
 import 'package:learn_language/components/layout/customAppBar.dart';
 import 'package:learn_language/components/popups/customEndDialog.dart';
-import 'package:learn_language/components/layout/footerWave.dart';
 import 'package:learn_language/components/buttons/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/sentence.dart';
@@ -65,8 +64,7 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
         context: context,
         builder: (_) => CustomEndDialog(
           title: 'Quiz terminé !',
-          message:
-              'Tu as trouvé  $correctAnswers / $totalSentences phrases.',
+          message: 'Tu as trouvé  $correctAnswers / $totalSentences phrases.',
           score: correctAnswers,
           onReplay: () {
             currentSentenceIndex = 0;
@@ -95,22 +93,22 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
     setState(() {});
   }
 
- void onValidate() {
-  final result = selectedWords.join(' ');
-  final isCorrect = result == correctSentence;
+  void onValidate() {
+    final result = selectedWords.join(' ');
+    final isCorrect = result == correctSentence;
 
-  if (isCorrect) {
-    correctAnswers++;
+    if (isCorrect) {
+      correctAnswers++;
+    }
+    // Affichage du feedback
+    AnswerPopup.show(
+      context,
+      isCorrect: isCorrect,
+      correctAnswer: correctSentence,
+      onContinue: loadNewSentence,
+    );
+    currentSentenceIndex++;
   }
-  // Affichage du feedback
-  AnswerPopup.show(
-    context,
-    isCorrect: isCorrect,
-    correctAnswer: correctSentence, onContinue: loadNewSentence,
-  );
-  currentSentenceIndex++;
-}
-
 
   void onClear() {
     selectedWords.clear();
@@ -118,11 +116,11 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
   }
 
   VoidCallback? getValidateCallback() {
-  if (selectedWords.isNotEmpty) {
-    return onValidate;
+    if (selectedWords.isNotEmpty) {
+      return onValidate;
+    }
+    return null;
   }
-  return null;
-}
 
   @override
   Widget build(BuildContext context) {
@@ -158,12 +156,15 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                             Text(
                               'Phrase ${currentSentenceIndex + 1} / $totalSentences',
                               style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textPrimary),
                             ),
                             const SizedBox(height: 16),
                             const Text(
                               'Remets la phrase dans le bon ordre :',
-                              style: TextStyle(fontSize: 18 , color: AppColors.textPrimary),
+                              style: TextStyle(
+                                  fontSize: 18, color: AppColors.textPrimary),
                             ),
                             const SizedBox(height: 16),
                             Wrap(
@@ -172,8 +173,7 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                               children: shuffledWords.map((word) {
                                 final alreadyUsed =
                                     selectedWords.contains(word);
-                                 return 
-                                ElevatedButton(
+                                return ElevatedButton(
                                   onPressed: alreadyUsed
                                       ? null
                                       : () => onWordSelected(word),
@@ -192,35 +192,39 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                     ),
                     const SizedBox(height: 24),
                     Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: AppColors.background,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: AppColors.primaryDark, 
-                            width: 2.0,                    
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                selectedWords.join(' '),
-                                style: const TextStyle(fontSize: 20, color: AppColors.primaryDark , fontWeight: FontWeight.bold,),
-                                softWrap: true, 
-                              ),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.replay_outlined, size: 24),
-                              onPressed: onClear,
-                              splashRadius: 20,
-                            ),
-                          ],
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: AppColors.background,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: AppColors.primaryDark,
+                          width: 2.0,
                         ),
                       ),
-
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              selectedWords.join(' '),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: AppColors.primaryDark,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              softWrap: true,
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.replay_outlined, size: 24),
+                            onPressed: onClear,
+                            splashRadius: 20,
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 42),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -234,17 +238,15 @@ class _SentenceRestructureQuizState extends State<SentenceRestructureQuiz> {
                         const SizedBox(width: 12),
                         // SecondaryButton(
                         //   onPressed: onClear,
-                        //   text: 'Réinitialiser', 
+                        //   text: 'Réinitialiser',
                         // ),
                       ],
                     ),
-
                   ],
                 ),
               ),
             ),
           ),
-          const FooterWave(),
         ],
       ),
     );

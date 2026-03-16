@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:learn_language/components/layout/customAppBar.dart';
-import 'package:learn_language/components/layout/footerWave.dart';
 import 'package:learn_language/components/popups/customEndDialog.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';
@@ -23,7 +22,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
   List<Word> currentPairs = [];
   List<String> frenchWords = [];
   List<String> englishWords = [];
-  Map<String, String> correctMap = {}; 
+  Map<String, String> correctMap = {};
 
   String? selectedWord;
   bool selectingFrench = true;
@@ -150,7 +149,7 @@ class _FastPairQuizState extends State<FastPairQuiz> {
         setState(() {});
         Timer(const Duration(seconds: 1), () {
           if (matched.length == 8) {
-            generatePairs(); 
+            generatePairs();
           } else {
             setState(() {});
           }
@@ -180,35 +179,33 @@ class _FastPairQuizState extends State<FastPairQuiz> {
     if (isMatched) return const SizedBox.shrink();
 
     return GestureDetector(
-  onTap: () => onWordTap(word),
-  child: AnimatedContainer(
-    duration: const Duration(milliseconds: 250),
-    margin: const EdgeInsets.symmetric(vertical: 6),
-    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-    decoration: BoxDecoration(
-      gradient: (!isSelected && !isWrong)
-          ? AppGradients.primaryGradient 
-          : null,
-      color: isWrong
-          ? Colors.red[300]
-          : isSelected
-              ? Colors.blue[100]
-              : null, 
-      borderRadius: BorderRadius.circular(12),
-      border: Border.all(
-        color: isSelected ? Colors.blue : Colors.transparent,
-        width: 2,
+      onTap: () => onWordTap(word),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+        decoration: BoxDecoration(
+          gradient:
+              (!isSelected && !isWrong) ? AppGradients.primaryGradient : null,
+          color: isWrong
+              ? Colors.red[300]
+              : isSelected
+                  ? Colors.blue[100]
+                  : null,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? Colors.blue : Colors.transparent,
+            width: 2,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            word,
+            style: const TextStyle(fontSize: 18, color: AppColors.buttonText),
+          ),
+        ),
       ),
-    ),
-    child: Center(
-      child: Text(
-        word,
-        style: const TextStyle(fontSize: 18, color: AppColors.buttonText),
-      ),
-    ),
-  ),
-);
-
+    );
   }
 
   @override
@@ -240,10 +237,9 @@ class _FastPairQuizState extends State<FastPairQuiz> {
                     const Text(
                       'Trouver le plus de paires possible.',
                       style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary
-                      ),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary),
                     ),
                     const SizedBox(height: 16),
                     LinearProgressIndicator(
@@ -257,38 +253,37 @@ class _FastPairQuizState extends State<FastPairQuiz> {
                     Text(
                       '$timeLeft s',
                       style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary
-                      ),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-         Expanded(
-          child:  Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16), 
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: frenchWords.map(buildWordBox).toList(),
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: frenchWords.map(buildWordBox).toList(),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: englishWords.map(buildWordBox).toList(),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: englishWords.map(buildWordBox).toList(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),),
-          const FooterWave(), 
+          ),
         ],
       ),
     );
