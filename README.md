@@ -50,16 +50,3 @@ The app offers various pedagogical modules for total linguistic immersion:
 
 Developed to prepare for an upcoming trip to an English-speaking country, **LearnLanguage** goes beyond generic tools by offering targeted exercises. This project demonstrates Flutter's capability to maintain a single codebase for high-quality deployment on **every screen**.
 
----
-
-##  Installation & Setup
-
-### Prerequisites
-* [Flutter SDK](https://flutter.dev/docs/get-started/install) (Stable Channel)
-* A modern web browser or an Android Emulator.
-
-### Local Setup
-1. **Clone the repository**
-   ```bash
-   git clone <YOUR_REPO_URL>
-   cd LearnLanguage
