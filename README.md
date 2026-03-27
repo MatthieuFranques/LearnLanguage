@@ -1,62 +1,65 @@
-# LearnLanguage
+# LearnLanguage | Flutter Multi-Platform App
 
-**LearnLanguage** est une application conçue pour s'améliorer en anglais grâce à différents quiz ludiques et outils interactifs. Elle permet d’apprendre la langue de manière efficace et motivante, avec des exercices adaptés à tous les niveaux.
+[![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev/)
+![Version](https://img.shields.io/badge/Release-v1.0.0-blue?style=for-the-badge)
+![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![PWA](https://img.shields.io/badge/Platform-PWA-orange?style=for-the-badge&logo=google-chrome&logoColor=white)
 
----
+**LearnLanguage** is a comprehensive e-learning solution designed to master English. Powered by the **Flutter** framework, the application delivers a fluid and interactive experience across **any device** (Mobile, Tablet, and Web).
 
-## Présentation
-
-LearnLanguage propose une variété de quiz et leçons pour progresser en anglais, en travaillant la compréhension, la grammaire, la prononciation, et plus encore. L’application combine apprentissage structuré et exercices pratiques pour une expérience complète.
-
-<img src="learn_language/assets/pictures/screenshot.png" alt="Aperçu de l'application" width="400"/>
-
-
-
----
-
-## Fonctionnalités principales
-
-- **Quiz variés** : testez vos connaissances avec différentes formes d’exercices.
-- **Quiz à choix multiples** : travaillez compréhension et précision.
-- **Quiz de rapidité** : améliorez votre fluidité en répondant rapidement.
-- **Trouver le bon ordre** : réorganisez les mots ou phrases pour renforcer la syntaxe.
-- **Compréhension** : exercices axés sur l’écoute.
-- **Prononciation** : outils et exercices pour améliorer votre accent.
-- **Leçons intégrées** : explications claires sur la grammaire, le vocabulaire et les règles essentielles.
+##  Quick Access
+*  **Web App (PWA):** [Launch Application](https://learn-language-ten.vercel.app/)
+*  **Android (APK):** [Download v1.0.0](https://github.com/MatthieuFranques/LearnLanguage/releases/tag/v1.0.0)
 
 ---
 
-## Pourquoi ce projet ?
+##  Interface Preview
 
-Bientôt en voyage dans un pays anglophone, j’ai conçu cette application pour progresser efficacement en anglais. Plutôt que de recourir à des outils génériques, j’ai souhaité créer une solution personnalisée et complète, proposant des quiz adaptés à mes besoins ainsi qu’un suivi pédagogique à travers des leçons intégrées.
+<p align="center">
+  <img src="learn_language/assets/pictures/screenshot.png" alt="LearnLanguage App Preview" width="350"/>
+</p>
 
 ---
 
-# Installation
+##  Key Features
 
-> ⚠️ **Warning :**  
-> Cette application **n'a pas encore été testée sur iOS**.  
-> L'utilisation sur cette plateforme peut présenter des bugs ou des comportements non prévus.
+The app offers various pedagogical modules for total linguistic immersion:
 
-### Prérequis
+*  **Advanced Quiz Engines**:
+    * *Multiple Choice (MCQ)*: Sharpen grammar and vocabulary precision.
+    * *Speed Run*: Boost cognitive reactivity and linguistic reflexes.
+    * *Syntax Builder*: Sentence reconstruction algorithm to master sentence structure.
+*  **Audio & Phonetics**:
+    * *Listening Comprehension*: Active listening drills.
+    * *Pronunciation Module*: Interactive feedback on speaking skills.
+*  **Integrated Lessons**: Quick access to essential grammar rules and vocabulary sheets.
 
-- Flutter SDK installé ([Installation Flutter](https://flutter.dev/docs/get-started/install))
-- Un émulateur ou un appareil connecté pour tester
+---
 
-1. Clonez le dépôt :
+##  Tech Stack & Compatibility
 
+* **Framework**: [Flutter](https://flutter.dev/) (Dart)
+* **Supported Devices**: 
+    *  **Mobile**: (Android & iOS*)
+    *  **Desktop & Web**: (Chrome, Firefox, Safari)
+    *  **PWA Support**: Installable as a native-like app directly via your browser.
+
+---
+
+##  Why this project?
+
+Developed to prepare for an upcoming trip to an English-speaking country, **LearnLanguage** goes beyond generic tools by offering targeted exercises. This project demonstrates Flutter's capability to maintain a single codebase for high-quality deployment on **every screen**.
+
+---
+
+##  Installation & Setup
+
+### Prerequisites
+* [Flutter SDK](https://flutter.dev/docs/get-started/install) (Stable Channel)
+* A modern web browser or an Android Emulator.
+
+### Local Setup
+1. **Clone the repository**
    ```bash
-   git clone <URL_DU_DEPOT>
+   git clone <YOUR_REPO_URL>
    cd LearnLanguage
-
-2. Installez les dépendances nécessaires : 
-
-        flutter pub get
-
-3. Lancez l’application 
-
-        flutter run
-
-### Générer un build release
-
-        flutter build apk --release
