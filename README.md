@@ -5,7 +5,7 @@
 ![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![PWA](https://img.shields.io/badge/Platform-PWA-orange?style=for-the-badge&logo=google-chrome&logoColor=white)
 [![CI](https://github.com/MatthieuFranques/LearnLanguage/actions/workflows/ci.yml/badge.svg)](https://github.com/MatthieuFranques/LearnLanguage/actions/workflows/ci.yml)
-[![Coverage](https://codecov.io/gh/MatthieuFranques/LearnLanguage/branch/main/graph/badge.svg)](https://codecov.io/gh/MatthieuFranques/LearnLanguage)
+[![Coverage](https://codecov.io/gh/MatthieuFranques/LearnLanguage/branch/develop/graph/badge.svg)](https://codecov.io/gh/MatthieuFranques/LearnLanguage)
 
 **LearnLanguage** is a comprehensive e-learning solution designed to master English. Powered by the **Flutter** framework, the application delivers a fluid and interactive experience across **any device** (Mobile, Tablet, and Web).
 
