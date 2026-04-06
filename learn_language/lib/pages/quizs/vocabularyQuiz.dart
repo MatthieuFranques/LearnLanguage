@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:learn_language/components/popups/AnswerPopup.dart';
 import 'package:learn_language/components/layout/customAppBar.dart';
 import 'package:learn_language/components/popups/customEndDialog.dart';
-import 'package:learn_language/components/layout/footerWave.dart';
 import 'package:learn_language/components/buttons/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/models/word.dart';

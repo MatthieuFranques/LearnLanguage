@@ -11,7 +11,6 @@ import 'package:learn_language/components/buttons/primaryButton.dart';
 import 'package:learn_language/models/ranking.dart';
 import 'package:learn_language/services/words/rankingStorage.dart';
 import 'package:learn_language/theme/appColor.dart';
-import 'package:learn_language/theme/appGradients.dart';
 
 class VocabularyListeningQuiz extends StatefulWidget {
   const VocabularyListeningQuiz({super.key});
