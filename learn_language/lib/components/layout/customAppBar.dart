@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:learn_language/theme/appColor.dart';
-import 'package:learn_language/theme/appGradients.dart';
-
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool showBackButton;

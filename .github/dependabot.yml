@@ -1,0 +1,9 @@
+# It monitors your pubspec.yaml dependencies,
+# and automatically opens PRs when a lib has an update or a known flaw.
+
+version: 2
+updates:
+  - package-ecosystem: "pub"  # Dart/Flutter
+    directory: "/learn_language"
+    schedule:
+      interval: "weekly"
